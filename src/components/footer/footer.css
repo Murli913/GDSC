@@ -1,0 +1,94 @@
+.footer-slider .owl-carousel .owl-item a img {
+    width: auto;
+}
+
+
+
+
+
+img {
+    width: auto\9;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+}
+abbr, address, article, aside, audio, b, blockquote, body, canvas, caption, cite, code, dd, del, details, dfn, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, p, pre, q, samp, section, small, span, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, ul, var, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: 0 0;
+}
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+user agent stylesheet
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+}
+.footer-carousel.owl-carousel {
+    display: flex; /* Use flexbox to make the carousel items display horizontally */
+    justify-content: space-between; /* Distribute items evenly along the main axis */
+}
+
+.footer-carousel.owl-carousel .ext-link {
+    flex: 0 0 auto; /* Set flex properties to control sizing */
+    margin-right: 10px; /* Add margin between items */
+}
+.controls {
+    margin-top: 10px;
+}
+
+.prev-btn,
+.next-btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #ccc;
+    border: none;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+    background-color: #aaa;
+}
+
+a {
+    color: #0d469f;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+    text-decoration: none;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+}
+user agent stylesheet
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+}
+
+
+
+
+
+
+selection {
+    background: rgba(0, 0, 0, .2);
+}

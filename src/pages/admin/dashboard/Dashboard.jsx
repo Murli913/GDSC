@@ -1,20 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../../../firebase/FirebaseConfig';
 
 function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
-
     const navigate = useNavigate();
 
-    //* Logout Function 
+    console.log(getAllBlog)
+
     const logout = () => {
-        localStorage.clear();
+        localStorage.clear('admin');
         navigate('/')
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+ }, [])
     return (
         <Layout>
             <div className="py-10">
@@ -59,7 +64,7 @@ function Dashboard() {
                                         }}
                                         className='px-8 py-2'
                                     >
-                                        Create Complaint
+                                        Create Blog
                                     </Button>
                                 </div>
                             </Link>
@@ -86,9 +91,9 @@ function Dashboard() {
                 {/* Line  */}
                 <hr className={`border-2
                  ${mode === 'dark'
-                     ? 'border-gray-300'
-                     : 'border-gray-400'}` 
-                 }
+                        ? 'border-gray-300'
+                        : 'border-gray-400'}`
+                }
                 />
 
                 {/* Table  */}
@@ -129,57 +134,54 @@ function Dashboard() {
 
                                 {/* tbody  */}
                                 {getAllBlog.length > 0
-                                    ?
-                                    <>
-                                        {getAllBlog.map((item, index) => {
-                                            const {thumbnail, date, id} = item;
-                                            console.log(item)
-                                            return (
-                                                <tbody>
-                                                    <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
-                                                        {/* S.No   */}
-                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                            {index + 1}.
-                                                        </td>
+                                    ? <> {getAllBlog.map((item, index) => {
+                                        const {thumbnail, date, id, author} = item;
+                                        console.log("Author",author);
+                                        if(author.id == auth.currentUser.uid){
+                                        return (
+                                            <tbody key={index}>
+                                                <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
+                                                    {/* S.No   */}
+                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                        {index + 1}.
+                                                    </td>
 
-                                                        {/* Blog Thumbnail  */}
-                                                        <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
+                                                    {/* Blog Thumbnail  */}
+                                                    <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
+                                                        {/* thumbnail  */}
+                                                        <img className='w-16 rounded-lg' src={thumbnail} alt="thumbnail" />
+                                                    </th>
 
-                                                            {/* thumbnail  */}
-                                                            <img className='w-16 rounded-lg' 
-                                                            src={thumbnail} alt="thumbnail" />
-                                                        </th>
+                                                    {/* Blog Title  */}
+                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                        {item.blogs.title}
+                                                    </td>
 
-                                                        {/* Blog Title  */}
-                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                            {item.blogs.title}
-                                                        </td>
+                                                    {/* Blog Category  */}
+                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                        {item.blogs.category}
+                                                    </td>
 
-                                                        {/* Blog Category  */}
-                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                            {item.blogs.category}
-                                                        </td>
+                                                    {/* Blog Date  */}
+                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                        {date}
+                                                    </td>
 
-                                                        {/* Blog Date  */}
-                                                        <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                            {date}
-                                                        </td>
-
-                                                        {/* Delete Blog  */}
-                                                        <td onClick={()=> deleteBlogs(id)} style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                            <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
-                                                                Delete
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            )
-                                        })}</>
+                                                    {/* Delete Blog  */}
+                                                    <td
+                                                    onClick={()=> deleteBlogs(id)}
+                                                     style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                        <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        )
+                                        }
+                                    })}  </>
                                     :
-                                    <>
-                                        <h1>Not Found</h1>
-                                    </>
-                                }
+                                    <>  <h1>Not Found</h1></>}
                             </table>
                         </div>
                     </div>

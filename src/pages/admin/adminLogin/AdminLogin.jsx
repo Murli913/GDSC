@@ -12,8 +12,9 @@ export default function AdminLogin({setIsAuth}) {
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
+      localStorage.setItem("current user uid", auth.currentUser.uid);
       localStorage.setItem("isAuth", true);
-      toast.success('Login sucess')
+      toast.success('Login sucess');
      // setIsAuth(true);
       navigate("/");
     });

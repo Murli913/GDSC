@@ -12,9 +12,16 @@ import { AiOutlineShareAlt, AiOutlineSearch } from 'react-icons/ai'
 import myContext from "../../context/data/myContext";
 import SearchDialog from "../searchDialog/SearchDialog";
 import ShareDialogBox from "../shareDialogBox/ShareDialog";
+import "./Navbar.css";
+
+import { signInWithPopup } from "firebase/auth";
+//import { auth, provider } from "../../../firebase/FirebaseConfig";
+import toast from "react-hot-toast";
+import { auth, provider } from "../../firebase/FirebaseConfig";
 
 
 export default function Nav() {
+
     const [openNav, setOpenNav] = React.useState(false);
 
     const context = useContext(myContext);
@@ -26,6 +33,21 @@ export default function Nav() {
         localStorage.clear();
         navigate('/')
     }
+    const signwithoutuser = () => {
+   
+       navigate("/terms");
+     
+    };
+    
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      localStorage.setItem("isAuth", true);
+      toast.success('Login sucess')
+     // setIsAuth(true);
+    navigate("/");
+    });
+  };
 
 
     // All NavList 
@@ -53,6 +75,35 @@ export default function Nav() {
                     Complaints
                 </Link>
             </Typography>
+            {/* dropdown */}
+           {!isAuth ?  <Typography
+                as="li"
+                variant="small"
+                color="blue-gray"
+                className="p-1 font-normal"
+                style={{ color: mode === 'dark' ? 'white' : 'white' }}
+            >
+                <div class="navbar">
+                <div class="dropdown">
+    <Link class="dropbtn">Login
+      <i class="fa fa-caret-down"></i>
+    </Link>
+    <div class="dropdown-content">
+      <a href="#" onClick={signwithoutuser}>Login without track</a>
+      <a href="#"  onClick={signInWithGoogle}>Sign with Google</a> 
+    
+    </div>
+  </div>
+  </div>
+            </Typography> : "" }
+
+
+
+
+
+
+
+
            {isAuth ?  <Typography
                 as="li"
                 variant="small"
@@ -73,7 +124,7 @@ export default function Nav() {
                 style={{ color: mode === 'dark' ? 'white' : 'white' }}
             >
                 {!isAuth ? <Link to={'/adminlogin'} className="flex items-center">
-                     Login
+                     
                 </Link> : <Link
                                     onClick={logout}
                                     style={{

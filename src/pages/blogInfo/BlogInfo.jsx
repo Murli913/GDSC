@@ -7,15 +7,67 @@ import Loader from '../../components/loader/Loader';
 import Layout from '../../components/layout/Layout';
 import Comment from '../../components/comment/Comment';
 import toast from 'react-hot-toast';
+import "./bloginfo.css";
+import { useNavigate } from 'react-router-dom';
+import { FaRegThumbsDown } from "react-icons/fa";
+import { FaRegThumbsUp } from "react-icons/fa";
+
 
 function BlogInfo() {
   const context = useContext(myContext);
   const { mode, loading, setloading } = context;
+  const isAuth = localStorage.getItem('isAuth');
+  const navigate = useNavigate();
+const [likeCount, setLikeCount]=useState(50);
+const [dislikeCount, setDislikeCount]=useState(25);
+const [activeBtn, setActiveBtn] = useState("none");
+const gotoLogin = () => {
+   
+  navigate('/adminlogin')
+}
+
+const handleReactionClick = (reaction) => {
+if(activeBtn === "none"){
+  if(reaction === "like"){
+    setLikeCount(likeCount + 1);
+    setActiveBtn("like");
+
+  }
+  else if (reaction === "dislike"){
+    setDislikeCount(dislikeCount + 1);
+    setActiveBtn("dislike");
+  }
+}
+else if(activeBtn === reaction){
+  if(reaction === "like"){
+    setLikeCount(likeCount -1);
+
+  }
+  else if(reaction === "dislike"){
+    setDislikeCount(dislikeCount - 1);
+  }
+  setActiveBtn("none");
+}
+
+else if(activeBtn !== reaction){
+  if(reaction === "like"){
+    setLikeCount(likeCount + 1);
+    setDislikeCount(dislikeCount -1);
+    setActiveBtn("like");
+  }
+  else if(reaction === "dislike"){
+    setDislikeCount(dislikeCount - 1);
+  }
+  setActiveBtn("none");
+}
+}
+
 
   const params = useParams();
   // console.log(params.id),
 
   const [getBlogs, setGetBlogs] = useState();
+
 
   const getAllBlogs = async () => {
     setloading(true);
@@ -171,6 +223,35 @@ function BlogInfo() {
             </div>}
         </div>
 
+       
+          <div className="btn-cont">
+            {/* Button for liking*/ }
+            {isAuth ? 
+            <button className={`btn ${activeBtn === "like" ? "like-active" : ""}`} onClick={() => handleReactionClick("like")}>
+              <span className="material-symbols-rounded"><FaRegThumbsUp /> </span>
+              Like {likeCount}
+              </button>
+:   <button className={`btn ${activeBtn === "like" ? "like-active" : ""}`} onClick={gotoLogin}>
+<span className="material-symbols-rounded"><FaRegThumbsDown /> </span>
+Like {likeCount}
+</button>}
+
+ {/* Button for disliking*/ }
+{isAuth ? 
+          
+              <button className={`btn ${activeBtn === "dislike" ? "dislike-active" : ""}`} onClick={() => handleReactionClick("dislike")}>
+              <span className="material-symbols-rounded"> <FaRegThumbsDown /> </span>
+              Dislike {dislikeCount}
+              </button>
+              :  <button className={`btn ${activeBtn === "dislike" ? "dislike-active" : ""}`} onClick={gotoLogin}>
+              <span className="material-symbols-rounded"> <FaRegThumbsDown /></span>
+              Dislike {dislikeCount}
+              </button>}
+
+             
+
+          </div>
+     
         
 
         <Comment

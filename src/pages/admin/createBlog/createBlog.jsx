@@ -4,6 +4,7 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs"
 import myContext from '../../../context/data/myContext';
 import { Link, useNavigate } from "react-router-dom";
 import { useReactMediaRecorder } from "react-media-recorder";
+import {  auth } from "../../../firebase/FirebaseConfig";
 import "./createBlog.css";
 import {
     Button,
@@ -51,10 +52,11 @@ const uploadImage = () => {
         getDownloadURL(snapshot.ref).then((url) => {
             const productRef = collection(fireDb, "blogPost")
             try {
-                addDoc(productRef, {
+                 addDoc(productRef, {
                     blogs,
                     location,
                     users,
+                    author: { name: auth?auth.currentUser.displayName:"", id: auth?auth.currentUser.uid:"" },
                     thumbnail: url,
                     time: Timestamp.now(),
                     date: new Date().toLocaleString(
@@ -66,7 +68,7 @@ const uploadImage = () => {
                         }
                     )
                 })
-                navigate('/dashboard')
+                navigate('/')
                 toast.success('Complaint Added Successfully');
 
 

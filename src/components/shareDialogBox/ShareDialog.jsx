@@ -28,7 +28,7 @@ export default function ShareDialogBox() {
                             <div className="flex gap-3">
                                 {/* Linkedin Icon  */}
                                 <div className="">
-                                    <a href="">
+                                    <a href="https://www.linkedin.com/feed/">
                                         <AiFillLinkedin size={35} style={{
                                             color: mode === 'dark'
                                                 ? 'white'
@@ -39,7 +39,7 @@ export default function ShareDialogBox() {
 
                                 {/* Instagram Icon  */}
                                 <div className="">
-                                    <a href="">
+                                    <a href="https://www.instagram.com/">
                                         <AiFillInstagram size={35} style={{
                                             color: mode === 'dark'
                                                 ? 'white'
@@ -49,7 +49,7 @@ export default function ShareDialogBox() {
                                 </div>
 
                                 {/* Github Icon  */}
-                                <div className="">
+                                <div className="https://github.com/">
                                     <a href="">
                                         <AiFillGithub size={35}
                                             style={{
@@ -62,7 +62,7 @@ export default function ShareDialogBox() {
 
                                 {/* Facebook Icon  */}
                                 <div className="">
-                                    <a href="">
+                                    <a href="https://www.facebook.com/">
                                         <AiFillFacebook size={35}
                                             style={{
                                                 color: mode === 'dark'

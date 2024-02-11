@@ -11,8 +11,7 @@ const Home = () => {
     <Layout>
       <HeroSection/>
       <BlogPostCard/>
-     
-      <Footer/>
+  
     </Layout>
   )
 }
