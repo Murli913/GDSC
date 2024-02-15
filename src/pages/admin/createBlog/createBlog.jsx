@@ -56,7 +56,7 @@ const uploadImage = () => {
                     blogs,
                     location,
                     users,
-                    author: { name: auth?auth.currentUser.displayName:"", id: auth?auth.currentUser.uid:"" },
+                    author: { name: auth.currentUser.displayName, id: auth.currentUser.uid },
                     thumbnail: url,
                     time: Timestamp.now(),
                     date: new Date().toLocaleString(
@@ -187,7 +187,7 @@ useReactMediaRecorder({ video: true });
                                     : 'black'
                             }}
                         >
-                            Create blog
+                            Create complaints
                         </Typography>
                     </div>
                 </div>
