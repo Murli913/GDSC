@@ -4,6 +4,7 @@ import myContext from '../../context/data/myContext';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
+
 function BlogPostCard() {
   const context = useContext(myContext);
   const { mode, getAllBlog } = context;
@@ -13,6 +14,9 @@ console.log("dekho aagaya??",getAllBlog);
 const openPopup = (url) => {
   window.open(url, "_blank", "width=600,height=400,resizable=yes,scrollbars=yes");
 };
+
+
+
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -20,13 +24,22 @@ const openPopup = (url) => {
 
           {/* Main Content  */}
           <div className="flex flex-wrap justify-center -m-4 mb-5">
+            
   {/* Card 1  */}
   {
   getAllBlog.length > 0? (
     getAllBlog.map((item, index) => {
       const { thumbnail, id, date } = item;
+      let blog_string = item.blogs.content;
+      let blog_string_div = document.createElement("blog_string");
+      blog_string_div.innerHTML = blog_string;
+      let text = blog_string_div.textContent || blog_string_div.innerText || "";
+
+
       return (
+       
         <div className="p-8 sm:w-1/1" key={index}>
+        
           <div
             style={{
               background:
@@ -83,7 +96,21 @@ const openPopup = (url) => {
               >
                 
               </p> */}
-              {item.blogs.content}
+                  <h2
+                      className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
+                      style={{
+                        color:
+                          mode === 'dark'
+                            ? 'rgb(226, 232, 240)'
+                            : ' rgb(30, 41, 59)',
+                      }}
+                    >
+                        {text}
+                      
+                    </h2>
+                    
+                    
+             
             </div>
             <img
               onClick={() => navigate(`/bloginfo/${id}`)}
@@ -98,7 +125,9 @@ const openPopup = (url) => {
               
 
           </div>
+        
         </div>
+    
       );
     })
   ) : (

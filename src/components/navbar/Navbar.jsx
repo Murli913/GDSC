@@ -188,8 +188,9 @@ export default function Nav() {
 
                         {/* Share Icon */}
                         <div className="hidden lg:block">
-                            {/*<AiOutlineShareAlt size={20} color="white" />*/}
-                            <ShareDialogBox/>
+                            {isAuth?
+                         
+                            <ShareDialogBox/> : ""}
                         </div>
 
                         {/* Admin Profile Pic */}

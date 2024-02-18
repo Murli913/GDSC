@@ -34,6 +34,7 @@ export default function SearchDialog() {
                             color="white"
                             type="search"
                             label="Type here..."
+                            placeholder="Search by title"
                             value={searchkey}
                             onChange={(e) => setSearchkey(e.target.value)}
                             className=" bg-[#2C3A47]"
@@ -69,7 +70,7 @@ export default function SearchDialog() {
 
                     {/* Heading  */}
                     <div className=" text-center">
-                        <h1 className=" text-gray-600">Powered By Devknus</h1>
+                        <h1 className=" text-gray-600">Search Your Complaint by Using title</h1>
                     </div>
                 </DialogBody>
             </Dialog>

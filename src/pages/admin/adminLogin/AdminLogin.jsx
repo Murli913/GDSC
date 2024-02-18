@@ -27,10 +27,8 @@ export default function AdminLogin({setIsAuth}) {
 
     return (
       <div className="loginPage">
-         <p>Sign In With Unknow User</p>
-      <button className="login-with-google-btn" onClick={signwithoutuser}>
-        Sign in with Unknow User
-      </button>
+       
+    
       <p>Sign In With Google to Continue</p>
       <button className="login-with-google-btn" onClick={signInWithGoogle}>
         Sign in with Google
