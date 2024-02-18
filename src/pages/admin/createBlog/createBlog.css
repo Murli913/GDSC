@@ -102,6 +102,20 @@
     height: 20px;
   }
   
+  .form-check {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  
+  }
+
   
   
   /* General styles for smaller screens */

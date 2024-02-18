@@ -85,12 +85,12 @@ export default function Nav() {
             >
                 <div class="navbar">
                 <div class="dropdown">
-    <Link class="dropbtn">Login
+    <Link class="dropbtn">New Complaint
       <i class="fa fa-caret-down"></i>
     </Link>
     <div class="dropdown-content">
-      <a href="#" onClick={signwithoutuser}>Login without track</a>
-      <a href="#"  onClick={signInWithGoogle}>Sign with Google</a> 
+      <a href="#" onClick={signwithoutuser}>Anonymously </a>
+      <a href="#"  onClick={signInWithGoogle}>Sign In</a> 
     
     </div>
   </div>

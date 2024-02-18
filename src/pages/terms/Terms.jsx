@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./terms.css";
+import Layout from '../../components/layout/Layout';
 
 const Terms = () => {
     let navigate = useNavigate();
@@ -9,6 +10,7 @@ const Terms = () => {
      
     };
   return (
+    <Layout>
     <div>
   <div class="about-section">
   <h1 class="h11">Terms and Condition</h1>
@@ -28,12 +30,12 @@ const Terms = () => {
   <p>9. Resize the browser window to see that this page is responsive by the way.</p>
   <p>10. Resize the browser window to see that this page is responsive by the way.</p>
 
-      <button className="login-with-google-btn" onClick={signwithoutuser}>
-        Aceept
+      <button className='btn-success' onClick={signwithoutuser}>
+        Accept
       </button>
       </div>
         
-        </div>
+        </div></Layout>
   )
 }
 

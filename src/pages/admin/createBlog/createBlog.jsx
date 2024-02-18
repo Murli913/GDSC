@@ -14,7 +14,10 @@ import { Timestamp, addDoc, collection } from 'firebase/firestore';
 import toast from 'react-hot-toast';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { fireDb, storage } from '../../../firebase/FirebaseConfig';
-
+import "../../../components/navbar/Navbar"
+import Nav from '../../../components/navbar/Navbar';
+import Footer from '../../../components/footer/Footer';
+import Layout from '../../../components/layout/Layout';
 const userData = [
     { name: "Child abuse" },
     { name: "Human Traffing" },
@@ -38,9 +41,9 @@ function CreateBlog() {
         time: Timestamp.now()
     });
     const addPost = async () => {
-        if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
-            toast.error('Please Fill All Fields');
-        }
+        // if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
+        //     toast.error('Please Fill All Fields');
+        // }
         // console.log(blogs.content)
         uploadImage()
         navigate("/");
@@ -161,7 +164,10 @@ useReactMediaRecorder({ video: true });
 
 
     return (
+        <Layout>
+      
         <div className=' container mx-auto max-w-5xl py-6'>
+         
             <div className="p-5" style={{
                 background: mode === 'dark'
                     ? '#353b48'
@@ -174,9 +180,9 @@ useReactMediaRecorder({ video: true });
                 <div className="mb-2 flex justify-between">
                     <div className="flex gap-2 items-center">
                         {/* Dashboard Link  */}
-                        <Link to={'/dashboard'}>
+                        {/* <Link to={'/dashboard'}>
                             <BsFillArrowLeftCircleFill size={25} />
-                        </Link>
+                        </Link> */}
 
                         {/* Text  */}
                         <Typography
@@ -187,7 +193,7 @@ useReactMediaRecorder({ video: true });
                                     : 'black'
                             }}
                         >
-                            Create complaints
+                            Lodge Complaint
                         </Typography>
                     </div>
                 </div>
@@ -209,7 +215,7 @@ useReactMediaRecorder({ video: true });
                         className="mb-2 font-semibold"
                         style={{ color: mode === 'dark' ? 'white' : 'black' }}
                     >
-                        Upload Thumbnail
+                        Upload Evidence
                     </Typography>
 
                     {/* First Thumbnail Input  */}
@@ -247,31 +253,12 @@ useReactMediaRecorder({ video: true });
                     />
                 </div>
 
-                {/* Third Title Input */}
-                <div className="mb-3">
-                    <input
-                        label="Enter your Category"
-                       className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
-                 outline-none ${mode === 'dark'
-                 ? 'placeholder-black'
-                 : 'placeholder-black'}`}
-                        placeholder="Enter Your Category"
-                        style={{
-                            background: mode === 'dark'
-                                ? '#dcdde1'
-                                : 'rgb(226, 232, 240)'
-                        }}
-                        name="title"
-                        onChange={(e) => setBlogs({ ...blogs, category: e.target.value })} 
-                        value={blogs.category}
-                        
-                    />
-                </div>
+                
 
                 {/* Third Category Input  */}
                 <div className="mb-3">
                 <div className="inputGp">
-          <label> Which type of complaint it is...</label>
+          <label> <b>Complaint Type</b></label>
           <div className="form-check">
           <input
             type="checkbox"
@@ -296,15 +283,36 @@ useReactMediaRecorder({ video: true });
         ))}
         </div>
                 </div>
+                {/* Third Title Input */}
+                <div className="mb-3">
+                    <input
+                        label="Enter your Category"
+                       className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
+                 outline-none ${mode === 'dark'
+                 ? 'placeholder-black'
+                 : 'placeholder-black'}`}
+                        placeholder="Enter any other"
+                        style={{
+                            background: mode === 'dark'
+                                ? '#dcdde1'
+                                : 'rgb(226, 232, 240)'
+                        }}
+                        name="title"
+                        onChange={(e) => setBlogs({ ...blogs, category: e.target.value })} 
+                        value={blogs.category}
+                        
+                    />
+                </div>
 
                 {/*fourth title*/}
                 <div className="mb-3">
 
                 <div className="inputGp">
        <p>Status: {status}</p>
-       <button onClick={startRecording}>Start Recording</button>
-          <video src={mediaBlobUrl} controls  loop />
-          <button onClick={stopRecording}>Stop Recording</button>
+       <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mr-4' onClick={startRecording}>Start Recording</button>
+       <button className='bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded ' onClick={stopRecording}>Stop Recording</button> <br></br>
+          <br></br><video src={mediaBlobUrl} controls  loop />
+          
         </div>
         </div>
 
@@ -325,7 +333,9 @@ useReactMediaRecorder({ video: true });
                 />
 
                 {/* Five Submit Button  */}
-                <Button className=" w-full mt-5"
+                
+                <div className='flex justify-center items-center mt-5'>
+                <Button className="mt-5 mx-auto"
                 onClick={addPost}
                     style={{
                         background: mode === 'dark'
@@ -336,12 +346,12 @@ useReactMediaRecorder({ video: true });
                             : 'rgb(226, 232, 240)'
                     }}
                 >
-                    Submit Your Complaint
-                </Button>
+                    Submit
+                </Button></div>
 
                 {/* Six Preview Section  */}
                 <div className="">
-                    <h1 className=" text-center mb-3 text-2xl">Preview</h1>
+                    {/* <h1 className=" text-center mb-3 text-2xl">Preview</h1> */}
                     <div className="content">
                     <div
                         className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
@@ -380,8 +390,10 @@ useReactMediaRecorder({ video: true });
                     </div>
             </div>
         </div >
+       
             </div >
         </div >
+        </Layout>
     )
 }
 
