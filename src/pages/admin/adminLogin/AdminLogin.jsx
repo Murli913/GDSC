@@ -19,11 +19,7 @@ export default function AdminLogin({setIsAuth}) {
       navigate("/");
     });
   };
-  const signwithoutuser = () => {
-   
-      navigate("/terms");
-   
-  };
+
 
     return (
       <div className="loginPage">

@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import {getFirestore} from "firebase/firestore";
 import {getAuth,GoogleAuthProvider} from 'firebase/auth';
 import  { getStorage } from "firebase/storage";
+
+import 'firebase/storage';
 const firebaseConfig = {
   apiKey: "AIzaSyBgNe8aV6-EdMtFfEZs96Ljp9LHSSDvRA8",
   authDomain: "complaints-1b9a9.firebaseapp.com",
@@ -13,7 +15,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const fireDb=getFirestore(app);
 export const storage = getStorage(app)
 export const auth=getAuth(app);

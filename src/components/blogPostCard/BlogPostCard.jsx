@@ -1,16 +1,33 @@
 import { Button } from '@material-tailwind/react'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import myContext from '../../context/data/myContext';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-
+import { Timestamp, addDoc, collection, doc, getDoc, setDoc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
+import { fireDb } from '../../firebase/FirebaseConfig';
+import { useParams } from 'react-router';
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from '../../firebase/FirebaseConfig';
 
 function BlogPostCard() {
   const context = useContext(myContext);
   const { mode, getAllBlog } = context;
 
+  
+  const params = useParams();
+//likes start
+
+
+
+
+  // likes functions end
+
   const navigate = useNavigate();
 console.log("dekho aagaya??",getAllBlog);
+
+
+
 const openPopup = (url) => {
   window.open(url, "_blank", "width=600,height=400,resizable=yes,scrollbars=yes");
 };
@@ -120,8 +137,14 @@ const openPopup = (url) => {
             />
 
             {/* Top Items  */}
-           
-            <button onClick={() => openPopup(`/bloginfo/${id}`)} className='bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded mr-4 mt-2'>Comment</button>
+            
+     
+     
+              
+
+          
+            <button onClick={() => { window.location.href = `/bloginfo/${id}`; }} className='bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded mr-4 mt-2'>Comment</button>
+
               
 
           </div>

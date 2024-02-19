@@ -14,6 +14,7 @@ import SearchDialog from "../searchDialog/SearchDialog";
 import ShareDialogBox from "../shareDialogBox/ShareDialog";
 import "./Navbar.css";
 
+
 import { signInWithPopup } from "firebase/auth";
 //import { auth, provider } from "../../../firebase/FirebaseConfig";
 import toast from "react-hot-toast";

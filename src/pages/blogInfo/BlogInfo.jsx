@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import myContext from '../../context/data/myContext'
 import { useParams } from 'react-router';
-import { Timestamp, addDoc, collection, doc, getDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc, getDoc, setDoc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
 import Loader from '../../components/loader/Loader';
 import Layout from '../../components/layout/Layout';
@@ -13,62 +13,156 @@ import { FaRegThumbsDown } from "react-icons/fa";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from '../../firebase/FirebaseConfig';
-import { Dialog, DialogBody } from '@material-tailwind/react';
+
+
 
 function BlogInfo() {
+
   const context = useContext(myContext);
   const { mode, loading, setloading } = context;
   const isAuth = localStorage.getItem('isAuth');
   let navigate = useNavigate();
-const [likeCount, setLikeCount]=useState(50);
-const [dislikeCount, setDislikeCount]=useState(25);
+
 const [activeBtn, setActiveBtn] = useState("none");
 const gotoLogin = () => {
    
   navigate('/adminlogin')
 }
 
-const handleReactionClick = (reaction) => {
-if(activeBtn === "none"){
-  if(reaction === "like"){
-    setLikeCount(likeCount + 1);
-    setActiveBtn("like");
-
-  }
-  else if (reaction === "dislike"){
-    setDislikeCount(dislikeCount + 1);
-    setActiveBtn("dislike");
-  }
-}
-else if(activeBtn === reaction){
-  if(reaction === "like"){
-    setLikeCount(likeCount -1);
-
-  }
-  else if(reaction === "dislike"){
-    setDislikeCount(dislikeCount - 1);
-  }
-  setActiveBtn("none");
-}
-
-else if(activeBtn !== reaction){
-  if(reaction === "like"){
-    setLikeCount(likeCount + 1);
-    setDislikeCount(dislikeCount -1);
-    setActiveBtn("like");
-  }
-  else if(reaction === "dislike"){
-    setDislikeCount(dislikeCount - 1);
-  }
-  setActiveBtn("none");
-}
-}
-
-
   const params = useParams();
   // console.log(params.id),
 
   const [getBlogs, setGetBlogs] = useState();
+  const [likesCnt, setLikesCnt] = useState(0);
+  const [disLikesCnt, setdisLikesCnt] = useState(0);
+
+  const addLikes = async () => {
+    try {
+        // Ensure user is authenticated, retrieve current user's ID
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            // Handle case where user is not authenticated
+            console.error('User is not authenticated.');
+            return;
+        }
+        const userId = currentUser.uid;
+
+        // Get a reference to the document containing like count
+        const likesRef = doc(fireDb, "blogPost", params.id);
+
+        // Fetch current like count
+        const docSnap = await getDoc(likesRef);
+        if (docSnap.exists()) {
+            // If the document exists, check if likesCount field exists
+            const blogPostData = docSnap.data();
+            if (blogPostData.likesCount === undefined) {
+                // If likesCount field doesn't exist, initialize it with 1
+                await updateDoc(likesRef, { likesCount: 1 });
+                setLikesCnt(1); // Update state or show success message
+            } else {
+                // Check if the user has already liked the post
+                const likedByUserRef = doc(fireDb, "likes", `${params.id}_${userId}`);
+                const likeDocSnap = await getDoc(likedByUserRef);
+                // if (likeDocSnap.exists()) {
+                //     // User has already liked the post
+                //     console.log('User has already liked this post.');
+                //     toast.success('User has already liked this post.');
+
+                //     // Optionally, you can show a message to the user indicating they've already liked the post
+                //     return;
+                // }
+
+                // Increment like count
+                const updatedLikesCnt = blogPostData.likesCount + 1;
+                // Update like count in Firestore
+                await updateDoc(likesRef, { likesCount: updatedLikesCnt });
+                setLikesCnt(updatedLikesCnt); // Update state or show success message
+
+                // Record that the user has liked the post
+                await setDoc(likedByUserRef, { liked: true });
+            }
+            toast.success('Likes Updated Successfully');
+        } else {
+            // If the document doesn't exist, create it with likesCount field initialized to 1
+            await setDoc(likesRef, { likesCount: 1 });
+            setLikesCnt(1); // Update state or show success message
+
+            // Record that the user has liked the post
+            const likedByUserRef = doc(fireDb, "likes", `${params.id}_${userId}`);
+            await setDoc(likedByUserRef, { liked: true });
+
+            toast.success('Likes Updated Successfully');
+        }
+    } catch (error) {
+        console.error('Error updating like count: ', error);
+        // Handle error, show error message, etc.
+    }
+}
+
+
+
+  const addDislikes = async () => {
+    try {
+        // Ensure user is authenticated, retrieve current user's ID
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            // Handle case where user is not authenticated
+            console.error('User is not authenticated.');
+            return;
+        }
+        const userId = currentUser.uid;
+
+        // Get a reference to the document containing like count
+        const dislikesRef = doc(fireDb, "blogPost", params.id);
+
+        // Fetch current dislike count
+        const docSnap = await getDoc(dislikesRef);
+        if (docSnap.exists()) {
+            // If the document exists, check if dislikesCount field exists
+            const blogPostData = docSnap.data();
+            if (blogPostData.dislikesCount === undefined) {
+                // If dislikesCount field doesn't exist, initialize it with 1
+                await updateDoc(dislikesRef, { dislikesCount: 1 });
+                setdisLikesCnt(1); // Update state or show success message
+            } else {
+                // Check if the user has already disliked the post
+                const dislikedByUserRef = doc(fireDb, "dislikes", `${params.id}_${userId}`);
+                const dislikeDocSnap = await getDoc(dislikedByUserRef);
+                // if (dislikeDocSnap.exists()) {
+                //     // User has already disliked the post
+                //     console.log('User has already disliked this post.');
+                //     toast.success('User has already disliked this post.');
+
+                //     // Optionally, you can show a message to the user indicating they've already disliked the post
+                //     return;
+                // }
+
+                // Increment dislike count
+                const updatedDislikesCnt = blogPostData.dislikesCount + 1;
+                // Update dislike count in Firestore
+                await updateDoc(dislikesRef, { dislikesCount: updatedDislikesCnt });
+                setdisLikesCnt(updatedDislikesCnt); // Update state or show success message
+
+                // Record that the user has disliked the post
+                await setDoc(dislikedByUserRef, { disliked: true });
+            }
+            toast.success('Dislikes Updated Successfully');
+        } else {
+            // If the document doesn't exist, create it with dislikesCount field initialized to 1
+            await setDoc(dislikesRef, { dislikesCount: 1 });
+            setdisLikesCnt(1); // Update state or show success message
+
+            // Record that the user has disliked the post
+            const dislikedByUserRef = doc(fireDb, "dislikes", `${params.id}_${userId}`);
+            await setDoc(dislikedByUserRef, { disliked: true });
+
+            toast.success('Dislikes Updated Successfully');
+        }
+    } catch (error) {
+        console.error('Error updating dislike count: ', error);
+        // Handle error, show error message, etc.
+    }
+}
 
 
   const getAllBlogs = async () => {
@@ -108,6 +202,7 @@ else if(activeBtn !== reaction){
         commentRef, {
         fullName,
         commentText,
+       
         time: Timestamp.now(),
         date: new Date().toLocaleString(
           "en-US",
@@ -165,14 +260,14 @@ else if(activeBtn !== reaction){
     });
   };
 
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => setOpen(!open);
+ 
 
   return (
+
     
     <Layout>
-   
+      
+
         <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4 ">
           <div className=" py-4 lg:py-8">
             {loading
@@ -243,34 +338,14 @@ else if(activeBtn !== reaction){
 
         
             <div className="btn-cont">
-              {/* Button for liking*/ }
-              {isAuth ? 
-              <button className={`btn ${activeBtn === "like" ? "like-active" : ""}`} onClick={() => handleReactionClick("like")}>
-                <span className="material-symbols-rounded"><FaRegThumbsUp /> </span>
-                Like {likeCount}
-                </button>
-  :   <button className={`btn ${activeBtn === "like" ? "like-active" : ""}`} onClick={signInWithGoogle}>
-  <span className="material-symbols-rounded"><FaRegThumbsDown /> </span>
-  Like {likeCount}
-  </button>
-  }
-
-  {/* Button for disliking*/ }
-  {isAuth ? 
-            
-                <button className={`btn ${activeBtn === "dislike" ? "dislike-active" : ""}`} onClick={() => handleReactionClick("dislike")}>
-                <span className="material-symbols-rounded"> <FaRegThumbsDown /> </span>
-                Dislike {dislikeCount}
-                </button>
-                :  <button className={`btn ${activeBtn === "dislike" ? "dislike-active" : ""}`} onClick={signInWithGoogle}>
-                <span className="material-symbols-rounded"> <FaRegThumbsDown /></span>
-                Dislike {dislikeCount}
-                </button>}
-
+          {isAuth ? 
+          <button onClick={addLikes}>Like ({likesCnt})</button> : <button onClick={signInWithGoogle}>Like ({likesCnt})</button> }
+          {isAuth ? 
+      <button onClick={addDislikes}>Dislike ({disLikesCnt})</button> :   <button onClick={signInWithGoogle}>Dislike ({disLikesCnt})</button>}
               
 
             </div>
-      
+         
           
 
           <Comment
@@ -282,7 +357,7 @@ else if(activeBtn !== reaction){
             setFullName={setFullName}
           />
         </section>
-      
+       
         
     </Layout>
 

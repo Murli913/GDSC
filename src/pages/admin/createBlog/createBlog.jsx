@@ -18,6 +18,15 @@ import "../../../components/navbar/Navbar"
 import Nav from '../../../components/navbar/Navbar';
 import Footer from '../../../components/footer/Footer';
 import Layout from '../../../components/layout/Layout';
+
+
+
+
+
+
+
+
+
 const userData = [
     { name: "Child abuse" },
     { name: "Human Traffing" },
@@ -40,6 +49,49 @@ function CreateBlog() {
         content: '',
         time: Timestamp.now()
     });
+
+
+
+//video start upload 
+
+
+
+
+
+
+
+
+
+
+// video stop upload
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const addPost = async () => {
         // if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
         //     toast.error('Please Fill All Fields');
@@ -154,9 +206,12 @@ useEffect(() => {
 }, []);
 //end location
 
-const { status, startRecording, stopRecording, mediaBlobUrl } =
-useReactMediaRecorder({ video: true });
-
+const { status, startRecording, stopRecording, mediaBlobUrl } =useReactMediaRecorder({ video: true });
+const stopRecordingg= async () => {
+    const blob = await stopRecording(); // Assuming stopRecording returns the recorded blob
+    const storageRef = ref(storage, 'videos/' + Date.now() + '.webm'); // Change the path as needed
+    await uploadBytes(storageRef, blob);
+  }
 
 
 
@@ -310,8 +365,13 @@ useReactMediaRecorder({ video: true });
                 <div className="inputGp">
        <p>Status: {status}</p>
        <button className='bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded mr-4' onClick={startRecording}>Start Recording</button>
-       <button className='bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded ' onClick={stopRecording}>Stop Recording</button> <br></br>
-          <br></br><video src={mediaBlobUrl} controls  loop />
+       <button className='bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded ' onClick={ stopRecordingg}>Stop Recording</button> <br></br>
+          <br></br>
+         
+          
+          
+          <video src={mediaBlobUrl} controls  loop />
+         
           
         </div>
         </div>

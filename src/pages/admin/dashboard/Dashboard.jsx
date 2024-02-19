@@ -1,14 +1,18 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../../../firebase/FirebaseConfig';
+import { auth,provider } from '../../../firebase/FirebaseConfig';
+
+
 
 function Dashboard() {
+   
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
+ 
 
     console.log(getAllBlog)
 
@@ -28,7 +32,7 @@ function Dashboard() {
                     <div className="left">
                         <img
                             className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
-                            src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'} alt="profile"
+                            src={auth.currentUser.photoURL} alt="profile"
                         />
                     </div>
                     <div className="right">
@@ -36,20 +40,19 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            Username: Hidden
+                            Username:  {auth.currentUser.displayName}
+    
                         </h1>
 
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                          UserProfile: Hidden
-                        </h2>
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">unknowuser@gmail.com
+                          UserEmail: {auth.currentUser.email}
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Complaints : </span>  15
+                               Userid:  {auth.currentUser.uid}
                         </h2>
+                       
                         <div className=" flex gap-2 mt-2">
                             <Link to={'/createblog'}>
                                 <div className=" mb-2">
@@ -126,9 +129,7 @@ function Dashboard() {
                                         <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
                                             Date
                                         </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
-                                            Action
-                                        </th>
+                                        
                                     </tr>
                                 </thead>
 
@@ -168,13 +169,7 @@ function Dashboard() {
                                                     </td>
 
                                                     {/* Delete Blog  */}
-                                                    <td
-                                                    onClick={()=> deleteBlogs(id)}
-                                                     style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
-                                                            Delete
-                                                        </button>
-                                                    </td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         )
