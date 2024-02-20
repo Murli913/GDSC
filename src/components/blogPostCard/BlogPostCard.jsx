@@ -170,7 +170,7 @@ function BlogPostCard() {
                         : "rgb(226, 232, 240)",
                   }}
                 >
-                  See More
+                  See More xyz
                 </Button>
               </Link>
             </div>
