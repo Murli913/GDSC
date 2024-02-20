@@ -203,6 +203,31 @@ function BlogInfo() {
       console.log(error);
     }
   };
+  const addReplyComment = async (originalCommentId, replyText) => {
+    const commentRef = collection(
+      fireDb,
+      "blogPost/" + `${params.id}/` + "comment"
+    );
+
+    try {
+      await addDoc(commentRef, {
+        fullName,
+        commentText: replyText,
+        time: Timestamp.now(),
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+        originalCommentId: originalCommentId, // Include the ID of the original comment
+      });
+      toast.success("Reply Added Successfully");
+      setFullName("");
+      setCommentText("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const [allComment, setAllComment] = useState([]);
 
@@ -372,6 +397,7 @@ function BlogInfo() {
 
         <Comment
           addComment={addComment}
+          addReplyComment={addReplyComment}
           commentText={commentText}
           setcommentText={setCommentText}
           allComment={allComment}
