@@ -1,190 +1,87 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Layout from '../../../components/layout/Layout'
-import myContext from '../../../context/data/myContext';
-import { Button } from '@material-tailwind/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { auth,provider } from '../../../firebase/FirebaseConfig';
-
-
+import React, { useContext, useEffect, useState } from "react";
+import Layout from "../../../components/layout/Layout";
+import myContext from "../../../context/data/myContext";
+import { Button } from "@material-tailwind/react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, provider } from "../../../firebase/FirebaseConfig";
+import BlogCards from "./BlogCards";
 
 function Dashboard() {
-   
-    const context = useContext(myContext);
-    const { mode, getAllBlog, deleteBlogs } = context;
-    const navigate = useNavigate();
- 
+  const context = useContext(myContext);
+  const { mode, getAllBlog, deleteBlogs } = context;
+  const navigate = useNavigate();
 
-    console.log(getAllBlog)
+  console.log("Hello Duniya!!", getAllBlog);
 
-    const logout = () => {
-        localStorage.clear('admin');
-        navigate('/')
-    }
+  const logout = () => {
+    localStorage.clear("admin");
+    navigate("/");
+  };
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
- }, [])
-    return (
-        <Layout>
-            <div className="py-10">
-                <div
-                    className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
-                    <div className="left">
-                        <img
-                            className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
-                            src={auth.currentUser.photoURL} alt="profile"
-                        />
-                    </div>
-                    <div className="right">
-                        <h1
-                            className='text-center font-bold text-2xl mb-2'
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }}
-                        >
-                            Username:  {auth.currentUser.displayName}
-    
-                        </h1>
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                          UserEmail: {auth.currentUser.email}
-                        </h2>
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                               Userid:  {auth.currentUser.uid}
-                        </h2>
-                       
-                        <div className=" flex gap-2 mt-2">
-                            <Link to={'/createblog'}>
-                                <div className=" mb-2">
-                                    <Button
-                                        style={{
-                                            background: mode === 'dark'
-                                                ? 'rgb(226, 232, 240)'
-                                                : 'rgb(30, 41, 59)',
-                                            color: mode === 'dark'
-                                                ? 'black'
-                                                : 'white'
-                                        }}
-                                        className='px-8 py-2'
-                                    >
-                                        Create Compalint
-                                    </Button>
-                                </div>
-                            </Link>
-                            <div className="mb-2">
-                                <Button
-                                    onClick={logout}
-                                    style={{
-                                        background: mode === 'dark'
-                                            ? 'rgb(226, 232, 240)'
-                                            : 'rgb(30, 41, 59)',
-                                        color: mode === 'dark'
-                                            ? 'black'
-                                            : 'white'
-                                    }}
-                                    className='px-8 py-2'
-                                >
-                                    Logout
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <Layout>
+      <div className="py-10">
+        <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
+          <div className="left">
+            <img
+              className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
+              src={auth.currentUser.photoURL}
+              alt="profile"
+            />
+          </div>
+          <div className="right">
+            <h1
+              className="text-center font-bold text-2xl mb-2"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              Welcome, {auth.currentUser.displayName}
+            </h1>
 
-                {/* Line  */}
-                <hr className={`border-2
-                 ${mode === 'dark'
-                        ? 'border-gray-300'
-                        : 'border-gray-400'}`
-                }
-                />
-
-                {/* Table  */}
-                <div className="">
-                    <div className=' container mx-auto px-4 max-w-7xl my-5' >
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
-                            {/* table  */}
-                            <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400" >
-                                {/* thead  */}
-                                <thead
-                                    style={{
-                                        background: mode === 'dark'
-                                            ? 'white'
-                                            : 'rgb(30, 41, 59)'
-                                    }}
-                                    className="text-xs ">
-                                    <tr>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
-                                            S.No
-                                        </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
-                                            Thumbnail
-                                        </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
-                                            Title
-                                        </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
-                                            Category
-                                        </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
-                                            Date
-                                        </th>
-                                        
-                                    </tr>
-                                </thead>
-
-                                {/* tbody  */}
-                                {getAllBlog.length > 0
-                                    ? <> {getAllBlog.map((item, index) => {
-                                        const {thumbnail, date, id, author} = item;
-                                        console.log("Author",author);
-                                        if(author.id == auth.currentUser.uid){
-                                        return (
-                                            <tbody key={index}>
-                                                <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
-                                                    {/* S.No   */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {index + 1}.
-                                                    </td>
-
-                                                    {/* Blog Thumbnail  */}
-                                                    <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
-                                                        {/* thumbnail  */}
-                                                        <img className='w-16 rounded-lg' src={thumbnail} alt="thumbnail" />
-                                                    </th>
-
-                                                    {/* Blog Title  */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {item.blogs.title}
-                                                    </td>
-
-                                                    {/* Blog Category  */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {item.blogs.category}
-                                                    </td>
-
-                                                    {/* Blog Date  */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {date}
-                                                    </td>
-
-                                                    {/* Delete Blog  */}
-                                                    
-                                                </tr>
-                                            </tbody>
-                                        )
-                                        }
-                                    })}  </>
-                                    :
-                                    <>  <h1>Not Found</h1></>}
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </Layout>
-    )
+            <h2
+              style={{ color: mode === "dark" ? "white" : "black" }}
+              className="font-semibold"
+            >
+              {auth.currentUser.email}
+            </h2>
+          </div>
+        </div>
+        <hr
+          className={`border-2
+                 ${mode === "dark" ? "border-gray-300" : "border-gray-400"}`}
+        />
+      </div>
+      {/* <div>
+        {getAllBlog.length > 0 ? (
+          <div>
+            {getAllBlog.map((item, index) => {
+              const { thumbnail, date, id, author } = item;
+              if (author.id == auth.currentUser.uid) {
+                console.log("Author", author);
+                <div></div>
+              }
+            })}
+          </div>
+        ) : (
+          <div>
+            <h1>Not Found</h1>
+          </div>
+        )}
+      </div> */}
+      <div>
+        {getAllBlog.length > 0 ? (
+          <BlogCards getAllBlog={getAllBlog} auth={auth} />
+        ) : (
+          <div>
+            <h1>Not Found</h1>
+          </div>
+        )}
+      </div>
+    </Layout>
+  );
 }
 
-export default Dashboard
+export default Dashboard;

@@ -47,9 +47,9 @@ function BlogPostCard() {
   return (
     <div>
       <section className="text-gray-600 body-font">
-        <div className="container px-5 py-10 mx-auto max-w-7xl ">
+        <div className="container px-5 py-10 mx-auto max-w-7xl">
           {/* Main Content  */}
-          <div className="flex flex-wrap justify-center -m-4 mb-5">
+          <div className="justify-center -m-4 mb-5">
             {/* Card 1  */}
             {sortedBlogs.length > 0 ? (
               sortedBlogs.map((item, index) => {
@@ -63,7 +63,10 @@ function BlogPostCard() {
                   "";
 
                 return (
-                  <div className="p-8 sm:w-1/1" key={index}>
+                  <div
+                    className="p-8 sm:w-1/1 bg-white shadow-md rounded-md overflow-hidden"
+                    key={index}
+                  >
                     <div
                       style={{
                         background:
@@ -104,18 +107,6 @@ function BlogPostCard() {
                           {date}
                         </h2>
 
-                        {/* Blog Description  */}
-                        {/* <p
-                className="leading-relaxed mb-3"
-                style={{
-                  color:
-                    mode === 'dark'
-                      ? 'rgb(226, 232, 240)'
-                      : ' rgb(30, 41, 59)',
-                }}
-              >
-                
-              </p> */}
                         <h2
                           className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
                           style={{
@@ -130,7 +121,7 @@ function BlogPostCard() {
                       </div>
                       <img
                         onClick={() => navigate(`/bloginfo/${id}`)}
-                        className="w-full"
+                        className="max-w-full mx-auto"
                         src={thumbnail}
                         alt="blog"
                       />
