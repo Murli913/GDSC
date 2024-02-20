@@ -1,0 +1,67 @@
+/* styles.css */
+
+.App {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .pointer {
+    cursor: pointer;
+    margin: 0 10px;
+    padding: 5px 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+  }
+  
+  .activeColor {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    margin: 10px 0;
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  p {
+    color: #333;
+    cursor: pointer;
+  }
+  
+  p:hover {
+    text-decoration: underline;
+  }
+  

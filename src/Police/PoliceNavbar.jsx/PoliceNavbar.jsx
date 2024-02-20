@@ -10,50 +10,38 @@ import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineShareAlt, AiOutlineSearch } from 'react-icons/ai'
 import myContext from "../../context/data/myContext";
-import SearchDialog from "../searchDialog/SearchDialog";
-import ShareDialogBox from "../shareDialogBox/ShareDialog";
-import "./Navbar.css";
+import { signOut } from "firebase/auth";
+
+
+
+
 
 
 import { signInWithPopup } from "firebase/auth";
 //import { auth, provider } from "../../../firebase/FirebaseConfig";
 import toast from "react-hot-toast";
 import { auth, provider } from "../../firebase/FirebaseConfig";
+import SearchDialog from "../../components/searchDialog/SearchDialog";
+import ShareDialogBox from "../../components/shareDialogBox/ShareDialog";
 
-
-export default function Nav() {
-
+const PoliceNavbar = () => {
     const [openNav, setOpenNav] = React.useState(false);
 
     const context = useContext(myContext);
     const { mode, toggleMode } = context;
     const isAuth = localStorage.getItem('isAuth');
-    const navigate = useNavigate();
-    //* Logout Function 
-    const logout = () => {
-        localStorage.clear();
-        navigate('/')
+    const history = useNavigate()
+ 
+    const handleClick = () =>{
+        signOut(auth).then(val=>{
+            console.log(val,"val")
+            history('/')
+        })
     }
-    const signwithoutuser = () => {
-   
-       navigate("/terms");
-     
-    };
-    const signInWithpolice = () => {
-   
-        navigate("/policelogin");
-      
-     };
+    
     
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider).then((result) => {
-      localStorage.setItem("isAuth", true);
-      toast.success('Login sucess')
-     // setIsAuth(true);
-    navigate("/");
-    });
-  };
+ 
 
 
     // All NavList 
@@ -66,7 +54,7 @@ export default function Nav() {
                 className="p-1 font-normal"
                 style={{ color: mode === 'dark' ? 'white' : 'white' }}
             >
-                <Link to={'/'} className="flex items-center">
+                <Link to={'/policehome'} className="flex items-center">
                     Home
                 </Link>
             </Typography>
@@ -77,32 +65,12 @@ export default function Nav() {
                 className="p-1 font-normal"
                 style={{ color: mode === 'dark' ? 'white' : 'white' }}
             >
-                <Link to={'/allblogs'} className="flex items-center">
+                <Link to={'/policeallblogs'} className="flex items-center">
                     Complaints
                 </Link>
             </Typography>
             {/* dropdown */}
-           {!isAuth ?  <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'white' }}
-            >
-                <div class="navbar">
-                <div class="dropdown">
-    <Link class="dropbtn">New Complaint
-      <i class="fa fa-caret-down"></i>
-    </Link>
-    <div class="dropdown-content">
-      <a href="#" onClick={signwithoutuser}>Anonymously </a>
-      <a href="#"  onClick={signInWithGoogle}>Sign In user</a> 
-      <a href="#"  onClick={signInWithpolice}>Sign In police</a> 
-    
-    </div>
-  </div>
-  </div>
-            </Typography> : "" }
+           
 
 
 
@@ -111,18 +79,7 @@ export default function Nav() {
 
 
 
-           {isAuth ?  <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'white' }}
-            >
-                <Link to={'/createblog'} className="flex items-center">
-                    Create Complaints
-                </Link>
-            </Typography>
-            : ""}
+          
             <Typography
                 as="li"
                 variant="small"
@@ -130,30 +87,14 @@ export default function Nav() {
                 className="p-1 font-normal"
                 style={{ color: mode === 'dark' ? 'white' : 'white' }}
             >
-                {!isAuth ? <Link to={'/adminlogin'} className="flex items-center">
-                     
-                </Link> : <Link
-                                    onClick={logout}
-                                    style={{
-                                        background: mode === 'dark'
-                                            ? 'rgb(226, 232, 240)'
-                                            : 'rgb(30, 41, 59)',
-                                        color: mode === 'dark'
-                                            ? 'black'
-                                            : 'white'
-                                    }}
-                                    className='px-8 py-2'
-                                >
-                                    Logout
-                                </Link>}
+                   <button onClick={handleClick}>SignOut</button>
             </Typography>
         </ul>
     );
-
-    return (
-        <>
-            {/* Navbar  */}
-            <Navbar
+  return (
+   <>
+    {/* Navbar  */}
+    <Navbar
                 className="sticky inset-0 z-20 h-max max-w-full border-none rounded-none py-2 px-4 lg:px-8 lg:py-2"
                 style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#30336b' }}>
 
@@ -161,7 +102,7 @@ export default function Nav() {
                 <div className="flex items-center justify-between text-blue-gray-900">
 
                     {/* Home Page Link  */}
-                    <Link to={'/'}>
+                    <Link to={'/policehome'}>
                         <Typography
                             as="a"
                             className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
@@ -174,7 +115,7 @@ export default function Nav() {
                             />
                             {/* Logo Text  */}
                             <span>
-                            National Cyber Crime Reporting Portal
+                           Police Portal
                             </span>
                         </Typography>
                     </Link>
@@ -195,9 +136,9 @@ export default function Nav() {
 
                         {/* Share Icon */}
                         <div className="hidden lg:block">
-                            {isAuth?
+                          
                          
-                            <ShareDialogBox/> : ""}
+                            <ShareDialogBox/> 
                         </div>
 
                         {/* Admin Profile Pic */}
@@ -300,5 +241,7 @@ export default function Nav() {
                 </Collapse>
             </Navbar>
         </>
-    );
+  )
 }
+
+export default PoliceNavbar

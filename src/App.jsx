@@ -19,6 +19,13 @@ import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase/FirebaseConfig";
 import TermsAndConditions from "./pages/terms/Terms";
+import PoliceHome from "./Police/PoliceHome/PoliceHome";
+import PoliceLogin from "./Police/PoliceLogin/PoliceLogin";
+import PoliceForgot from "./Police/PoliceForgot/PoliceForgot";
+import Policeallblogs from "./Police/Policeallblogs/Policeallblogs";
+import Policebloginfo from "./Police/Policebloginfo/Policebloginfo";
+
+
 function App() {
  
 
@@ -35,6 +42,11 @@ function App() {
           <Route path="/bloginfo/:id" element={<BlogInfo />} />
           <Route path="/adminlogin" element={<AdminLogin   />} />
           <Route path="/terms" element={<TermsAndConditions   />} />
+          <Route path="/policelogin" element={<PoliceLogin   />} />
+          <Route path="/policehome" element={<PoliceHome   />} />
+          <Route path="/policereset" element={<PoliceForgot  />} />
+          <Route path="/policeallblogs" element={<Policeallblogs  />} />
+          <Route path="/policebloginfo/:id" element={<Policebloginfo />} />
           <Route path="/dashboard" element={
             <ProtectedRouteForAdmin>
               <Dashboard />

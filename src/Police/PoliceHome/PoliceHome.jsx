@@ -1,34 +1,51 @@
+import { signOut } from "firebase/auth";
+
+import { auth } from "../../firebase/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
+
+import PoliceLayout from "../PoliceLayout/PoliceLayout";
+
 import { Button } from '@material-tailwind/react'
 import React, { useContext, useEffect, useState } from 'react'
 import myContext from '../../context/data/myContext';
-import { useNavigate } from 'react-router';
+
 import { Link } from 'react-router-dom';
 import { Timestamp, addDoc, collection, doc, getDoc, setDoc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
 import toast from 'react-hot-toast';
-import { fireDb } from '../../firebase/FirebaseConfig';
+import { fireDb } from "../../firebase/FirebaseConfig";
 import { useParams } from 'react-router';
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from '../../firebase/FirebaseConfig';
 
-function BlogPostCard() {
-  const context = useContext(myContext);
-  const { mode, getAllBlog } = context;
 
+
+const PoliceHome = () => {
+  const history = useNavigate()
+
+    const handleClick = () =>{
+        signOut(auth).then(val=>{
+            console.log(val,"val")
+            history('/policelogin')
+        })
+    }
+
+
+    const context = useContext(myContext);
+    const { mode, getAllBlog } = context;
   
-  const params = useParams();
-
-  const navigate = useNavigate();
-
-
-
-
-const openPopup = (url) => {
-  window.open(url, "_blank", "width=600,height=400,resizable=yes,scrollbars=yes");
-};
-
-
+    
+    const params = useParams();
+  
+    const navigate = useNavigate();
+  
+  
+  
+  
+  const openPopup = (url) => {
+    window.open(url, "_blank", "width=600,height=400,resizable=yes,scrollbars=yes");
+  };
 
   return (
+  <PoliceLayout>
+    <div>
     <div>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-10 mx-auto max-w-7xl ">
@@ -161,7 +178,10 @@ const openPopup = (url) => {
         </div>
       </section >
     </div >
+    
+    </div>
+    </PoliceLayout>
   )
 }
 
-export default BlogPostCard
+export default PoliceHome

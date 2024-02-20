@@ -335,7 +335,9 @@ const gotoLogin = () => {
 
               </div>}
           </div>
-
+<div className="status">
+ <h1>Status: {getBlogs?.status}</h1>
+</div>
         
             <div className="btn-cont">
           {isAuth ? 

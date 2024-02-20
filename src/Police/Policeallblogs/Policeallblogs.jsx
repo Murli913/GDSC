@@ -1,16 +1,17 @@
+
+import PoliceLayout from '../PoliceLayout/PoliceLayout'
 import React, { useContext } from 'react'
 import myContext from '../../context/data/myContext';
-import Layout from '../../components/layout/Layout';
-import { useNavigate } from 'react-router';
 
-function AllBlogs() {
+import { useNavigate } from 'react-router';
+const Policeallblogs = () => {
     const context = useContext(myContext);
     const { mode, getAllBlog } = context;
-
     const navigate = useNavigate();
-    return (
-        <Layout>
-            <section className="text-gray-600 body-font">
+  return (
+    <PoliceLayout>
+       
+        <section className="text-gray-600 body-font">
                 <div className="container px-5 py-10 mx-auto max-w-7xl ">
                     {/* Top Heading  */}
                     <div className="mb-5">
@@ -48,7 +49,7 @@ function AllBlogs() {
                                                 rounded-xl overflow-hidden`} 
                                             >
                                                 {/* Blog Thumbnail  */}
-                                                <img onClick={() => navigate(`/bloginfo/${id}`)} className=" w-full" src={thumbnail} alt="blog" />
+                                                <img onClick={() => navigate(`/policebloginfo/${id}`)} className=" w-full" src={thumbnail} alt="blog" />
 
                                                 {/* Top Items  */}
                                                 <div className="p-6">
@@ -92,8 +93,9 @@ function AllBlogs() {
                     </div>
                 </div>
             </section >
-        </Layout >
-    )
+       
+    </PoliceLayout>
+  )
 }
 
-export default AllBlogs
+export default Policeallblogs
