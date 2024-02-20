@@ -49,7 +49,8 @@ const Policeallblogs = () => {
                                                 rounded-xl overflow-hidden`} 
                                             >
                                                 {/* Blog Thumbnail  */}
-                                                <img onClick={() => navigate(`/policebloginfo/${id}`)} className=" w-full" src={thumbnail} alt="blog" />
+                                                <img onClick={() => navigate(`/policebloginfos/${id}`)} className="w-full" src={thumbnail} alt="blog" />
+
 
                                                 {/* Top Items  */}
                                                 <div className="p-6">

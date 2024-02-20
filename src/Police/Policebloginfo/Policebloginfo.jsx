@@ -3,7 +3,7 @@ import PoliceLayout from '../PoliceLayout/PoliceLayout'
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import myContext from '../../context/data/myContext'
 import { useParams } from 'react-router';
-import { Timestamp, addDoc, collection, doc, getDoc, setDoc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc, getDoc, setDoc, onSnapshot, orderBy, query, updateDoc, deleteDoc } from 'firebase/firestore';
 import { fireDb } from '../../firebase/FirebaseConfig';
 import Loader from '../../components/loader/Loader';
 
@@ -126,6 +126,18 @@ const Policebloginfo = () => {
   
       const statusOptions = ['Pending', 'Done', 'Not Done', 'In Progress']; // Add more options as needed
 
+          // Blog Delete Function 
+          const deleteBlog = async () => {
+            try {
+              await deleteDoc(doc(fireDb, "blogPost", params.id));
+              toast.success('Blog deleted successfully');
+              navigate('/policehome'); // Redirect to the home page
+            } catch (error) {
+              console.error("Error removing document: ", error);
+              toast.error('Failed to delete blog');
+            }
+          };
+
   return (
     <PoliceLayout>
      <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4 ">
@@ -211,7 +223,13 @@ const Policebloginfo = () => {
 
                         
                         {/* delete the post */}
-
+                    
+                        <button
+                    onClick={deleteBlog}
+                    className="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+                  >
+                    Delete Blog
+                  </button>
 
 
 

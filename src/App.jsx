@@ -26,6 +26,7 @@ import Policeallblogs from "./Police/Policeallblogs/Policeallblogs";
 import Policebloginfo from "./Police/Policebloginfo/Policebloginfo";
 
 
+
 function App() {
  
 
@@ -46,7 +47,7 @@ function App() {
           <Route path="/policehome" element={<PoliceHome   />} />
           <Route path="/policereset" element={<PoliceForgot  />} />
           <Route path="/policeallblogs" element={<Policeallblogs  />} />
-          <Route path="/policebloginfo/:id" element={<Policebloginfo />} />
+          <Route path="/policebloginfos/:id" element={<Policebloginfo />} />
           <Route path="/dashboard" element={
             <ProtectedRouteForAdmin>
               <Dashboard />
