@@ -1,7 +1,8 @@
 import { Button } from "@material-tailwind/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import myContext from "../../context/data/myContext";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/FirebaseConfig";
 
 function Comment({
   addComment,
@@ -12,6 +13,14 @@ function Comment({
   fullName,
   setFullName,
 }) {
+  useEffect(() => {
+    // Set fullName to user's display name if it exists
+    setFullName(
+      auth.currentUser?.displayName ? auth.currentUser?.displayName : ""
+    );
+    // }
+  }, [auth.currentUser]);
+
   const context = useContext(myContext);
   const { mode } = context;
   const isAuth = localStorage.getItem("isAuth");
@@ -44,7 +53,7 @@ function Comment({
     // For demonstration, let's assume addComment function supports replies
     // In real implementation, you need to update addComment function accordingly
     // addReplyComment(`Reply to ${comment.id}: ${replyText}`);
-    addReplyComment(comment.id,replyText);
+    addReplyComment(comment.id, replyText);
     console.log("replyText", replyText);
 
     // Clear reply text and reset replyingTo state
@@ -64,9 +73,15 @@ function Comment({
           </h2>
         </div>
         {/* Comment Form  */}
+        <img
+          className=" w-10 h-10  object-cover rounded-full border-2 border-pink-600 p-1"
+          src={auth.currentUser?.photoURL ? auth.currentUser.photoURL : " "}
+          alt="profile"
+        />
+        <h1>{fullName}</h1>
         <form className="mb-6">
           {/* Full Name Input  */}
-          <div
+          {/* <div
             className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
             shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200"
             style={{
@@ -75,15 +90,14 @@ function Comment({
           >
             <input
               value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              onChange={() => setFullName(auth.currentUser.displayName)}
               type="text"
-              placeholder="Enter Full Name"
               className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
               style={{
                 background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
               }}
             />
-          </div>
+          </div> */}
 
           {/* Text Area  */}
           <div
