@@ -24,6 +24,8 @@ import { FaRegThumbsDown } from "react-icons/fa";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../../firebase/FirebaseConfig";
+import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import { SlLike, SlDislike } from "react-icons/sl";
 
 function BlogInfo() {
   const context = useContext(myContext);
@@ -269,19 +271,13 @@ function BlogInfo() {
   return (
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4 ">
-        <div className=" py-4 lg:py-8">
+        <div>
           {loading ? (
             <Loader />
           ) : (
             <div>
-              {/* Thumbnail  */}
-              <img
-                alt="content"
-                className="mb-3 rounded-lg h-full w-full"
-                src={getBlogs?.thumbnail}
-              />
               {/* title And date  */}
-              <div className="flex justify-between items-center mb-3">
+              <div className="flex justify-between items-center mb-3 mt-5">
                 <h1
                   style={{ color: mode === "dark" ? "white" : "black" }}
                   className=" text-xl md:text-2xl lg:text-2xl font-semibold"
@@ -298,6 +294,12 @@ function BlogInfo() {
                 }`}
               />
 
+              {/* Thumbnail  */}
+              <img
+                alt="content"
+                className="mb-3 rounded-lg h-full w-full"
+                src={getBlogs?.thumbnail}
+              />
               {/* blog Content  */}
               <div className="content">
                 <div
@@ -381,22 +383,74 @@ function BlogInfo() {
             </div>
           )}
         </div>
-<div className="status">
- <h1>Status: {getBlogs?.status}</h1>
-</div>
+
         <div className="btn-cont">
           {isAuth ? (
-            <button onClick={addLikes}>Like ({likesCnt})</button>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SlLike
+                onClick={addLikes}
+                style={{
+                  fontSize: "24px",
+                  marginRight: "5px",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {likesCnt}
+              </span>
+            </div>
           ) : (
-            <button onClick={signInWithGoogle}>Like ({likesCnt})</button>
+            // <button onClick={addLikes}>Like ({likesCnt})</button>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SlLike
+                onClick={signInWithGoogle}
+                style={{
+                  fontSize: "24px",
+                  marginRight: "5px",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {likesCnt}
+              </span>
+            </div>
           )}
           {isAuth ? (
-            <button onClick={addDislikes}>Dislike ({disLikesCnt})</button>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SlDislike
+                onClick={addDislikes}
+                style={{
+                  fontSize: "24px",
+                  marginRight: "5px",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {disLikesCnt}
+              </span>
+              {/* <button onClick={addDislikes}>Dislike ({disLikesCnt})</button> */}
+            </div>
           ) : (
-            <button onClick={signInWithGoogle}>Dislike ({disLikesCnt})</button>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <SlDislike
+                onClick={signInWithGoogle}
+                style={{
+                  fontSize: "24px",
+                  marginRight: "5px",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+                {disLikesCnt}
+              </span>
+              {/* <button onClick={addDislikes}>Dislike ({disLikesCnt})</button> */}
+            </div>
           )}
-        </div>
 
+          <div className="status">
+            <h1>Status: {getBlogs?.status}</h1>
+          </div>
+        </div>
         <Comment
           addComment={addComment}
           addReplyComment={addReplyComment}

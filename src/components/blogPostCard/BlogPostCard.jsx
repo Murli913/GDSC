@@ -32,6 +32,8 @@ function BlogPostCard() {
   const navigate = useNavigate();
 
   const [publicBlogs, setPublicBlogs] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState({});
 
   useEffect(() => {
     const fetchPublicBlogs = async () => {
@@ -59,18 +61,11 @@ function BlogPostCard() {
 
   console.log("Public blogs:", publicBlogs);
 
-  const openPopup = (url) => {
-    window.open(
-      url,
-      "_blank",
-      "width=600,height=400,resizable=yes,scrollbars=yes"
-    );
-  };
-
-  const [modal, setModal] = useState(false);
-
-  const toggleModal = () => {
-    setModal(!modal);
+  const toggleModal = (id) => {
+    const selectedBlog = publicBlogs.find((blog) => blog.id === id);
+    console.log("modalData:", selectedBlog);
+    setModalData(selectedBlog);
+    setModal(true);
   };
 
   if (modal) {
@@ -104,18 +99,28 @@ function BlogPostCard() {
                   >
                     {modal && (
                       <div className="modal">
-                        <div onClick={toggleModal} className="overlay"></div>
+                        <div
+                          onClick={() => setModal(false)}
+                          className="overlay"
+                        ></div>
                         <div className="modal-content">
                           <h2>Hello Modal</h2>
                           <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
-                            perferendis suscipit officia recusandae, eveniet quaerat assumenda
-                            id fugit, dignissimos maxime non natus placeat illo iusto!
-                            Sapiente dolorum id maiores dolores? Illum pariatur possimus
-                            quaerat ipsum quos molestiae rem aspernatur dicta tenetur. Sunt
-                            placeat tempora vitae enim incidunt porro fuga ea.
+                            <img
+                              onClick={() => navigate(`/bloginfo/${id}`)}
+                              className="w-full"
+                              src={modalData.thumbnail}
+                              alt="blog"
+                            />
+                            {modalData.blogs.content}
+                            <br></br>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit.
                           </p>
-                          <button className="close-modal" onClick={toggleModal}>
+                          <button
+                            className="close-modal"
+                            onClick={() => setModal(false)}
+                          >
                             CLOSE
                           </button>
                         </div>
@@ -138,7 +143,7 @@ function BlogPostCard() {
                       <div className="p-6">
                         {/* Blog Title  */}
                         <h1
-                          className="title-font text-lg font-bold text-gray-900 mb-3"
+                          className="title-font text-2xl font-bold text-gray-900 mb-3"
                           style={{
                             color:
                               mode === "dark"
@@ -162,7 +167,7 @@ function BlogPostCard() {
                         </h2>
 
                         <h2
-                          className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
+                          className="tracking-widest text-md title-font font-medium text-gray-400 mb-1"
                           style={{
                             color:
                               mode === "dark"
@@ -181,16 +186,17 @@ function BlogPostCard() {
                       />
                     </div>
                     <button
-                      onClick={() => {
-                        window.location.href = `/bloginfo/${id}`;
-                      }}
+                      onClick={() => navigate(`/bloginfo/${id}`)}
                       className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded mr-4 mt-2"
                     >
                       Comment
                     </button>
-                    <button onClick={toggleModal} className="btn-modal">
-                        Open
-                      </button>
+                    <button
+                      onClick={() => toggleModal(id)}
+                      className="btn-modal"
+                    >
+                      Open
+                    </button>
                   </div>
                 );
               })
