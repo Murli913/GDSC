@@ -130,7 +130,7 @@ const PoliceHome = () => {
              
             </div>
             <img
-              onClick={() => navigate(`/bloginfo/${id}`)}
+              onClick={() => navigate(`/policebloginfo/${id}`)}
               className="w-full"
               src={thumbnail}
               alt="blog"

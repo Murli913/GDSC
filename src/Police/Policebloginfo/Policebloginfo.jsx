@@ -1,5 +1,4 @@
 
-import PoliceLayout from '../PoliceLayout/PoliceLayout'
 import React, { Fragment, useContext, useEffect, useState } from 'react'
 import myContext from '../../context/data/myContext'
 import { useParams } from 'react-router';
@@ -11,6 +10,7 @@ import Comment from '../../components/comment/Comment';
 import toast from 'react-hot-toast';
 
 import { useNavigate } from 'react-router-dom';
+import PoliceLayout from '../PoliceLayout/PoliceLayout';
 
 
 
@@ -33,9 +33,9 @@ const Policebloginfo = () => {
     const getAllBlogs = async () => {
       setloading(true);
       try {
-        const productTemp = await getDoc(doc(fireDb, "blogPost", params.id))
-        if (productTemp.exists()) {
-          setGetBlogs(productTemp.data());
+        const productTempp = await getDoc(doc(fireDb, "blogPost", params.id))
+        if (productTempp.exists()) {
+          setGetBlogs(productTempp.data());
         } else {
           console.log("Document does not exist")
         }
@@ -61,10 +61,10 @@ const Policebloginfo = () => {
     const [commentText, setCommentText] = useState('');
   
     const addComment = async () => {
-      const commentRef = collection(fireDb, "blogPost/" + `${params.id}/` + "comment")
+      const commentReff = collection(fireDb, "blogPost/" + `${params.id}/` + "comment")
       try {
         await addDoc(
-          commentRef, {
+          commentReff, {
           fullName,
           commentText,
          
@@ -90,11 +90,11 @@ const Policebloginfo = () => {
   
     const getcomment = async () => {
       try {
-        const q = query(
+        const qq = query(
           collection(fireDb, "blogPost/" + `${params.id}/` + "comment/"),
           orderBy('time')
         );
-        const data = onSnapshot(q, (QuerySnapshot) => {
+        const data = onSnapshot(qq, (QuerySnapshot) => {
           let productsArray = [];
           QuerySnapshot.forEach((doc) => {
             productsArray.push({ ...doc.data(), id: doc.id });

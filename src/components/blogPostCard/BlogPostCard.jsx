@@ -31,9 +31,7 @@ function BlogPostCard() {
 
   const navigate = useNavigate();
 
-  const sortedBlogs = getAllBlog
-    .slice()
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
 
   const sortedBlogs = getAllBlog
     .slice()
@@ -135,24 +133,9 @@ function BlogPostCard() {
               src={thumbnail}
               alt="blog"
             />
-                        <h2
-                          className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
-                          style={{
-                            color:
-                              mode === "dark"
-                                ? "rgb(226, 232, 240)"
-                                : " rgb(30, 41, 59)",
-                          }}
-                        >
-                          {text}
-                        </h2>
+                    
                       </div>
-                      <img
-                        onClick={() => navigate(`/bloginfo/${id}`)}
-                        className="max-w-full mx-auto"
-                        src={thumbnail}
-                        alt="blog"
-                      />
+                      
 
                       {/* Top Items  */}
 
@@ -165,7 +148,7 @@ function BlogPostCard() {
                         Comment
                       </button>
                     </div>
-                  </div>
+                 
                 );
               })
             ) : (
