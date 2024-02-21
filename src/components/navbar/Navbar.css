@@ -68,3 +68,6 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.active-link {
+  color: #ff0000; 
+}

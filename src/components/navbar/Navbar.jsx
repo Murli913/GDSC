@@ -60,13 +60,14 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
-        <NavLink
-          exact
-          to={"/"} // Make sure this path matches the route for the home page
-          activeClassName="active-link"
-        >
-          Home
-        </NavLink>
+  <NavLink
+  exact
+  to={"/"} // Make sure this path matches the route for the home page
+  activeClassName="active-link"
+>
+  Home
+</NavLink>
+
       </Typography>
       <Typography
         as="li"

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 function AllBlogs() {
     const context = useContext(myContext);
     const { mode, getAllBlog } = context;
+    const publicBlogs = getAllBlog.filter(blog => blog.isPublic);
 
     const navigate = useNavigate();
     return (
@@ -22,10 +23,10 @@ function AllBlogs() {
                     {/* Main Content  */}
                     <div className="flex flex-wrap justify-center -m-4 mb-5">
                         {/* Card 1  */}
-                        {getAllBlog.length > 0
+                        {publicBlogs.length > 0
                             ?
                             <>
-                                {getAllBlog.map((item, index) => {
+                                {publicBlogs.map((item, index) => {
                                     const { thumbnail, id, date } = item
                                     console.log(item)
                                     return (

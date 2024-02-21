@@ -15,7 +15,7 @@ import "../../../components/navbar/Navbar";
 import Nav from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import Layout from "../../../components/layout/Layout";
-
+import Contactus from "../../../email/Contactus"; // Import Contactus component
 const userData = [
   { name: "Child abuse" },
   { name: "Human Traffing" },
@@ -30,6 +30,11 @@ function CreateBlog() {
   const [users, setUsers] = useState([]);
 
   const navigate = useNavigate();
+
+
+
+  
+
   const [blogs, setBlogs] = useState({
     title: "",
     category: "",
@@ -100,6 +105,8 @@ function CreateBlog() {
       });
     });
   };
+
+  
 
   // checkbox start
   useEffect(() => {
@@ -192,6 +199,7 @@ function CreateBlog() {
                 : " 4px solid rgb(30, 41, 59)",
           }}
         >
+             <form>
           {/* Top Item  */}
           <div className="mb-2 flex justify-between">
             <div className="flex gap-2 items-center">
@@ -391,6 +399,10 @@ function CreateBlog() {
               Submit
             </Button>
           </div>
+          </form>
+           {/* Contactus Component */}
+           <Contactus />
+            
         </div>
       </div>
     </Layout>
