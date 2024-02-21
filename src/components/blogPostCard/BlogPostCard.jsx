@@ -1,4 +1,3 @@
-import { Button } from "@material-tailwind/react";
 import React, { useContext, useEffect, useState } from "react";
 import myContext from "../../context/data/myContext";
 import { useNavigate } from "react-router";
@@ -14,6 +13,7 @@ import {
   orderBy,
   query,
   updateDoc,
+  where // Import where clause from firebase
 } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { fireDb } from "../../firebase/FirebaseConfig";
@@ -31,13 +31,33 @@ function BlogPostCard() {
 
   const navigate = useNavigate();
 
+  const [publicBlogs, setPublicBlogs] = useState([]);
 
+  useEffect(() => {
+    const fetchPublicBlogs = async () => {
+      try {
+        const q = query(
+          collection(fireDb, "blogPost"),
+          where("isPublic", "==", true), // Filter only public blogs
+          orderBy("date", "desc")
+        );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const blogs = [];
+          querySnapshot.forEach((doc) => {
+            blogs.push({ id: doc.id, ...doc.data() });
+          });
+          setPublicBlogs(blogs);
+        });
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error fetching public blogs: ", error);
+      }
+    };
 
-  const sortedBlogs = getAllBlog
-    .slice()
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+    fetchPublicBlogs();
+  }, []); // Empty dependency array ensures the effect runs only once
 
-  console.log("dekho aagaya??", sortedBlogs);
+  console.log("Public blogs:", publicBlogs);
 
   const openPopup = (url) => {
     window.open(
@@ -54,8 +74,8 @@ function BlogPostCard() {
           {/* Main Content  */}
           <div className="justify-center -m-4 mb-5">
             {/* Card 1  */}
-            {sortedBlogs.length > 0 ? (
-              sortedBlogs.map((item, index) => {
+            {publicBlogs.length > 0 ? (
+              publicBlogs.map((item, index) => {
                 const { thumbnail, id, date } = item;
                 let blog_string = item.blogs.content;
                 let blog_string_div = document.createElement("blog_string");
@@ -110,73 +130,40 @@ function BlogPostCard() {
                           {date}
                         </h2>
 
-       
-                  <h2
-                      className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
-                      style={{
-                        color:
-                          mode === 'dark'
-                            ? 'rgb(226, 232, 240)'
-                            : ' rgb(30, 41, 59)',
-                      }}
-                    >
-                        {text}
-                      
-                    </h2>
-                    
-                    
-             
-            </div>
-            <img
-              onClick={() => navigate(`/bloginfo/${id}`)}
-              className="w-full"
-              src={thumbnail}
-              alt="blog"
-            />
-                    
+                        <h2
+                          className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
+                          style={{
+                            color:
+                              mode === 'dark'
+                                ? 'rgb(226, 232, 240)'
+                                : ' rgb(30, 41, 59)',
+                          }}
+                        >
+                          {text}
+                        </h2>
                       </div>
-                      
-
-                      {/* Top Items  */}
-
-                      <button
-                        onClick={() => {
-                          window.location.href = `/bloginfo/${id}`;
-                        }}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded mr-4 mt-2"
-                      >
-                        Comment
-                      </button>
+                      <img
+                        onClick={() => navigate(`/bloginfo/${id}`)}
+                        className="w-full"
+                        src={thumbnail}
+                        alt="blog"
+                      />
                     </div>
-                 
+                    <button
+                      onClick={() => {
+                        window.location.href = `/bloginfo/${id}`;
+                      }}
+                      className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded mr-4 mt-2"
+                    >
+                      Comment
+                    </button>
+                  </div>
                 );
               })
             ) : (
               <h1 className="text-xl font-bold">Not Found</h1>
             )}
           </div>
-
-          {/* See More Button  */}
-          {sortedBlogs.length > 6 && (
-            <div className="flex justify-center my-5">
-              <Link to={"/allblogs"}>
-                <Button
-                  style={{
-                    background:
-                      mode === "dark"
-                        ? "rgb(226, 232, 240)"
-                        : "rgb(30, 41, 59)",
-                    color:
-                      mode === "dark"
-                        ? "rgb(30, 41, 59)"
-                        : "rgb(226, 232, 240)",
-                  }}
-                >
-                  See More xyz
-                </Button>
-              </Link>
-            </div>
-          )}
         </div>
       </section>
     </div>

@@ -27,6 +27,19 @@ const Policebloginfo = () => {
     // console.log(params.id),
   
     const [getBlogs, setGetBlogs] = useState();
+    const [isPublic, setIsPublic] = useState(true); // Defaulting to public
+     // Function to toggle the status between public and private
+     const toggleStatus = async () => {
+      try {
+          setIsPublic(!isPublic); // Toggle the status
+          const postRef = doc(fireDb, "blogPost", params.id);
+          await updateDoc(postRef, { isPublic: !isPublic }); // Update Firestore document with new status
+          toast.success(`Blog post is now ${!isPublic ? 'public' : 'private'}`);
+      } catch (error) {
+          console.error("Error toggling status: ", error);
+          toast.error('Failed to toggle status');
+      }
+  };
 
   
   
@@ -230,6 +243,20 @@ const Policebloginfo = () => {
                   >
                     Delete Blog
                   </button>
+
+
+
+                  {/* implement private and public button*/}
+                   {/* Buttons to toggle between public and private */}
+                <div className="flex items-center space-x-4 mt-4">
+                    <button
+                        onClick={toggleStatus}
+                        className={`bg-${isPublic ? 'green' : 'red'}-500 hover:bg-${isPublic ? 'green' : 'red'}-600 text-white py-2 px-4 rounded`}
+                    >
+                        {isPublic ? 'Make Private' : 'Make Public'}
+                    </button>
+                  
+                </div>
 
 
 
