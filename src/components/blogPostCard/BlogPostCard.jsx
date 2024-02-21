@@ -13,7 +13,7 @@ import {
   orderBy,
   query,
   updateDoc,
-  where // Import where clause from firebase
+  where, // Import where clause from firebase
 } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { fireDb } from "../../firebase/FirebaseConfig";
@@ -67,6 +67,18 @@ function BlogPostCard() {
     );
   };
 
+  const [modal, setModal] = useState(false);
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  if (modal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
+
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -90,6 +102,25 @@ function BlogPostCard() {
                     className="p-8 sm:w-1/1 bg-white shadow-md rounded-md overflow-hidden"
                     key={index}
                   >
+                    {modal && (
+                      <div className="modal">
+                        <div onClick={toggleModal} className="overlay"></div>
+                        <div className="modal-content">
+                          <h2>Hello Modal</h2>
+                          <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
+                            perferendis suscipit officia recusandae, eveniet quaerat assumenda
+                            id fugit, dignissimos maxime non natus placeat illo iusto!
+                            Sapiente dolorum id maiores dolores? Illum pariatur possimus
+                            quaerat ipsum quos molestiae rem aspernatur dicta tenetur. Sunt
+                            placeat tempora vitae enim incidunt porro fuga ea.
+                          </p>
+                          <button className="close-modal" onClick={toggleModal}>
+                            CLOSE
+                          </button>
+                        </div>
+                      </div>
+                    )}
                     <div
                       style={{
                         background:
@@ -134,9 +165,9 @@ function BlogPostCard() {
                           className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
                           style={{
                             color:
-                              mode === 'dark'
-                                ? 'rgb(226, 232, 240)'
-                                : ' rgb(30, 41, 59)',
+                              mode === "dark"
+                                ? "rgb(226, 232, 240)"
+                                : " rgb(30, 41, 59)",
                           }}
                         >
                           {text}
@@ -157,6 +188,9 @@ function BlogPostCard() {
                     >
                       Comment
                     </button>
+                    <button onClick={toggleModal} className="btn-modal">
+                        Open
+                      </button>
                   </div>
                 );
               })
