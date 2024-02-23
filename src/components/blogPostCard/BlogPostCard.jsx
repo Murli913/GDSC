@@ -32,7 +32,7 @@ function BlogPostCard() {
 
   const navigate = useNavigate();
 
-  const [publicBlogs, setPublicBlogs] = useState([]);
+ 
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState({});
 
