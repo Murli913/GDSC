@@ -1,37 +1,41 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import myContext from '../../context/data/myContext';
 import "./footer.css";
-
+import link1 from "../../assets/links/link1.png";
+import link2 from "../../assets/links/link2.png";
+import link3 from "../../assets/links/link3.png";
+import link4 from "../../assets/links/link4.png";
+import link5 from "../../assets/links/link5.png";
+import link6 from "../../assets/links/link6.png";
 
 function Footer() {
-    const context = useContext(myContext);
-    const { mode } = context;
-   
-    
     return (
-           <footer className="body-font" styles={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#30336b' }}>
-            <section class="footer-slider">
-             <div class="container">
-              <div class="row">
-               <div class="col-12">
-              <div class="footer-carousel owl-carousel">
-                  <a href="https://www.india.gov.in/" target="_blank" title="External site that opens in a new window" class="ext-link"><img alt="india-gov" src="https://services.india.gov.in/assets/images/india-gov.png"/></a>
-                  <a href="https://www.mygov.in/" target="_blank" title="External site that opens in a new window" class="ext-link"><img alt="mygov" src="https://services.india.gov.in/assets/images/mygov.png"/></a>
-                  <a href="https://data.gov.in/" target="_blank" title="External site that opens in a new window" class="ext-link"><img alt="data-gov" src="https://services.india.gov.in/assets/images/data-gov.png"/></a>
-                  <a href="http://www.nic.in/" target="_blank" title="External site that opens in a new window" class="ext-link"><img alt="nic"  src="https://services.india.gov.in/assets/images/logo-nic-blue.png"/></a>
-                  <a href="https://pgportal.gov.in" target="_blank" title="External site that opens in a new window" class="ext-link"><img alt="cpgrams" src="https://services.india.gov.in/assets/images/cpgrams.png"/></a>
-                  <a href="https://www.g20.org" target="_blank" title="External site that opens in a new window" class="ext-link"><img alt="Group of Twenty (G20)"  src="https://services.india.gov.in/assets/images/g20_logo.png"/></a>
-              </div>
-              
-          </div>
-      </div>                
-  </div>
-</section>
-
+        <footer className="body-font overflow-x-hidden" style={{ background: 'none' }}>
+            <section className="footer-slider">
+                <div className="footer-carousel owl-carousel flex justify-between items-center">
+                                <div className="pl-4">
+                                    <a href="https://www.unesco.org/en" target="_blank" title="External site that opens in a new window" className="ext-link w-1/6"><img alt="india-gov" src={link1} /></a>
+                                </div>
+                                <div className="pl-4">
+                                    <a href="https://www.safetolearncoalition.org/" target="_blank" title="External site that opens in a new window" className="ext-link w-1/6"><img alt="mygov" src={link2} /></a>
+                                </div>
+                                <div className="pl-4">
+                                    <a href="https://violenceagainstchildren.un.org/" target="_blank" title="External site that opens in a new window" className="ext-link w-1/6"><img alt="data-gov" src={link3} /></a>
+                                </div>
+                                <div className="pl-4">
+                                    <a href="https://www.end-violence.org/" target="_blank" title="External site that opens in a new window" className="ext-link w-1/6"><img alt="nic" src={link4} /></a>
+                                </div>
+                                <div className="pl-4">
+                                    <a href="https://www.ohchr.org/en/ohchr_homepage" target="_blank" title="External site that opens in a new window" className="ext-link w-1/6"><img alt="cpgrams" src={link5} /></a>
+                                </div>
+                                <div className="pl-4">
+                                    <a href="https://peacekeeping.un.org/en" target="_blank" title="External site that opens in a new window" className="ext-link w-1/6"><img alt="Group of Twenty (G20)" src={link6} /></a>
+                                </div>
+                        </div>
+            </section>
         </footer>
-      
-
-    )
+    );
 }
 
-export default Footer
+export default Footer;
+

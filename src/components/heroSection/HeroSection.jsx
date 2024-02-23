@@ -2,6 +2,13 @@
 import React, { useContext } from 'react';
 import myContext from '../../context/data/myContext';
 import "./HeroSection.css";
+import bannertwo from "../../assets/banner-2.png"
+import bannerthree from "../../assets/banner-3.png"
+import bannerthirteen from "../../assets/banner-13.png"
+import bannerfourteen from "../../assets/banner-14.png"
+import bannerfifteen from "../../assets/banner-15.png"
+import bannersixteen from "../../assets/banner-16.png"
+import bannerseventeen from "../../assets/banner-17.png"
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -26,34 +33,56 @@ function HeroSection() {
    
       <Slider {...settings}>
       <div className="rounded-xl h-[50vh]">
-      <img
-                src="https://dworakpeck.usc.edu/sites/default/files/2018-08/human_traff_square.jpg"
-                alt="image 1"
-                className="h-full w-full object-cover"
-              />
+        <img
+          src={bannerthirteen}
+          alt="image 1"
+          className="h-full w-full object-cover"
+          style={{ objectFit: 'cover' }}
+        />
       </div>
       <div className="rounded-xl h-[50vh]">
       <img
-                src="https://www.fbi.gov/image-repository/stop-human-trafficking-color.jpg/@@images/image/large"
+                src={bannerthree}
                 alt="image 2"
-                className="h-full w-full object-cover"
+                className="object-cover"
+                style={{ objectFit: 'cover' }}
               />
       </div>
       <div className="rounded-xl h-[50vh]">
       <img
-                src="https://av-eks-lekhak.s3.amazonaws.com/media/__sized__/article_images/image_jAUGm1e-thumbnail_webp-600x300.webp"
+                src={bannertwo}
                 alt="image 3"
                 className="h-full w-full object-cover"
               />
       </div>
       <div className="rounded-xl h-[50vh]">
       <img
-                src="https://images.cnbctv18.com/wp-content/uploads/2021/02/sexual-harassment-1000x573.jpg?im=FitAndFill,width=200,height=200"
+                src={bannerfourteen}
                 alt="image 4"
                 className="h-full w-full object-cover"
               />
       </div>
-   
+      <div className="rounded-xl h-[50vh]">
+            <img
+                src={bannerfifteen}
+                alt="image 4"
+                className="h-full w-full object-cover"
+            />
+        </div>
+        <div className="rounded-xl h-[50vh]">
+            <img
+                src={bannersixteen}
+                alt="image 4"
+                className="h-full w-full object-cover"
+            />
+        </div>
+        <div className="rounded-xl h-[50vh]">
+            <img
+                src={bannerseventeen}
+                alt="image 4"
+                className="h-full w-full object-cover"
+            />
+      </div>
     </Slider>
     </section>
   );
