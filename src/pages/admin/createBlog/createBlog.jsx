@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect,useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import myContext from "../../../context/data/myContext";
@@ -15,47 +15,43 @@ import "../../../components/navbar/Navbar";
 import Nav from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import Layout from "../../../components/layout/Layout";
-import Contactus from "../../../email/Contactus"; // Import Contactus component
-const userData = [
-  { name: "Child abuse" },
-  { name: "Human Traffing" },
-  { name: "Sexual harassment" },
-  { name: "Women sexual assault" },
-  { name: "Child migration" },
+
+import emailjs from '@emailjs/browser';
+
+const categories = [
+  "Child abuse",
+  "Human Trafficking",
+  "Sexual harassment",
+  "Women sexual assault",
+  "Child migration",
 ];
 
 function CreateBlog() {
   const context = useContext(myContext);
   const { mode } = context;
-  const [users, setUsers] = useState([]);
+ 
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const navigate = useNavigate();
-
-
-
-  
-
   const [blogs, setBlogs] = useState({
     title: "",
-    category: "",
+    
     content: "",
     time: Timestamp.now(),
   });
-  const [isChecked, setIsChecked] = useState(false);
+
   const [error, setError] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
+  const [errorCategory, setErrorCategory] = useState(false);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    setError(false); // Reset error message when user interacts with checkbox
+ 
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
   };
 
   const addPost = async () => {
-    // if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
-    //     toast.error('Please Fill All Fields');
-    // }
-    // console.log(blogs.content)
+   
     if (blogs.content === "") {
       setErrorContent(true);
     } else {
@@ -66,8 +62,8 @@ function CreateBlog() {
     } else {
       setErrorTitle(false);
     }
-    if (!isChecked) {
-      setError(true);
+    if (selectedCategory === "") {
+      setErrorCategory(false);
     } else {
       uploadImage();
       navigate("/");
@@ -83,12 +79,13 @@ function CreateBlog() {
           addDoc(productRef, {
             blogs,
             location,
-            users,
+           
             author: {
               name: auth.currentUser.displayName,
               id: auth.currentUser.uid,
             },
             thumbnail: url,
+            category: selectedCategory,
             time: Timestamp.now(),
             date: new Date().toLocaleString("en-US", {
               month: "short",
@@ -106,28 +103,7 @@ function CreateBlog() {
     });
   };
 
-  
-
-  // checkbox start
-  useEffect(() => {
-    setUsers(userData);
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, checked } = e.target;
-    if (name === "allSelect") {
-      let tempUser = users.map((user) => {
-        return { ...user, isChecked: checked };
-      });
-      setUsers(tempUser);
-    } else {
-      let tempUser = users.map((user) =>
-        user.name === name ? { ...user, isChecked: checked } : user
-      );
-      setUsers(tempUser);
-    }
-  };
-  //end checkbox
+ 
   const [thumbnail, setthumbnail] = useState();
 
   const [text, settext] = useState("");
@@ -185,6 +161,18 @@ function CreateBlog() {
     const storageRef = ref(storage, "videos/" + Date.now() + ".webm"); // Change the path as needed
     await uploadBytes(storageRef, blob);
   };
+  const form = useRef();
+  function sendEmail(e) {
+    e.preventDefault();
+
+emailjs.sendForm('service_v1gm6rs', 'template_viu5l96', e.target, 'uYtd_6Wk0tLOhJPR8')
+    .then((result) => {
+        console.log(result.text);
+    }, (error) => {
+        console.log(error.text);
+    });
+    e.target.reset()
+}
 
   return (
     <Layout>
@@ -199,7 +187,6 @@ function CreateBlog() {
                 : " 4px solid rgb(30, 41, 59)",
           }}
         >
-             <form>
           {/* Top Item  */}
           <div className="mb-2 flex justify-between">
             <div className="flex gap-2 items-center">
@@ -284,30 +271,30 @@ function CreateBlog() {
                 {" "}
                 <b>Complaint Type</b>
               </label>
-              {/* <div className="form-check">
-                <input
-                  type="checkbox"
-                  className="form-check-input"
-                  name="allSelect"
-                  checked={!users.some((user) => user?.isChecked !== true)}
-                  onChange={handleChange}
-                />
-                <label>All Select</label>
-              </div> */}
-              <div className="mt-4 flex justify-left items-center">
-                {users.map((user, index) => (
-                  <div className="form-check" key={index}>
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      name={user.name}
-                      checked={user?.isChecked || false}
-                      onChange={handleChange}
-                    />
-                    <label className="form-check-label ms-2">{user.name}</label>
-                  </div>
+              
+              {/* Category Dropdown */}
+            <div className="mb-3">
+              <select
+                className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
+                "
+                style={{
+                  background:
+                    mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                }}
+                onChange={handleCategoryChange}
+                value={selectedCategory}
+              >
+                <option value="">Select Category</option>
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
                 ))}
-              </div>
+              </select>
+              {errorCategory && (
+                <p style={{ color: "red" }}>Please select a category.</p>
+              )}
+            </div>
             </div>
           </div>
           {/* Third Title Input */}
@@ -340,9 +327,15 @@ function CreateBlog() {
               </button>
               <button
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded "
-                onClick={stopRecordingg}
+                onClick={stopRecording}
               >
                 Stop Recording
+              </button>{" "}
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded "
+                onClick={stopRecordingg}
+              >
+                Upload Video
               </button>{" "}
               <br></br>
               <br></br>
@@ -375,8 +368,8 @@ function CreateBlog() {
               type="checkbox"
               id="acceptCheckbox"
               className="form-check-input"
-              checked={isChecked}
-              onChange={handleCheckboxChange}
+              // checked={isChecked}
+              // onChange={handleCheckboxChange}
             />
             <label htmlFor="acceptCheckbox" className="ml-2">
               I Accept
@@ -398,11 +391,13 @@ function CreateBlog() {
             >
               Submit
             </Button>
+            <form onSubmit={sendEmail}>
+                   
+            <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" value="Send Notification to Police"/>
+
+                      
+                </form>
           </div>
-          </form>
-           {/* Contactus Component */}
-           <Contactus />
-            
         </div>
       </div>
     </Layout>

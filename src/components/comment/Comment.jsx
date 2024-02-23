@@ -6,7 +6,6 @@ import { auth } from "../../firebase/FirebaseConfig";
 
 function Comment({
   addComment,
-  addReplyComment,
   commentText,
   setcommentText,
   allComment,
@@ -29,38 +28,7 @@ function Comment({
     navigate("/adminlogin");
   };
 
-  const [replyingTo, setReplyingTo] = useState(null);
-  const [replyText, setReplyText] = useState("");
-
-  const handleReply = (comment) => {
-    setReplyingTo(comment);
-    console.log("comment", comment);
-    setReplyText(`@${comment.fullName} `); // Set default reply text
-  };
-
-  const handleCancelReply = () => {
-    setReplyingTo(null);
-    setReplyText("");
-  };
-
-  const handleAddReply = (comment) => {
-    if (!replyText.trim()) {
-      alert("Please enter a reply.");
-      return;
-    }
-
-    // Implement logic to add reply to the comment
-    // For demonstration, let's assume addComment function supports replies
-    // In real implementation, you need to update addComment function accordingly
-    // addReplyComment(`Reply to ${comment.id}: ${replyText}`);
-    addReplyComment(comment.id, replyText);
-    console.log("replyText", replyText);
-
-    // Clear reply text and reset replyingTo state
-    setReplyText("");
-    setReplyingTo(null);
-  };
-
+ 
   return (
     <section className="py-8 lg:py-16">
       <div className="max-w-2xl mx-auto px-4">
@@ -182,20 +150,7 @@ function Comment({
                 ↳ {commentText}
               </p>
               <div>
-                <Button onClick={() => handleReply(item)}>Reply</Button>
-                {replyingTo === item && (
-                  <div className="mt-4">
-                    <textarea
-                      value={replyText}
-                      onChange={(e) => setReplyText(e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      rows={3}
-                      placeholder={`Reply to ${fullName}`}
-                    />
-                    <Button onClick={handleCancelReply}>Cancel</Button>
-                    <Button onClick={() => handleAddReply(item)}>Submit</Button>
-                  </div>
-                )}
+               
               </div>
             </div>
           );

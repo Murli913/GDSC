@@ -12,6 +12,7 @@ import {
   orderBy,
   query,
   updateDoc,
+  getDocs,
 } from "firebase/firestore";
 import { fireDb } from "../../firebase/FirebaseConfig";
 import Loader from "../../components/loader/Loader";
@@ -203,31 +204,7 @@ function BlogInfo() {
       console.log(error);
     }
   };
-  const addReplyComment = async (originalCommentId, replyText) => {
-    const commentRef = collection(
-      fireDb,
-      "blogPost/" + `${params.id}/` + "comment"
-    );
-
-    try {
-      await addDoc(commentRef, {
-        fullName,
-        commentText: replyText,
-        time: Timestamp.now(),
-        date: new Date().toLocaleString("en-US", {
-          month: "short",
-          day: "2-digit",
-          year: "numeric",
-        }),
-        originalCommentId: originalCommentId, // Include the ID of the original comment
-      });
-      toast.success("Reply Added Successfully");
-      setFullName("");
-      setCommentText("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
 
   const [allComment, setAllComment] = useState([]);
 
@@ -258,13 +235,74 @@ function BlogInfo() {
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
-      localStorage.setItem("current user uid", auth.currentUser.uid);
-      localStorage.setItem("isAuth", true);
-      toast.success("Login sucess");
-      // setIsAuth(true);
-      navigate("/bloginfo/:id");
+      const user = result.user;
+      console.log("result user", user);
+      const userDetails = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        userid: user.uid,
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+        // Add any other user details you want to store
+      };
+  
+      // Save user details to Firestore under 'users' collection
+      const userRef = doc(fireDb, "users", user.uid);
+      setDoc(userRef, userDetails)
+        .then(() => {
+          localStorage.setItem("current user uid", user.uid);
+          localStorage.setItem("isAuth", true);
+          toast.success('Login success');
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          toast.error('Error occurred during login');
+        });
     });
   };
+
+  const [replyTo, setReplyTo] = useState(null); // State to track which comment to reply to
+  const [replyText, setReplyText] = useState(""); // State to hold the reply text
+
+  // Your existing functions here...
+
+  const handleReply = (commentId) => {
+    setReplyTo(commentId);
+  };
+
+  const addReply = async (commentId, replyText) => {
+    const commentRef = doc(fireDb, "blogPost", params.id, "comment", commentId);
+    try {
+      await addDoc(collection(commentRef, "replies"), {
+        fullName: fullName,
+        replyText: replyText,
+        time: Timestamp.now(),
+      });
+      toast.success("Reply added successfully");
+    } catch (error) {
+      console.error("Error adding reply: ", error);
+      toast.error("Failed to add reply");
+    }
+  };
+  
+   // Fetch replies for a comment
+   const getRepliesForComment = async (commentId) => {
+    try {
+      const repliesRef = collection(fireDb, "blogPost", params.id, "comment", commentId, "replies");
+      const repliesSnapshot = await getDocs(repliesRef);
+      const repliesData = repliesSnapshot.docs.map((doc) => doc.data());
+      return repliesData;
+    } catch (error) {
+      console.error("Error getting replies: ", error);
+      return [];
+    }
+  };
+
 
   return (
     <Layout>
@@ -397,15 +435,55 @@ function BlogInfo() {
           )}
         </div>
 
-        <Comment
+        {/* <Comment
           addComment={addComment}
-          addReplyComment={addReplyComment}
           commentText={commentText}
           setcommentText={setCommentText}
           allComment={allComment}
           fullName={fullName}
           setFullName={setFullName}
-        />
+        /> */}
+{allComment.map((comment, index) => (
+        <div key={index} className="comment-container">
+          <p>{comment.commentText}</p>
+          {/* Reply button */}
+          <button onClick={() => handleReply(comment.id)}>Reply</button>
+          {/* Display replies */}
+          {comment.replies && comment.replies.map((reply, idx) => (
+            <div key={idx} className="reply-container">
+              <p>{reply.replyText}</p>
+            </div>
+          ))}
+          {/* Fetch and display replies */}
+          {replyTo === comment.id && (
+            <div className="replies-container">
+              <h3>Replies:</h3>
+              {getRepliesForComment(comment.id).map((reply, idx) => (
+                <div key={idx} className="reply-container">
+                  <p>{reply.replyText}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {/* Reply form */}
+          {replyTo === comment.id && (
+            <div className="reply-form">
+              <input type="text" value={replyText} onChange={(e) => setReplyText(e.target.value)} />
+              <button onClick={() => addReply(comment.id, replyText)}>Add Reply</button>
+            </div>
+          )}
+        </div>
+      ))}
+
+
+
+
+
+
+
+
+
+
       </section>
     </Layout>
   );

@@ -24,6 +24,8 @@ import PoliceLogin from "./Police/PoliceLogin/PoliceLogin";
 import PoliceForgot from "./Police/PoliceForgot/PoliceForgot";
 import Policeallblogs from "./Police/Policeallblogs/Policeallblogs";
 import Policebloginfo from "./Police/Policebloginfo/Policebloginfo";
+import SucessStory from "./pages/SucessStory/SucessStory";
+import SucessInfo from "./pages/SucessInfo/SucessInfo";
 
 
 
@@ -49,6 +51,8 @@ function App() {
           <Route path="/policereset" element={<PoliceForgot  />} />
           <Route path="/policeallblogs" element={<Policeallblogs  />} />
           <Route path="/policebloginfo/:id" element={<Policebloginfo />} />
+          <Route path="/sucessstory" element={<SucessStory />} />
+          <Route path="/sucessinfo/:id" element={<SucessInfo />} />
           <Route path="/dashboard" element={
             <ProtectedRouteForAdmin>
               <Dashboard />
