@@ -36,7 +36,7 @@ const PoliceLogin = () => {
           localStorage.setItem("current user uid", user.uid);
           localStorage.setItem("isAuth", true);
           toast.success('Login success');
-          history("/");
+          history("/policehome");
         })
         .catch((error) => {
           console.error("Error adding document: ", error);
