@@ -6,6 +6,7 @@ import Footer from '../../components/footer/Footer'
 import SucessStory from '../SucessStory/SucessStory'
 
 import "./home.css";
+import GoMap from '../GoMap/GoMap'
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
   </div>
   </div>
 </div>
+<GoMap/>
     </Layout>
   )
 }

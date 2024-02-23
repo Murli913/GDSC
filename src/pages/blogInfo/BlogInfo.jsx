@@ -82,7 +82,7 @@ function BlogInfo() {
       if (docSnap.exists()) {
         const blogPostData = docSnap.data();
         const likedByUserRef = doc(fireDb, "likes", `${params.id}_${userId}`);
-        const likeDocSnap = await getDoc(likedByUserRef);
+       const likeDocSnap = await getDoc(likedByUserRef);
         if (likeDocSnap.exists()) {
           console.log("User has already liked this post.");
           toast.success("User has already liked this post.");
@@ -93,7 +93,7 @@ function BlogInfo() {
         await updateDoc(likesRef, { likesCount: updatedLikesCnt });
         setLikesCnt(updatedLikesCnt);
 
-        await setDoc(likedByUserRef, { liked: true });
+        //await setDoc(likedByUserRef, { liked: true });
         toast.success("Likes Updated Successfully");
       } else {
         await setDoc(likesRef, { likesCount: 1 });
@@ -127,7 +127,7 @@ function BlogInfo() {
           "dislikes",
           `${params.id}_${userId}`
         );
-        const dislikeDocSnap = await getDoc(dislikedByUserRef);
+       const dislikeDocSnap = await getDoc(dislikedByUserRef);
         if (dislikeDocSnap.exists()) {
           console.log("User has already disliked this post.");
           toast.success("User has already disliked this post.");

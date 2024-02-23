@@ -10,7 +10,8 @@ function Dashboard() {
   const context = useContext(myContext);
   const { mode, getAllBlog, deleteBlogs } = context;
   const navigate = useNavigate();
-
+  const userBlogs = getAllBlog.filter(blog => blog.author.id === auth.currentUser.uid);
+ 
   console.log("Hello Duniya!!", getAllBlog);
 
   const logout = () => {
@@ -29,7 +30,7 @@ function Dashboard() {
           <div className="left">
             <img
               className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
-              src={auth.currentUser.photoURL}
+              src={auth.currentUser?.photoURL}
               alt="profile"
             />
           </div>
@@ -38,14 +39,14 @@ function Dashboard() {
               className="text-center font-bold text-2xl mb-2"
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              Welcome, {auth.currentUser.displayName}
+              Welcome, {auth.currentUser?.displayName}
             </h1>
 
             <h2
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              {auth.currentUser.email}
+              {auth.currentUser?.email}
             </h2>
           </div>
         </div>
@@ -54,6 +55,10 @@ function Dashboard() {
                  ${mode === "dark" ? "border-gray-300" : "border-gray-400"}`}
         />
       </div>
+      {
+      console.log("current user details",auth.currentUser)
+      }
+
       {/* <div>
         {getAllBlog.length > 0 ? (
           <div>
@@ -71,7 +76,7 @@ function Dashboard() {
           </div>
         )}
       </div> */}
-      <div>
+      {/* <div>
         {getAllBlog.length > 0 ? (
           <BlogCards getAllBlog={getAllBlog} auth={auth} />
         ) : (
@@ -79,7 +84,7 @@ function Dashboard() {
             <h1>Not Found</h1>
           </div>
         )}
-      </div>
+      </div> */}
     </Layout>
   );
 }

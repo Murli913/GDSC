@@ -27,6 +27,8 @@ import Policeallblogs from "./Police/Policeallblogs/Policeallblogs";
 import Policebloginfo from "./Police/Policebloginfo/Policebloginfo";
 import SucessStory from "./pages/SucessStory/SucessStory";
 import SucessInfo from "./pages/SucessInfo/SucessInfo";
+import GoMap from "./pages/GoMap/GoMap";
+
 
 
 
@@ -68,7 +70,7 @@ function App() {
             }
           />
           <Route path="/createblog" element={<CreateBlog />} />
-
+          <Route path="/map" element={<GoMap/>} />
           <Route path="/*" element={<NoPage />} />
         </Routes>
         <Toaster />
