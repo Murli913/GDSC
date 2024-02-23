@@ -24,6 +24,26 @@ const categories = [
   "Sexual harassment",
   "Women sexual assault",
   "Child migration",
+
+" Child Pornography / Child Sexual Abuse Matter",
+"Rape/Gang Rape",
+"Publishing or Transmitting of Sexually Obcene material in electronic form",
+"Financial Fraud",
+"Hacking and Unauthorized Access",
+"Physical Assault and Violence",
+
+"Kidnapping and Missing Persons",
+"Domestic Violence",
+"Human Trafficking",
+  "Public Nuisance and Disorderly Conduct",
+"Drug Trafficking and Substance Abuse",
+ "Environmental Crimes",
+ "Workplace Harassment",
+"Discrimination and Hate Crimes",
+"Public Health Violations",
+"Animal Cruelty",
+"Public Corruption and Bribery",
+"Traffic Violations and Road Safety"
 ];
 
 function CreateBlog() {
@@ -74,14 +94,12 @@ function CreateBlog() {
     if (selectedCategory === "") {
       setErrorCategory(false);
     } else {
-      uploadImage();
-      navigate("/");
+      setErrorCategory(true);
     }
     if (!isChecked) {
       setError(true);
     } else {
-      uploadImage();
-      navigate("/");
+      setError(false);
     }
     if (!isDisclaimerChecked) {
       setIsDisclaimerError(true);
@@ -314,31 +332,12 @@ function CreateBlog() {
                 onChange={handleCategoryChange}
                 value={selectedCategory}
               >
-                  <option value="">Select Category</option>
-                  <option value="">Child Pornography / Child Sexual Abuse Matter</option>
-                  <option value="">Rape/Gang Rape</option>
-                  <option value="">Publishing or Transmitting of Sexually Obcene material in electronic form</option>
-                  <option value="">Financial Fraud</option>
-                  <option value="">Hacking and Unauthorized Access</option>
-                  <option value="">Physical Assault and Violence</option>
-                  <option value="">Theft and Burglary</option>
-                  <option value="">Kidnapping and Missing Persons</option>
-                  <option value="">Domestic Violence</option>
-                  <option value="">Human Trafficking</option>
-                  <option value="">Public Nuisance and Disorderly Conduct</option>
-                  <option value="">Drug Trafficking and Substance Abuse</option>
-                  <option value="">Environmental Crimes</option>
-                  <option value="">Workplace Harassment</option>
-                  <option value="">Discrimination and Hate Crimes</option>
-                  <option value="">Public Health Violations</option>
-                  <option value="">Animal Cruelty</option>
-                  <option value="">Public Corruption and Bribery</option>
-                  <option value="">Traffic Violations and Road Safety</option>
-                {/* {categories.map((category, index) => (
+                 
+                {categories.map((category, index) => (
                   <option key={index} value={category}>
                     {category}
                   </option>
-                ))} */}
+                ))}
               </select>
               {errorCategory && (
                 <p style={{ color: "red" }}>Please select a category.</p>
