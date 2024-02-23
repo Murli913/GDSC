@@ -38,38 +38,39 @@ export default function Nav() {
     navigate("/policelogin");
   };
 
-     const signInWithGoogle = () => {
-      signInWithPopup(auth, provider).then((result) => {
-        const user = result.user;
-        console.log("result user", user);
-        const userDetails = {
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          userid: user.uid,
-          date: new Date().toLocaleString("en-US", {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-          }),
-          // Add any other user details you want to store
-        };
-    
-        // Save user details to Firestore under 'users' collection
-        const userRef = doc(fireDb, "users", user.uid);
-        setDoc(userRef, userDetails)
-          .then(() => {
-            localStorage.setItem("current user uid", user.uid);
-            localStorage.setItem("isAuth", true);
-            toast.success('Login success');
-            navigate("/");
-          })
-          .catch((error) => {
-            console.error("Error adding document: ", error);
-            toast.error('Error occurred during login');
-          });
-      });
-    };
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      const user = result.user;
+      console.log("result user", user);
+      const userDetails = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        userid: user.uid,
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+        // Add any other user details you want to store
+      };
+
+      // Save user details to Firestore under 'users' collection
+      const userRef = doc(fireDb, "users", user.uid);
+      setDoc(userRef, userDetails)
+        .then(() => {
+          localStorage.setItem("current user uid", user.uid);
+          localStorage.setItem("isAuth", true);
+          toast.success("Login success");
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          toast.error("Error occurred during login");
+        });
+      ``;
+    });
+  };
 
   // All NavList
   const navList = (
@@ -81,14 +82,13 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "black" }}
       >
-  <NavLink
-  exact
-  to={"/"} // Make sure this path matches the route for the home page
-  activeClassName="active-link"
->
-  Home
-</NavLink>
-
+        <NavLink
+          exact
+          to={"/"} // Make sure this path matches the route for the home page
+          activeClassName="active-link"
+        >
+          Home
+        </NavLink>
       </Typography>
       <Typography
         as="li"
@@ -178,10 +178,10 @@ export default function Nav() {
         variant="small"
         color="blue-gray"
         className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "white" }}
+        style={{ color: mode === "dark" ? "white" : "black" }}
       >
         <NavLink to={"/sucessstory"} activeClassName="active-link">
-          SucessStory
+          Success Stories
         </NavLink>
       </Typography>
     </ul>
