@@ -1,0 +1,7 @@
+textarea {
+  overflow: hidden;
+  height: 40px; /* Set height to auto */
+  resize: true;
+}
+
+

@@ -13,7 +13,7 @@ import {
   orderBy,
   query,
   updateDoc,
-  where // Import where clause from firebase
+  where, // Import where clause from firebase
 } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { fireDb } from "../../firebase/FirebaseConfig";
@@ -32,6 +32,33 @@ function BlogPostCard() {
 
   const navigate = useNavigate();
 
+  const [publicBlogs, setPublicBlogs] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState({});
+
+  useEffect(() => {
+    const fetchPublicBlogs = async () => {
+      try {
+        const q = query(
+          collection(fireDb, "blogPost"),
+          where("isPublic", "==", true), // Filter only public blogs
+          orderBy("date", "desc")
+        );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const blogs = [];
+          querySnapshot.forEach((doc) => {
+            blogs.push({ id: doc.id, ...doc.data() });
+          });
+          setPublicBlogs(blogs);
+        });
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error fetching public blogs: ", error);
+      }
+    };
+
+    fetchPublicBlogs();
+  }, []); // Empty dependency array ensures the effect runs only once
 
   const [loading, setLoading] = useState(true); // State to manage loading status
 
@@ -39,13 +66,18 @@ function BlogPostCard() {
 
   console.log("Public blogs:", publicBlogs);
 
-  const openPopup = (url) => {
-    window.open(
-      url,
-      "_blank",
-      "width=600,height=400,resizable=yes,scrollbars=yes"
-    );
+  const toggleModal = (id) => {
+    const selectedBlog = publicBlogs.find((blog) => blog.id === id);
+    console.log("modalData:", selectedBlog);
+    setModalData(selectedBlog);
+    setModal(true);
   };
+
+  if (modal) {
+    document.body.classList.add("active-modal");
+  } else {
+    document.body.classList.remove("active-modal");
+  }
 
   return (
     <div>
@@ -78,6 +110,35 @@ console.log("testing items", item);
                       className="p-8 sm:w-1/1 bg-white shadow-md rounded-md overflow-hidden"
                       key={index}
                     >
+                    {modal && (
+                      <div className="modal">
+                        <div
+                          onClick={() => setModal(false)}
+                          className="overlay"
+                        ></div>
+                        <div className="modal-content">
+                          <h2>Hello Modal</h2>
+                          <p>
+                            <img
+                              onClick={() => navigate(`/bloginfo/${id}`)}
+                              className="w-full"
+                              src={modalData.thumbnail}
+                              alt="blog"
+                            />
+                            {modalData.blogs.content}
+                            <br></br>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit.
+                          </p>
+                          <button
+                            className="close-modal"
+                            onClick={() => setModal(false)}
+                          >
+                            CLOSE
+                          </button>
+                        </div>
+                      </div>
+                    )}
                       <div
                         style={{
                           background:
@@ -95,7 +156,7 @@ console.log("testing items", item);
                         <div className="p-6">
                           {/* Blog Title  */}
                           <h1
-                            className="title-font text-lg font-bold text-gray-900 mb-3"
+                            className="title-font text-2xl font-bold text-gray-900 mb-3"
                             style={{
                               color:
                                 mode === "dark"

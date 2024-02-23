@@ -1,9 +1,9 @@
-import { Button } from "@material-tailwind/react";
 import React, { useContext, useEffect, useState } from "react";
 import myContext from "../../context/data/myContext";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/FirebaseConfig";
-
+import { Button } from "@material-tailwind/react";
+import "./Comment.css";
 function Comment({
   addComment,
   commentText,
@@ -11,13 +11,13 @@ function Comment({
   allComment,
   fullName,
   setFullName,
+  replies,
+  setReplies,
 }) {
   useEffect(() => {
-    // Set fullName to user's display name if it exists
     setFullName(
       auth.currentUser?.displayName ? auth.currentUser?.displayName : ""
     );
-    // }
   }, [auth.currentUser]);
 
   const context = useContext(myContext);
@@ -28,134 +28,119 @@ function Comment({
     navigate("/adminlogin");
   };
 
- 
-  return (
-    <section className="py-8 lg:py-16">
-      <div className="max-w-2xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-3">
-          <h2
-            className="text-lg lg:text-2xl font-bold"
-            style={{ color: mode === "dark" ? "white" : "black" }}
-          >
-            Make Comment
-          </h2>
-        </div>
-        {/* Comment Form  */}
-        <img
-          className=" w-10 h-10  object-cover rounded-full border-2 border-pink-600 p-1"
-          src={auth.currentUser?.photoURL ? auth.currentUser.photoURL : " "}
-          alt="profile"
-        />
-        <h1>{fullName}</h1>
-        <form className="mb-6">
-          {/* Full Name Input  */}
-          {/* <div
-            className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
-            shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200"
-            style={{
-              background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-            }}
-          >
-            <input
-              value={fullName}
-              onChange={() => setFullName(auth.currentUser.displayName)}
-              type="text"
-              className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
-              style={{
-                background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-              }}
-            />
-          </div> */}
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [replyText, setReplyText] = useState("");
 
-          {/* Text Area  */}
-          <div
-            className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
-          shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200 "
-            style={{
-              background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-            }}
-          >
-            <label htmlFor="comment" className="sr-only">
-              Your comment
-            </label>
-            <textarea
-              value={commentText}
-              onChange={(e) => setcommentText(e.target.value)}
-              id="comment"
-              rows={6}
-              className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
-              style={{
-                background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-              }}
-              placeholder="Write a comment..."
-              required
-              defaultValue={""}
-            />
+  const handleReply = (comment) => {
+    setReplies(comment);
+    setReplyingTo(comment);
+    setReplyText(`@${comment.fullName} `); // Set default reply text
+  };
+
+  const handleCancelReply = () => {
+    setReplyingTo(null);
+    setReplyText("");
+  };
+
+  const handleAddReply = (originalCommentId) => {
+    if (!replyText.trim()) {
+      alert("Please enter a reply.");
+      return;
+    }
+
+    console.log("replies----------->", replies);
+    // Add the reply with the original comment ID
+    addReplyComment(originalCommentId, replyText);
+
+    // Clear reply text and reset replyingTo state
+    setReplyText("");
+    setReplyingTo(null);
+  };
+
+  const renderComments = (comments, level = 0) => {
+    return comments.map((item) => {
+      const { id, fullName, commentText, date, replies } = item;
+      console.log("Rendering comment with id:", id, "at level:", level); // Added console log
+      return (
+        <div key={id} className={`ml-${level * 4}`}>
+          <footer className="flex justify-between items-center mb-2">
+            <div className="flex items-center px-2 py-1 rounded-lg">
+              <p className="inline-flex items-center mr-3 text-lg">
+                {fullName}
+              </p>
+              <p className="text-sm">{date}</p>
+            </div>
+          </footer>
+          <div className="flex items-center bg-gray-200 px-2 py-1 rounded-lg">
+            <p
+              className="text-gray-500 text-md"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              {commentText}
+            </p>
           </div>
-          {/* Button  */}
-          <div className="">
-            {isAuth ? (
-              <Button
-                onClick={addComment}
-                style={{
-                  background:
-                    mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-                  color:
-                    mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
-                }}
+          <div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <NavLink
+                style={{ marginLeft: "auto" }}
+                onClick={() => handleReply(item)}
               >
-                Post comment
-              </Button>
-            ) : (
-              <Button
-                onClick={gotoLogin}
-                style={{
-                  background:
-                    mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-                  color:
-                    mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
-                }}
-              >
-                Post comment
-              </Button>
+                Reply
+              </NavLink>
+            </div>
+            {replyingTo === item && (
+              <div className="mt-4">
+                <textarea
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  rows={3}
+                  placeholder={`Reply to ${fullName}`}
+                />
+                <Button onClick={handleCancelReply}>Cancel</Button>
+                <Button onClick={() => handleAddReply(id)}>Submit</Button>
+              </div>
             )}
           </div>
-        </form>
-
-        {/* Comments Section */}
-        {allComment.map((item) => {
-          const { id, fullName, commentText, date } = item;
-          return (
-            <div key={id} className="mb-6">
-              <footer className="flex justify-between items-center mb-">
-                <div className="flex items-center my-2 bg-white px-2 py-1 rounded-lg">
-                  <p
-                    className="inline-flex items-center mr-3 text-lg"
-                    style={{ color: mode === "dark" ? "black" : "black" }}
-                  >
-                    {fullName}
-                  </p>
-                  <p
-                    className="text-sm"
-                    style={{ color: mode === "dark" ? "black" : "black" }}
-                  >
-                    {date}
-                  </p>
-                </div>
-              </footer>
-              <p
-                className="text-gray-500 dark:text-gray-400 text-md"
-                style={{ color: mode === "dark" ? "white" : "black" }}
-              >
-                ↳ {commentText}
-              </p>
-              <div>
-               
-              </div>
+          {replies === id && (
+            <div className={`ml-${(level + 1) * 4}`}>
+              {renderComments(item, level + 1)} {/* Incrementing level */}
             </div>
-          );
-        })}
+          )}
+        </div>
+      );
+    });
+  };
+
+  return (
+    <section>
+      <div className="flex">
+        <img
+          className="w-10 h-10 object-cover rounded-full border-2 border-pink-600 p-1"
+          src={auth.currentUser?.photoURL ? auth.currentUser.photoURL : ""}
+          alt="profile"
+        />
+        <div className="mt-2">{fullName}</div>
       </div>
+      <form>
+        <textarea
+          value={commentText}
+          onChange={(e) => setcommentText(e.target.value)}
+          id="comment"
+          rows={6}
+          className="w-full p-2 border border-gray-300 rounded-md"
+          placeholder="Write a comment..."
+          required
+        />
+        {isAuth ? (
+          <Button className="mt-2" onClick={addComment}>
+            Post
+          </Button>
+        ) : (
+          <Button onClick={gotoLogin}>Post</Button>
+        )}
+      </form>
+      {renderComments(allComment)}
     </section>
   );
 }
