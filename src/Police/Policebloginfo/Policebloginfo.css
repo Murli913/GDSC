@@ -1,0 +1,16 @@
+/* Container div for the buttons */
+.button-container {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Distribute space between the buttons */
+  }
+  
+  /* Style for the buttons */
+  .button-container button {
+    width: 150px; /* Set a fixed width for the buttons */
+  }
+  
+  /* Additional styling for the buttons */
+  .button-container button:first-child {
+    margin-right: 10px; /* Add margin to the right of the first button for space */
+  }
+  
