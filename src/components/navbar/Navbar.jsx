@@ -13,12 +13,13 @@ import myContext from "../../context/data/myContext";
 import SearchDialog from "../searchDialog/SearchDialog";
 import ShareDialogBox from "../shareDialogBox/ShareDialog";
 import "./Navbar.css";
-
+import { FaChevronDown } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
 import { auth, fireDb, provider } from "../../firebase/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { SiGooglemaps } from "react-icons/si";
+import logo from "../../assets/globe.png"
 export default function Nav() {
   const [openNav, setOpenNav] = React.useState(false);
   const location = useLocation();
@@ -37,44 +38,45 @@ export default function Nav() {
     navigate("/map");
   };
   const signwithoutuser = () => {
-    navigate("/terms");
+    navigate("/createblog");
   };
   const signInWithpolice = () => {
     navigate("/policelogin");
   };
 
-     const signInWithGoogle = () => {
-      signInWithPopup(auth, provider).then((result) => {
-        const user = result.user;
-        console.log("result user", user);
-        const userDetails = {
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          userid: user.uid,
-          date: new Date().toLocaleString("en-US", {
-            month: "short",
-            day: "2-digit",
-            year: "numeric",
-          }),
-          // Add any other user details you want to store
-        };
-    
-        // Save user details to Firestore under 'users' collection
-        const userRef = doc(fireDb, "users", user.uid);
-        setDoc(userRef, userDetails)
-          .then(() => {
-            localStorage.setItem("current user uid", user.uid);
-            localStorage.setItem("isAuth", true);
-            toast.success('Login success');
-            navigate("/");
-          })
-          .catch((error) => {
-            console.error("Error adding document: ", error);
-            toast.error('Error occurred during login');
-          });
-      });
-    };
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider).then((result) => {
+      const user = result.user;
+      console.log("result user", user);
+      const userDetails = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        userid: user.uid,
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+        // Add any other user details you want to store
+      };
+
+      // Save user details to Firestore under 'users' collection
+      const userRef = doc(fireDb, "users", user.uid);
+      setDoc(userRef, userDetails)
+        .then(() => {
+          localStorage.setItem("current user uid", user.uid);
+          localStorage.setItem("isAuth", true);
+          toast.success("Login success");
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          toast.error("Error occurred during login");
+        });
+      ``;
+    });
+  };
 
   // All NavList
   const navList = (
@@ -86,14 +88,13 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "black" }}
       >
-  <NavLink
-  exact
-  to={"/"} // Make sure this path matches the route for the home page
-  activeClassName="active-link"
->
-  Home
-</NavLink>
-
+        <NavLink
+          exact
+          to={"/"} // Make sure this path matches the route for the home page
+          activeClassName="active-link"
+        >
+          Home
+        </NavLink>
       </Typography>
       <Typography
         as="li"
@@ -115,12 +116,11 @@ export default function Nav() {
           className="p-1 font-normal"
           style={{ color: mode === "dark" ? "white" : "black" }}
         >
-          <div class="navbar">
+          <div>
             <div class="dropdown">
-              <Link class="dropbtn">
-                New Complaint
-                <i class="fa fa-caret-down"></i>
-              </Link>
+              <Link class="dropbtn">New Complaint</Link>
+              <FaChevronDown className="mt-5" />
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
               <div class="dropdown-content">
                 <a href="#" onClick={signwithoutuser}>
                   Anonymously{" "}
@@ -167,11 +167,9 @@ export default function Nav() {
           <Link
             onClick={logout}
             style={{
-              background:
-                mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-              color: mode === "dark" ? "black" : "white",
+              color: mode === "dark" ? "black" : "black",
             }}
-            className="px-8 py-2"
+            className="px-1 py-2"
           >
             Logout
           </Link>
@@ -183,10 +181,10 @@ export default function Nav() {
         variant="small"
         color="blue-gray"
         className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "white" }}
+        style={{ color: mode === "dark" ? "white" : "black" }}
       >
         <NavLink to={"/sucessstory"} activeClassName="active-link">
-          SucessStory
+          Success Stories
         </NavLink>
       </Typography>
     </ul>
@@ -211,10 +209,10 @@ export default function Nav() {
               {/* Logo Image  */}
               <img
                 className=" w-10 h-10 "
-                src="https://scontent.fblr18-1.fna.fbcdn.net/v/t39.30808-6/428618422_122095216424226909_4659424453591039977_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=oijOVRXLttQAX9yj80G&_nc_ht=scontent.fblr18-1.fna&oh=00_AfCCMFvKwCaTE0poSj-VxgnBeUcS4YsDlFBRWNDkMuJjgg&oe=65DEAE9F"
+                src={logo}
               />
               {/* Logo Text  */}
-              <span>Peace Fuse</span>
+              <span>PeaceFuse</span>
             </Typography>
           </Link>
 
