@@ -19,11 +19,13 @@ import Layout from "../../../components/layout/Layout";
 import emailjs from "@emailjs/browser";
 
 const categories = [
+  "Select a category",
   "Child abuse",
   "Human Trafficking",
   "Sexual harassment",
   "Women sexual assault",
   "Child migration",
+  "Other",
 
 " Child Pornography / Child Sexual Abuse Matter",
 "Rape/Gang Rape",
@@ -51,6 +53,7 @@ function CreateBlog() {
   const { mode } = context;
 
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [otherSelected, setotherSelected] = useState(false);
 
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState({
@@ -78,6 +81,12 @@ function CreateBlog() {
   };
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
+    console.log("handleCategoryChange--->", e.target.value);
+    if (e.target.value === "Other") {
+      setotherSelected(true);
+    } else {
+      setotherSelected(false);
+    }
   };
 
   const addPost = async () => {
@@ -202,7 +211,7 @@ function CreateBlog() {
   const form = useRef();
   function sendEmail(e) {
     e.preventDefault();
-
+    addPost();
     emailjs
       .sendForm(
         "service_v1gm6rs",
@@ -342,27 +351,33 @@ function CreateBlog() {
               {errorCategory && (
                 <p style={{ color: "red" }}>Please select a category.</p>
               )}
-            </div>
+            
+                  
+              </div>
             </div>
           </div>
           {/* Third Title Input */}
-          <div className="mb-3">
-            <input
-              label="Enter your Category"
-              className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
+          {otherSelected && (
+            <div className="mb-3">
+              <input
+                label="Enter your Category"
+                className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                  outline-none ${
                    mode === "dark" ? "placeholder-black" : "placeholder-black"
                  }`}
-              placeholder="Enter any other"
-              style={{
-                background: mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
-              }}
-              name="title"
-              onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
-              value={blogs.category}
-            />
-          </div>
-
+                placeholder="Enter other Category"
+                style={{
+                  background:
+                    mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                }}
+                name="title"
+                onChange={(e) =>
+                  setBlogs({ ...blogs, category: e.target.value })
+                }
+                value={blogs.category}
+              />
+            </div>
+          )}
           {/*fourth title*/}
           <div className="mb-3">
             <div className="inputGp">

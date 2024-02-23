@@ -1,107 +1,105 @@
-import { Button } from "@material-tailwind/react";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import myContext from "../../context/data/myContext";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import Layout from "../../components/layout/Layout";
+
 const SucessStory = () => {
   const context = useContext(myContext);
   const { mode, getAllstory } = context;
-  // console.log(getAllBlog)
-
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(true);
+      setCurrentIndex((prevIndex) =>
+        prevIndex === getAllstory.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change slide every 5 seconds
+
+    // Clear the interval on component unmount to prevent memory leaks
+    return () => clearInterval(interval);
+  }, [getAllstory.length]);
+
+  const toggleVisibility = () => {
+    setIsVisible(!isVisible);
+  };
+
   return (
-    <section>
-      <div className="py-10 mx-auto max-w-7xl">
-        {/* Main Content  */}
-        <div>
-          {/* className=" flex flex-wrap justify-center -m-4 mb-5" */}
-          {/* Card 1  */}
-          {getAllstory.length > 0 ? (
-            <>
-              {" "}
-              {getAllstory.map((item, index) => {
-                console.log(item);
-                const { thumbnail, date, id } = item;
-                return (
-                  <div className="p-2 md:w-1/1">
-                    <div
+    <div className="py-10 mx-auto max-w-7xl">
+      <div className="slider">
+        {getAllstory.map((item, index) => {
+          const isActive = index === currentIndex;
+          const isHidden = index !== currentIndex && !isVisible;
+          return (
+            <div
+              key={index}
+              className={`slide ${isActive ? "active" : ""} ${
+                isHidden ? "hidden" : ""
+              }`}
+            >
+              <div
+                onClick={() => navigate(`/sucessinfo/${item.id}`)}
+                className="p-2 md:w-1/1"
+              >
+                <div
+                  style={{
+                    background:
+                      mode === "dark" ? "rgb(30, 41, 59)" : "white",
+                    borderBottom:
+                      mode === "dark"
+                        ? " 4px solid rgb(226, 232, 240)"
+                        : " 4px solid rgb(30, 41, 59)",
+                  }}
+                  className={`h-full shadow-lg  hover:-translate-y-1 cursor-pointer hover:shadow-gray-400
+                 ${mode === "dark" ? "shadow-gray-700" : "shadow-xl"} 
+                 rounded-xl overflow-hidden`}
+                >
+                  <img className="w-full" src={item.thumbnail} alt="blog" />
+                  <div className="p-2">
+                    <h2
+                      className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
                       style={{
-                        background:
-                          mode === "dark" ? "rgb(30, 41, 59)" : "white",
-                        borderBottom:
+                        color:
                           mode === "dark"
-                            ? " 4px solid rgb(226, 232, 240)"
-                            : " 4px solid rgb(30, 41, 59)",
+                            ? "rgb(226, 232, 240)"
+                            : " rgb(30, 41, 59)",
                       }}
-                      className={`h-full shadow-lg  hover:-translate-y-1 cursor-pointer hover:shadow-gray-400
-             ${mode === "dark" ? "shadow-gray-700" : "shadow-xl"} 
-             rounded-xl overflow-hidden`}
                     >
-                      {/* Blog Thumbnail  */}
-                      <img
-                        onClick={() => navigate(`/sucessinfo/${id}`)}
-                        className=" w-full"
-                        src={thumbnail}
-                        alt="blog"
-                      />
-
-                      {/* Top Items  */}
-                      <div className="p-2">
-                        {/* Blog Date  */}
-                        <h2
-                          className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
-                          style={{
-                            color:
-                              mode === "dark"
-                                ? "rgb(226, 232, 240)"
-                                : " rgb(30, 41, 59)",
-                          }}
-                        >
-                          {date}
-                        </h2>
-
-                        {/* Blog Title  */}
-                        <h1
-                          className="title-font text-lg font-bold text-gray-900 mb-3"
-                          style={{
-                            color:
-                              mode === "dark"
-                                ? "rgb(226, 232, 240)"
-                                : " rgb(30, 41, 59)",
-                          }}
-                        >
-                          {item.blogs.title}
-                        </h1>
-
-                        {/* Blog Description  */}
-                        <p
-                          className="leading-relaxed mb-3"
-                          style={{
-                            color:
-                              mode === "dark"
-                                ? "rgb(226, 232, 240)"
-                                : " rgb(30, 41, 59)",
-                          }}
-                        >
-                          Photo booth fam kinfolk cold-pressed sriracha leggings
-                          jianbing microdosing tousled waistcoat.
-                        </p>
-                      </div>
-                    </div>
+                      {item.date}
+                    </h2>
+                    <h1
+                      className="title-font text-lg font-bold text-gray-900 mb-3"
+                      style={{
+                        color:
+                          mode === "dark"
+                            ? "rgb(226, 232, 240)"
+                            : " rgb(30, 41, 59)",
+                      }}
+                    >
+                      {item.blogs.title}
+                    </h1>
+                    <p
+                      className="leading-relaxed mb-3"
+                      style={{
+                        color:
+                          mode === "dark"
+                            ? "rgb(226, 232, 240)"
+                            : " rgb(30, 41, 59)",
+                      }}
+                    >
+                      Photo booth fam kinfolk cold-pressed sriracha leggings
+                      jianbing microdosing tousled waistcoat.
+                    </p>
                   </div>
-                );
-              })}{" "}
-            </>
-          ) : (
-            <>
-              {" "}
-              <h1>Not Found</h1>
-            </>
-          )}
-        </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
-    </section>
+      <button onClick={toggleVisibility}>Toggle Visibility</button>
+    </div>
   );
 };
 
