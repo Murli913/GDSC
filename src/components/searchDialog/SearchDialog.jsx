@@ -22,7 +22,7 @@ export default function SearchDialog() {
         <Fragment>
             {/* Search Icon  */}
             <div onClick={handleOpen}>
-                <AiOutlineSearch size={20} color="white" />
+                <AiOutlineSearch size={20} color="black" />
             </div>
             {/* Dialog  */}
             <Dialog className=" relative right-[1em] w-[25em]  md:right-0 md:w-0 lg:right-0 lg:w-0" open={open} handler={handleOpen} style={{ background: mode === 'light' ? '#2f3542' : '#2f3542', color: mode === 'dark' ? 'white' : 'black' }}>

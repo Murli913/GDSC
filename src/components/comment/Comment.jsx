@@ -12,6 +12,8 @@ function Comment({
   allComment,
   fullName,
   setFullName,
+  replies,
+  setReplies,
 }) {
   useEffect(() => {
     setFullName(
@@ -31,6 +33,7 @@ function Comment({
   const [replyText, setReplyText] = useState("");
 
   const handleReply = (comment) => {
+    setReplies(comment);
     setReplyingTo(comment);
     setReplyText(`@${comment.fullName} `); // Set default reply text
   };
@@ -46,6 +49,7 @@ function Comment({
       return;
     }
 
+    console.log("replies----------->", replies);
     // Add the reply with the original comment ID
     addReplyComment(originalCommentId, replyText);
 
@@ -63,13 +67,6 @@ function Comment({
           <footer className="flex justify-between items-center mb-2">
             <div className="flex items-center px-2 py-1 rounded-lg">
               <p className="inline-flex items-center mr-3 text-lg">
-                {/* <img
-                  className="w-10 h-10 object-cover rounded-full border-2 border-pink-600 p-1"
-                  src={
-                    auth.currentUser?.photoURL ? auth.currentUser.photoURL : ""
-                  }
-                  alt="profile"
-                /> */}
                 {fullName}
               </p>
               <p className="text-sm">{date}</p>
@@ -106,9 +103,9 @@ function Comment({
               </div>
             )}
           </div>
-          {replies && (
+          {replies === id && (
             <div className={`ml-${(level + 1) * 4}`}>
-              {renderComments(replies, level + 1)} {/* Incrementing level */}
+              {renderComments(item, level + 1)} {/* Incrementing level */}
             </div>
           )}
         </div>

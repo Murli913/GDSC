@@ -21,26 +21,21 @@ export default function Nav() {
   const [openNav, setOpenNav] = React.useState(false);
   const location = useLocation();
 
-    const context = useContext(myContext);
-    const { mode, toggleMode } = context;
-    const isAuth = localStorage.getItem('isAuth');
-    const navigate = useNavigate();
-    //* Logout Function 
-    const logout = () => {
-        localStorage.clear();
-        navigate('/')
-    }
-    const signwithoutuser = () => {
-   
-       navigate("/terms");
-     
-    };
-    const signInWithpolice = () => {
-   
-        navigate("/policelogin");
-      
-     };
-    
+  const context = useContext(myContext);
+  const { mode, toggleMode } = context;
+  const isAuth = localStorage.getItem("isAuth");
+  const navigate = useNavigate();
+  //* Logout Function
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+  const signwithoutuser = () => {
+    navigate("/terms");
+  };
+  const signInWithpolice = () => {
+    navigate("/policelogin");
+  };
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
@@ -58,7 +53,7 @@ export default function Nav() {
         variant="small"
         color="blue-gray"
         className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "white" }}
+        style={{ color: mode === "dark" ? "white" : "black" }}
       >
         <NavLink
           exact
@@ -73,7 +68,7 @@ export default function Nav() {
         variant="small"
         color="blue-gray"
         className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "white" }}
+        style={{ color: mode === "dark" ? "white" : "black" }}
       >
         <NavLink to={"/allblogs"} activeClassName="active-link">
           Complaints
@@ -86,7 +81,7 @@ export default function Nav() {
           variant="small"
           color="blue-gray"
           className="p-1 font-normal"
-          style={{ color: mode === "dark" ? "white" : "white" }}
+          style={{ color: mode === "dark" ? "white" : "black" }}
         >
           <div class="navbar">
             <div class="dropdown">
@@ -99,8 +94,10 @@ export default function Nav() {
                   Anonymously{" "}
                 </a>
                 <a href="#" onClick={signInWithGoogle}>
-                  Sign In user</a> 
-      <a href="#"  onClick={signInWithpolice}>Sign In police
+                  Sign In user
+                </a>
+                <a href="#" onClick={signInWithpolice}>
+                  Sign In police
                 </a>
               </div>
             </div>
@@ -116,7 +113,7 @@ export default function Nav() {
           variant="small"
           color="blue-gray"
           className="p-1 font-normal"
-          style={{ color: mode === "dark" ? "white" : "white" }}
+          style={{ color: mode === "dark" ? "white" : "black" }}
         >
           <NavLink to={"/createblog"} activeClassName="active-link">
             Create Complaints
@@ -130,7 +127,7 @@ export default function Nav() {
         variant="small"
         color="blue-gray"
         className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "white" }}
+        style={{ color: mode === "dark" ? "white" : "black" }}
       >
         {!isAuth ? (
           <Link to={"/adminlogin"} className="flex items-center"></Link>
@@ -156,7 +153,7 @@ export default function Nav() {
       {/* Navbar  */}
       <Navbar
         className="sticky inset-0 z-20 h-max max-w-full border-none rounded-none py-2 px-4 lg:px-8 lg:py-2"
-        style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#30336b" }}
+        style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#f2f9fd" }}
       >
         {/* Desktop View  */}
         <div className="flex items-center justify-between text-blue-gray-900">
@@ -165,15 +162,15 @@ export default function Nav() {
             <Typography
               as="a"
               className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
-              style={{ color: mode === "dark" ? "white" : "white" }}
+              style={{ color: mode === "dark" ? "white" : "black" }}
             >
               {/* Logo Image  */}
               <img
                 className=" w-10 h-10 "
-                src="https://cybercrime.gov.in/assets/images/emblem-dark.png"
+                src="https://scontent.fblr18-1.fna.fbcdn.net/v/t39.30808-6/428618422_122095216424226909_4659424453591039977_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=oijOVRXLttQAX9yj80G&_nc_ht=scontent.fblr18-1.fna&oh=00_AfCCMFvKwCaTE0poSj-VxgnBeUcS4YsDlFBRWNDkMuJjgg&oe=65DEAE9F"
               />
               {/* Logo Text  */}
-              <span>National Cyber Crime Reporting Portal</span>
+              <span>Peace Fuse</span>
             </Typography>
           </Link>
 
@@ -200,9 +197,7 @@ export default function Nav() {
                   <div className="">
                     <Avatar
                       key={1}
-                      src={
-                        "https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
-                      }
+                      src={auth.currentUser?.photoURL}
                       alt="avatar"
                       withBorder={true}
                       className="p-0.5 text-red-500 w-10 h-10"

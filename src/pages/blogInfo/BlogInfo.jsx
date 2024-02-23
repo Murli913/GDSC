@@ -16,7 +16,7 @@ import {
 import { fireDb } from "../../firebase/FirebaseConfig";
 import Loader from "../../components/loader/Loader";
 import Layout from "../../components/layout/Layout";
-import Comment from "../../components/comment/Comment";
+import Comments from "../../components/Commenting/Comments";
 import toast from "react-hot-toast";
 import "./bloginfo.css";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,29 @@ import { auth, provider } from "../../firebase/FirebaseConfig";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { SlLike, SlDislike } from "react-icons/sl";
 
+async function addComment() {
+  const commentRef = collection(
+    fireDb,
+    "blogPost/" + `${params.id}/` + "comment"
+  );
+  try {
+    await addDoc(commentRef, {
+      body,
+      username,
+      userId,
+      parentId,
+      justParentId,
+      createdAt: Timestamp.now(),
+    });
+    toast.success("Comment Add Successfully");
+    setCommentText("");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 function BlogInfo() {
+  // console.log("Dekho uid--->" + auth.currentUser.displayName);
   const context = useContext(myContext);
   const { mode, loading, setloading } = context;
   const isAuth = localStorage.getItem("isAuth");
@@ -178,58 +200,80 @@ function BlogInfo() {
     return { __html: c };
   }
 
-  const [fullName, setFullName] = useState("");
-  const [commentText, setCommentText] = useState("");
+  // const [fullName, setFullName] = useState("");
+  // const [commentText, setCommentText] = useState("");
+  // const [replies, setReplies] = useState(null);
+  const [currentUserId, setcurrentUserId] = useState("");
 
-  const addComment = async () => {
-    const commentRef = collection(
-      fireDb,
-      "blogPost/" + `${params.id}/` + "comment"
-    );
-    try {
-      await addDoc(commentRef, {
-        fullName,
-        commentText,
+  // const addComment = async (body, username, userId, parentId, justParentId) ----test addComment() ----
+  // const addComment = async () => {
+  //   const commentRef = collection(
+  //     fireDb,
+  //     "blogPost/" + `${params.id}/` + "comment"
+  //   );
+  //   try {
+  //     await addDoc(commentRef, {
+  //       body,
+  //       username,
+  //       userId,
+  //       parentId,
+  //       justParentId,
+  //       createdAt: Timestamp.now(),
+  //     });
+  //     toast.success("Comment Add Successfully");
+  //     setCommentText("");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const addComment = async () => {
+  //   const commentRef = collection(
+  //     fireDb,
+  //     "blogPost/" + `${params.id}/` + "comment"
+  //   );
+  //   try {
+  //     await addDoc(commentRef, {
+  //       fullName,
+  //       commentText,
+  //       replies,
+  //       time: Timestamp.now(),
+  //       date: new Date().toLocaleString("en-US", {
+  //         month: "short",
+  //         day: "2-digit",
+  //         year: "numeric",
+  //       }),
+  //     });
+  //     toast.success("Comment Add Successfully");
+  //     setCommentText("");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const addReplyComment = async (originalCommentId, replyText) => {
+  //   const commentRef = collection(
+  //     fireDb,
+  //     "blogPost/" + `${params.id}/` + "comment"
+  //   );
 
-        time: Timestamp.now(),
-        date: new Date().toLocaleString("en-US", {
-          month: "short",
-          day: "2-digit",
-          year: "numeric",
-        }),
-      });
-      toast.success("Comment Add Successfully");
-      setFullName("");
-      setCommentText("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const addReplyComment = async (originalCommentId, replyText) => {
-    const commentRef = collection(
-      fireDb,
-      "blogPost/" + `${params.id}/` + "comment"
-    );
-
-    try {
-      await addDoc(commentRef, {
-        fullName,
-        commentText: replyText,
-        time: Timestamp.now(),
-        date: new Date().toLocaleString("en-US", {
-          month: "short",
-          day: "2-digit",
-          year: "numeric",
-        }),
-        originalCommentId: originalCommentId, // Include the ID of the original comment
-      });
-      toast.success("Reply Added Successfully");
-      setFullName("");
-      setCommentText("");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //   try {
+  //     await addDoc(commentRef, {
+  //       fullName,
+  //       commentText: replyText,
+  //       time: Timestamp.now(),
+  //       date: new Date().toLocaleString("en-US", {
+  //         month: "short",
+  //         day: "2-digit",
+  //         year: "numeric",
+  //       }),
+  //       originalCommentId: originalCommentId, // Include the ID of the original comment
+  //     });
+  //     toast.success("Reply Added Successfully");
+  //     setFullName("");
+  //     setCommentText("");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const [allComment, setAllComment] = useState([]);
 
@@ -237,7 +281,7 @@ function BlogInfo() {
     try {
       const q = query(
         collection(fireDb, "blogPost/" + `${params.id}/` + "comment/"),
-        orderBy("time")
+        orderBy("createdAt")
       );
       const data = onSnapshot(q, (QuerySnapshot) => {
         let productsArray = [];
@@ -245,7 +289,7 @@ function BlogInfo() {
           productsArray.push({ ...doc.data(), id: doc.id });
         });
         setAllComment(productsArray);
-        console.log(productsArray);
+        console.log("Dekho allcomments" + productsArray);
       });
       return () => data;
     } catch (error) {
@@ -254,7 +298,16 @@ function BlogInfo() {
   };
 
   useEffect(() => {
+    // addComment(
+    //   "testReply",
+    //   "testReplyUser",
+    //   2,
+    //   "uh1sVm5Ghy5hwiFvn4nC",
+    //   "uh1sVm5Ghy5hwiFvn4nC"
+    // );
     getcomment();
+    setcurrentUserId(auth.currentUser?.uid ? auth.currentUser?.uid : "");
+
     window.scrollTo(0, 0);
   }, []);
 
@@ -451,7 +504,7 @@ function BlogInfo() {
             <h1>Status: {getBlogs?.status}</h1>
           </div>
         </div>
-        <Comment
+        {/* <Comment
           addComment={addComment}
           addReplyComment={addReplyComment}
           commentText={commentText}
@@ -459,10 +512,15 @@ function BlogInfo() {
           allComment={allComment}
           fullName={fullName}
           setFullName={setFullName}
-        />
+          replies={replies}
+          setReplies={setReplies}
+        /> */}
+
+        <Comments currentUserId={currentUserId} allComment={allComment} />
       </section>
     </Layout>
   );
 }
 
 export default BlogInfo;
+export { addComment };
