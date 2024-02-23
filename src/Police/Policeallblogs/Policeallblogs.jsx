@@ -9,17 +9,17 @@ const Policeallblogs = () => {
     const { mode, getAllBlog } = context;
     const navigate = useNavigate();
   return (
-    <PoliceLayout>
-       
+    <PoliceLayout> 
         <section className="text-gray-600 body-font">
-                <div className="container px-5 py-10 mx-auto max-w-7xl ">
-                    {/* Top Heading  */}
-                    <div className="mb-5">
+        <div className="mb-5">
                         <h1 className=' text-center text-2xl font-bold'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}>
                             All complaints
                         </h1>
                     </div>
+                <div className="container px-5 py-10 mx-auto max-w-7xl ">
+                    {/* Top Heading  */}
+                   
                     {/* Main Content  */}
                     <div className="flex flex-wrap justify-center -m-4 mb-5">
                         {/* Card 1  */}
