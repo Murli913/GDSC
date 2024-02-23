@@ -7,6 +7,7 @@ import {
   AiFillInstagram,
   AiFillGithub,
   AiFillFacebook,
+  AiFillTwitterCircle
 } from "react-icons/ai";
 
 export default function ShareDialogBox() {
@@ -43,7 +44,7 @@ export default function ShareDialogBox() {
               <div className="flex gap-3">
                 {/* Linkedin Icon  */}
                 <div className="">
-                  <a href="https://www.instagram.com/crime.page.900?igsh=MTI5MWMxMzJvcDR0bw==">
+                  <a href="https://www.linkedin.com/in/peace-fuse-1332842b6/" target="_blank" rel="noopener noreferrer">
                     <AiFillLinkedin
                       size={35}
                       style={{
@@ -53,22 +54,10 @@ export default function ShareDialogBox() {
                   </a>
                 </div>
 
-                {/* Instagram Icon  */}
-                <div className="">
-                  <a href="https://www.instagram.com/crime.page.900?igsh=MTI5MWMxMzJvcDR0bw==">
-                    <AiFillInstagram
-                      size={35}
-                      style={{
-                        color: mode === "dark" ? "white" : "white",
-                      }}
-                    />
-                  </a>
-                </div>
-
-                {/* Github Icon  */}
-                <div className="https://github.com/">
+                {/* Twitter Icon  */}
+                <div className="https://twitter.com/FusePeace2024" target="_blank" rel="noopener noreferrer">
                   <a href="">
-                    <AiFillGithub
+                    <AiFillTwitterCircle
                       size={35}
                       style={{
                         color: mode === "dark" ? "white" : "white",
@@ -79,7 +68,7 @@ export default function ShareDialogBox() {
 
                 {/* Facebook Icon  */}
                 <div className="">
-                  <a href="https://www.facebook.com/">
+                  <a href="https://www.facebook.com/profile.php?id=61556807274425" target="_blank" rel="noopener noreferrer">
                     <AiFillFacebook
                       size={35}
                       style={{
