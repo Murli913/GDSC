@@ -19,33 +19,30 @@ import Layout from "../../../components/layout/Layout";
 import emailjs from "@emailjs/browser";
 
 const categories = [
-  "Select a category",
   "Child abuse",
   "Human Trafficking",
   "Sexual harassment",
   "Women sexual assault",
   "Child migration",
-  "Other",
-
-" Child Pornography / Child Sexual Abuse Matter",
-"Rape/Gang Rape",
-"Publishing or Transmitting of Sexually Obcene material in electronic form",
-"Financial Fraud",
-"Hacking and Unauthorized Access",
-"Physical Assault and Violence",
-
-"Kidnapping and Missing Persons",
-"Domestic Violence",
-"Human Trafficking",
+  " Child Pornography / Child Sexual Abuse Matter",
+  "Rape/Gang Rape",
+  "Publishing or Transmitting of Sexually Obcene material in electronic form",
+  "Financial Fraud",
+  "Hacking and Unauthorized Access",
+  "Physical Assault and Violence",
+  "Kidnapping and Missing Persons",
+  "Domestic Violence",
+  "Human Trafficking",
   "Public Nuisance and Disorderly Conduct",
-"Drug Trafficking and Substance Abuse",
- "Environmental Crimes",
- "Workplace Harassment",
-"Discrimination and Hate Crimes",
-"Public Health Violations",
-"Animal Cruelty",
-"Public Corruption and Bribery",
-"Traffic Violations and Road Safety"
+  "Drug Trafficking and Substance Abuse",
+  "Environmental Crimes",
+  "Workplace Harassment",
+  "Discrimination and Hate Crimes",
+  "Public Health Violations",
+  "Animal Cruelty",
+  "Public Corruption and Bribery",
+  "Traffic Violations and Road Safety",
+  "Other",
 ];
 
 function CreateBlog() {
@@ -70,6 +67,7 @@ function CreateBlog() {
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
   const [errorCategory, setErrorCategory] = useState(false);
+  const [addPostSuccess, setAddPostSuccess] = useState(false);
 
   const handleTermsAndCondCheckbox = () => {
     setIsChecked(!isChecked);
@@ -114,10 +112,10 @@ function CreateBlog() {
       setIsDisclaimerError(true);
     } else {
       uploadImage();
-      navigate("/");
+      // navigate("/");
     }
   };
-  const uploadImage = () => {
+  const uploadImage = async () => {
     if (!thumbnail) return;
     const imageRef = ref(storage, `blogimage/${thumbnail.name}`);
     uploadBytes(imageRef, thumbnail).then((snapshot) => {
@@ -141,7 +139,9 @@ function CreateBlog() {
               year: "numeric",
             }),
           });
-          navigate("/");
+          // navigate("/");
+          setAddPostSuccess(true);
+          console.log("addPostSuccess----> addPost " + addPostSuccess);
           toast.success("Complaint Added Successfully");
         } catch (error) {
           toast.error(error);
@@ -154,8 +154,8 @@ function CreateBlog() {
   const [thumbnail, setthumbnail] = useState();
 
   const [text, settext] = useState("");
-  console.log("Value: ");
-  console.log("text: ", text);
+  // console.log("Value: ");
+  // console.log("text: ", text);
 
   // Create markup function
   function createMarkup(c) {
@@ -212,23 +212,32 @@ function CreateBlog() {
   function sendEmail(e) {
     e.preventDefault();
     addPost();
-    emailjs
-      .sendForm(
-        "service_v1gm6rs",
-        "template_viu5l96",
-        e.target,
-        "uYtd_6Wk0tLOhJPR8"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-    toast.success("Complaint sent successfully");
+    setAddPostSuccess(true);
+    console.log("addPostSuccess----> sendEmail " + addPostSuccess);
+
+    {
+      addPostSuccess
+        ? emailjs
+            .sendForm(
+              "service_v1gm6rs",
+              "template_viu5l96",
+              e.target,
+              "uYtd_6Wk0tLOhJPR8"
+            )
+            .then(
+              (result) => {
+                console.log("notif send----------> " + result.text);
+                toast.success("Complaint sent successfully");
+                setAddPostSuccess(false);
+              },
+              (error) => {
+                console.log(error.text);
+              }
+            )
+        : toast.error("Notification not sent");
+    }
     e.target.reset();
+    navigate("/");
   }
 
   return (
@@ -318,7 +327,7 @@ function CreateBlog() {
               }
               value={blogs.title}
             />
-            {errorTitle && <p style={{ color: "red" }}>mandatory field.</p>}
+            {errorTitle && <p style={{ color: "red" }}>*required.</p>}
           </div>
 
           {/* Third Category Input  */}
@@ -332,27 +341,23 @@ function CreateBlog() {
               {/* Category Dropdown */}
               <div className="mb-3">
                 <select
-                  className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
-                "
-                style={{
-                  background:
-                    mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
-                }}
-                onChange={handleCategoryChange}
-                value={selectedCategory}
-              >
-                 
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-              {errorCategory && (
-                <p style={{ color: "red" }}>Please select a category.</p>
-              )}
-            
-                  
+                  className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
+                  style={{
+                    background:
+                      mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                  }}
+                  onChange={handleCategoryChange}
+                  value={selectedCategory}
+                >
+                  {categories.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                {errorCategory && (
+                  <p style={{ color: "red" }}>Please select a category.</p>
+                )}
               </div>
             </div>
           </div>
@@ -394,15 +399,16 @@ function CreateBlog() {
               >
                 Stop Recording
               </button>{" "}
-              <button
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded "
-                onClick={stopRecordingg}
-              >
-                Upload Video
-              </button>{" "}
               <br></br>
               <br></br>
               <video src={mediaBlobUrl} controls loop />
+              <br></br>
+              <button
+                className="bg-blue-400 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded "
+                onClick={stopRecordingg}
+              >
+                Upload Video
+              </button>
             </div>
           </div>
 
@@ -421,7 +427,7 @@ function CreateBlog() {
                 "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template  tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
             }}
           />
-          {errorContent && <p style={{ color: "red" }}>mandatory field.</p>}
+          {errorContent && <p style={{ color: "red" }}>*required.</p>}
           {/* Five Terms and Conditions */}
           <div className="mt-5 flex justify-left"></div>
           <div className="flex justify-left items-center">
@@ -466,10 +472,10 @@ function CreateBlog() {
               <input
                 type="submit"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                value="Send Notification to Police"
+                value="Submit and Send Notification to Authority"
               />
             </form>
-            <Button
+            {/* <Button
               className="mt-5 ml-auto"
               onClick={addPost}
               style={{
@@ -480,7 +486,7 @@ function CreateBlog() {
               }}
             >
               Submit
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

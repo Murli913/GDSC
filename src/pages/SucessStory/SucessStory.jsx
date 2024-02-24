@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import myContext from "../../context/data/myContext";
 import { useNavigate } from "react-router";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const SucessStory = () => {
   const context = useContext(myContext);
@@ -21,39 +24,45 @@ const SucessStory = () => {
     return () => clearInterval(interval);
   }, [getAllstory.length]);
 
-  const toggleVisibility = () => {
-    setIsVisible(!isVisible);
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    vertical: true,
+    draggable: true,
+    verticalSwiping: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    beforeChange: (current, next) => setCurrentIndex(next),
   };
 
   return (
-    <div className="py-10 mx-auto max-w-7xl">
-      <div className="slider">
-        {getAllstory.map((item, index) => {
-          const isActive = index === currentIndex;
-          const isHidden = index !== currentIndex && !isVisible;
-          return (
-            <div
-              key={index}
-              className={`slide ${isActive ? "active" : ""} ${
-                isHidden ? "hidden" : ""
-              }`}
-            >
+    <div className="sticky top-12 z-50">
+      <div className="py-10 mx-auto max-w-7xl">
+        <div className="mb-4 flex justify-center">
+          <h1 className="text-3xl font-bold mb-4">Success Stories</h1>
+        </div>
+        <div className="carousel-container" style={{ height: "30vh" }}>
+          <Slider {...settings}>
+            {getAllstory.map((item, index) => (
               <div
+                key={index}
                 onClick={() => navigate(`/sucessinfo/${item.id}`)}
                 className="p-2 md:w-1/1"
               >
                 <div
                   style={{
-                    background:
-                      mode === "dark" ? "rgb(30, 41, 59)" : "white",
+                    background: mode === "dark" ? "rgb(30, 41, 59)" : "white",
                     borderBottom:
                       mode === "dark"
                         ? " 4px solid rgb(226, 232, 240)"
                         : " 4px solid rgb(30, 41, 59)",
                   }}
-                  className={`h-full shadow-lg  hover:-translate-y-1 cursor-pointer hover:shadow-gray-400
-                 ${mode === "dark" ? "shadow-gray-700" : "shadow-xl"} 
-                 rounded-xl overflow-hidden`}
+                  className={`h-full shadow-lg hover:-translate-y-1 cursor-pointer hover:shadow-gray-400
+               ${mode === "dark" ? "shadow-gray-700" : "shadow-xl"} 
+               rounded-xl overflow-hidden`}
                 >
                   <img className="w-full" src={item.thumbnail} alt="blog" />
                   <div className="p-2">
@@ -94,11 +103,10 @@ const SucessStory = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            ))}
+          </Slider>
+        </div>
       </div>
-      <button onClick={toggleVisibility}>Toggle Visibility</button>
     </div>
   );
 };
