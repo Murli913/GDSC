@@ -139,7 +139,7 @@ const Policebloginfo = () => {
     }
   };
 
-  const statusOptions = ["Pending", "Done", "Not Done", "In Progress"]; // Add more options as needed
+  const statusOptions = ["Pending", "Done", "Request Recieved", "In Progress"]; // Add more options as needed
 
   // Blog Delete Function
   const deleteBlog = async () => {

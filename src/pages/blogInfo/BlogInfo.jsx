@@ -48,10 +48,10 @@ function BlogInfo() {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
-  allComment.map((item) => {
+  allComment.map((item1) => {
     const { id, body, username, userId, parentId, justParentId, createdAt } =
-      item;
-    console.log(item.id);
+      item1;
+    console.log(item1.id);
   });
   // --------------------------------Comments--------------------------------------------------
   const context = useContext(myContext);
@@ -626,7 +626,10 @@ function BlogInfo() {
         <div className="comments">
           <h3 className="comments-title">Comments</h3>
           <div className="comment-form-title">Write comment</div>
+          { isAuth ? 
           <CommentForm submitLabel="Write" handleSubmit={addComment} />
+             : <CommentForm submitLabel="Write" handleSubmit={signInWithGoogle} />
+          }
 
           <div className="comment-container">
             {rootComments.map((rootComment) => (

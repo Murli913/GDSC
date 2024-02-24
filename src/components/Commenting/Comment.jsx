@@ -15,7 +15,7 @@ function Comment({
 }) {
   console.log("Dekho comment---->", comment);
   console.log("Dekho currentUserId------->", currentUserId);
-
+  const isAuth = localStorage.getItem("isAuth");
   const fiveMinutes = 300000;
   const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
   const canReply = Boolean(currentUserId);
@@ -56,17 +56,21 @@ function Comment({
             }}
           />
         )} */}
+      
         <div className="comment-actions">
           {canReply && (
+          
             <div
               className="comment-action"
               onClick={() =>
                 setActiveComment({ id: comment.id, type: "replying" })
               }
             >
-              Relpy
+              Reply
             </div>
-          )}
+          
+          )} 
+       
           {/* {canEdit && (
             <div
               className="comment-action"
@@ -79,12 +83,17 @@ function Comment({
           )} */}
           {/* {canDelete && <div className="comment-action">Delete</div>} */}
         </div>
+
+     
         {isReplying && (
           <CommentForm
             submitLabel="Reply"
             handleSubmit={(text) => addComment(text, replyId)}
           />
         )}
+         
+
+
         {replies.length > 0 && (
           <div className="replies">
             {replies.map((reply) => (
