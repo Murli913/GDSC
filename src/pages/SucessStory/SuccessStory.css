@@ -14,3 +14,7 @@
 .slide.hidden {
   transform: translateY(-100%); /* Hide the inactive items above the view */
 }
+
+.grabbing {
+  cursor: grabbing !important;
+}
