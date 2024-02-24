@@ -1,0 +1,16 @@
+.slider {
+  overflow-y: auto; /* Enable vertical scrolling */
+  height: 400px; /* Set the height of the slider */
+}
+
+.slide {
+  transition: transform 0.5s ease; /* Add transition for smooth sliding */
+}
+
+.slide.active {
+  transform: translateY(0); /* Slide the active item into view */
+}
+
+.slide.hidden {
+  transform: translateY(-100%); /* Hide the inactive items above the view */
+}
