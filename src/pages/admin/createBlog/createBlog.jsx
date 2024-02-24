@@ -154,8 +154,6 @@ function CreateBlog() {
   const [thumbnail, setthumbnail] = useState();
 
   const [text, settext] = useState("");
-  // console.log("Value: ");
-  // console.log("text: ", text);
 
   // Create markup function
   function createMarkup(c) {
@@ -213,8 +211,7 @@ function CreateBlog() {
     e.preventDefault();
     addPost();
     setAddPostSuccess(true);
-    console.log("addPostSuccess----> sendEmail " + addPostSuccess);
-
+    console.log("addPostSuccess------->", addPostSuccess);
     {
       addPostSuccess
         ? emailjs
@@ -236,8 +233,8 @@ function CreateBlog() {
             )
         : toast.error("Notification not sent");
     }
-    e.target.reset();
     navigate("/");
+    e.target.reset();
   }
 
   return (
@@ -414,7 +411,7 @@ function CreateBlog() {
 
           {/* Four Editor  */}
           <Editor
-            apiKey="r5xdhc208mmf6vcsxoeqj2x4bzx4x76uibzzka5bf10cmttb"
+            apiKey="vyg44vlnhit4cui1seeytfin0u2lth6kw9j452lw0os9ljm3"
             onEditorChange={(newValue, editor) => {
               setBlogs({ ...blogs, content: newValue });
               settext(editor.getContent({ format: "text" }));
