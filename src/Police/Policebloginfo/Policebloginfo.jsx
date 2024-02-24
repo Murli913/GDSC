@@ -16,12 +16,13 @@ import {
 } from "firebase/firestore";
 import { fireDb } from "../../firebase/FirebaseConfig";
 import Loader from "../../components/loader/Loader";
+import "./Policebloginfo.css";
 
-import Comment from "../../components/comment/Comment";
 import toast from "react-hot-toast";
 
 import { useNavigate } from "react-router-dom";
 import PoliceLayout from "../PoliceLayout/PoliceLayout";
+import PoliceComment from "../PoliceComment/PoliceComment";
 
 const Policebloginfo = () => {
   const context = useContext(myContext);
@@ -266,46 +267,48 @@ const Policebloginfo = () => {
               </div>
 
               {/* Status selection */}
-              <div className="flex items-center space-x-4">
-                <p>Status:</p>
-                <select
-                  onChange={(e) => updateStatus(e.target.value)}
-                  className="border rounded-md px-2 py-1"
-                >
-                  {statusOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </div>
+             {/* Status selection */}
+<div className="flex items-center space-x-4">
+  <p className="text-lg text-blue-500">Status:</p>
+  <select
+    onChange={(e) => updateStatus(e.target.value)}
+    className="border rounded-md px-2 py-1"
+  >
+    {statusOptions.map((option) => (
+      <option key={option} value={option}>
+        {option}
+      </option>
+    ))}
+  </select>
+</div>
+
 
               {/* delete the post */}
+              <div class="button-container">
+  <button
+    onClick={deleteBlog}
+    class="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+  >
+    Delete Blog
+  </button>
 
-              <button
-                onClick={deleteBlog}
-                className="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-              >
-                Delete Blog
-              </button>
+  <div class="flex items-center space-x-4 mt-4">
+    <button
+      onClick={toggleStatus}
+      class={`bg-${isPublic ? "green" : "red"}-500 hover:bg-${
+        isPublic ? "green" : "red"
+      }-600 text-white py-2 px-4 rounded`}
+    >
+      {isPublic ? "Make Private" : "Make Public"}
+    </button>
+  </div>
+</div>
 
-              {/* implement private and public button*/}
-              {/* Buttons to toggle between public and private */}
-              <div className="flex items-center space-x-4 mt-4">
-                <button
-                  onClick={toggleStatus}
-                  className={`bg-${isPublic ? "green" : "red"}-500 hover:bg-${
-                    isPublic ? "green" : "red"
-                  }-600 text-white py-2 px-4 rounded`}
-                >
-                  {isPublic ? "Make Private" : "Make Public"}
-                </button>
-              </div>
             </div>
           )}
         </div>
 
-        <Comment
+        <PoliceComment
           addComment={addComment}
           commentText={commentText}
           setcommentText={setCommentText}

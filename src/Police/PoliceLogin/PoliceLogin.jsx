@@ -1,7 +1,9 @@
 import React from "react";
-import { auth } from "../../firebase/FirebaseConfig";
+import { auth, fireDb } from "../../firebase/FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 const PoliceLogin = () => {
   const history = useNavigate();
@@ -12,14 +14,37 @@ const PoliceLogin = () => {
     const password = e.target.password.value;
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((data) => {
-        console.log(data, "authData");
-        history("/policehome");
-      })
-      .catch((err) => {
-        alert(err.code);
+      .then((result) => {
+        const user = result.user;
+       // console.log(data, "authData");
+        const userDetails = {
+          displayName: "Police",
+          email: user.email,
+          userid: user.uid,
+          date: new Date().toLocaleString("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+          }),
+        };
+
+
+          // Save user details to Firestore under 'users' collection
+      const userRef = doc(fireDb, "users", user.uid);
+      setDoc(userRef, userDetails)
+        .then(() => {
+          localStorage.setItem("current user uid", user.uid);
+          localStorage.setItem("isAuth", true);
+          toast.success('Login success');
+          history("/policehome");
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          toast.error('Error occurred during login');
+        });
+        
       });
-  };
+    };
 
   const handleReset = () => {
     history("/policereset");
