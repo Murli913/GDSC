@@ -14,6 +14,7 @@ import { Timestamp, addDoc, collection, doc, getDoc, setDoc, onSnapshot, orderBy
 import toast from 'react-hot-toast';
 import { fireDb } from "../../firebase/FirebaseConfig";
 import { useParams } from 'react-router';
+import HeroSection from "../../components/heroSection/HeroSection";
 
 
 
@@ -45,6 +46,7 @@ const PoliceHome = () => {
 
   return (
   <PoliceLayout>
+  <HeroSection/>
     <div>
     <div>
       <section className="text-gray-600 body-font">
@@ -158,7 +160,7 @@ const PoliceHome = () => {
   )}
 </div>
 
-{/* See More Button  */}
+{/* See More Button 
 {getAllBlog.length > 6 && (
   <div className="flex justify-center my-5">
     <Link to={'/allblogs'}>
@@ -173,7 +175,7 @@ const PoliceHome = () => {
       </Button>
     </Link>
   </div>
-)}
+)} */}
 
         </div>
       </section >

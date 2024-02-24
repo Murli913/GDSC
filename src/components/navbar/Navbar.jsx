@@ -5,6 +5,7 @@ import {
   IconButton,
   Avatar,
   Collapse,
+  Button,
 } from "@material-tailwind/react";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
@@ -17,7 +18,7 @@ import { signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
 import { auth, fireDb, provider } from "../../firebase/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
-
+import { SiGooglemaps } from "react-icons/si";
 export default function Nav() {
   const [openNav, setOpenNav] = React.useState(false);
   const location = useLocation();
@@ -30,6 +31,10 @@ export default function Nav() {
   const logout = () => {
     localStorage.clear();
     navigate("/");
+  };
+  const gotomap = () => {
+    localStorage.clear();
+    navigate("/map");
   };
   const signwithoutuser = () => {
     navigate("/createblog");
@@ -225,6 +230,8 @@ export default function Nav() {
             <div className="hidden lg:block">
               {isAuth ? <ShareDialogBox /> : ""}
             </div>
+            {/* map icon*/}
+           
 
             {/* Admin Profile Pic */}
             <div>
@@ -250,6 +257,7 @@ export default function Nav() {
                 ""
               )}
             </div>
+          
 
             {/* dark And Light Button */}
             <div>
@@ -360,6 +368,7 @@ export default function Nav() {
           {/* NavList  */}
           {navList}
         </Collapse>
+
       </Navbar>
     </>
   );

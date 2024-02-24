@@ -5,6 +5,7 @@ import {
     IconButton,
     Avatar,
     Collapse,
+    Button,
 } from "@material-tailwind/react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -52,7 +53,7 @@ const PoliceNavbar = () => {
                 variant="small"
                 color="blue-gray"
                 className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'white' }}
+                style={{ color: mode === 'dark' ? 'white' : 'black' }}
             >
                 <Link to={'/policehome'} className="flex items-center">
                     Home
@@ -63,7 +64,7 @@ const PoliceNavbar = () => {
                 variant="small"
                 color="blue-gray"
                 className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'white' }}
+                style={{ color: mode === 'dark' ? 'white' : 'black' }}
             >
                 <Link to={'/policeallblogs'} className="flex items-center">
                     Complaints
@@ -85,9 +86,9 @@ const PoliceNavbar = () => {
                 variant="small"
                 color="blue-gray"
                 className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'white' }}
+                style={{ color: mode === 'dark' ? 'white' : 'black' }}
             >
-                   <button onClick={handleClick}>SignOut</button>
+                   <Button onClick={handleClick}>SignOut</Button>
             </Typography>
         </ul>
     );
@@ -96,7 +97,7 @@ const PoliceNavbar = () => {
     {/* Navbar  */}
     <Navbar
                 className="sticky inset-0 z-20 h-max max-w-full border-none rounded-none py-2 px-4 lg:px-8 lg:py-2"
-                style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#30336b' }}>
+                style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#f2f9fd' }}>
 
                 {/* Desktop View  */}
                 <div className="flex items-center justify-between text-blue-gray-900">
@@ -106,7 +107,7 @@ const PoliceNavbar = () => {
                         <Typography
                             as="a"
                             className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
-                            style={{ color: mode === 'dark' ? 'white' : 'white' }}
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
                             {/* Logo Image  */}
                             <img

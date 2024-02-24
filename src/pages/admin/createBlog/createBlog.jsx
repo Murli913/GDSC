@@ -307,24 +307,43 @@ function CreateBlog() {
                 <select
                   className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                 "
-                  style={{
-                    background:
-                      mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
-                  }}
-                  onChange={handleCategoryChange}
-                  value={selectedCategory}
-                >
+                style={{
+                  background:
+                    mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                }}
+                onChange={handleCategoryChange}
+                value={selectedCategory}
+              >
                   <option value="">Select Category</option>
-                  {categories.map((category, index) => (
-                    <option key={index} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                {errorCategory && (
-                  <p style={{ color: "red" }}>Please select a category.</p>
-                )}
-              </div>
+                  <option value="">Child Pornography / Child Sexual Abuse Matter</option>
+                  <option value="">Rape/Gang Rape</option>
+                  <option value="">Publishing or Transmitting of Sexually Obcene material in electronic form</option>
+                  <option value="">Financial Fraud</option>
+                  <option value="">Hacking and Unauthorized Access</option>
+                  <option value="">Physical Assault and Violence</option>
+                  <option value="">Theft and Burglary</option>
+                  <option value="">Kidnapping and Missing Persons</option>
+                  <option value="">Domestic Violence</option>
+                  <option value="">Human Trafficking</option>
+                  <option value="">Public Nuisance and Disorderly Conduct</option>
+                  <option value="">Drug Trafficking and Substance Abuse</option>
+                  <option value="">Environmental Crimes</option>
+                  <option value="">Workplace Harassment</option>
+                  <option value="">Discrimination and Hate Crimes</option>
+                  <option value="">Public Health Violations</option>
+                  <option value="">Animal Cruelty</option>
+                  <option value="">Public Corruption and Bribery</option>
+                  <option value="">Traffic Violations and Road Safety</option>
+                {/* {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))} */}
+              </select>
+              {errorCategory && (
+                <p style={{ color: "red" }}>Please select a category.</p>
+              )}
+            </div>
             </div>
           </div>
           {/* Third Title Input */}

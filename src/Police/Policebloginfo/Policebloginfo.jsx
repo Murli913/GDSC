@@ -33,7 +33,7 @@ const Policebloginfo = () => {
   // console.log(params.id),
 
   const [getBlogs, setGetBlogs] = useState();
-  const [isPublic, setIsPublic] = useState(false); // -------------------check her once ---------------Defaulting to public
+  const [isPublic, setIsPublic] = useState(true); // -------------------check her once ---------------Defaulting to public
   // Function to toggle the status between public and private
   const toggleStatus = async () => {
     try {
