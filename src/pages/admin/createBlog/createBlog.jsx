@@ -26,6 +26,26 @@ const categories = [
   "Women sexual assault",
   "Child migration",
   "Other",
+
+" Child Pornography / Child Sexual Abuse Matter",
+"Rape/Gang Rape",
+"Publishing or Transmitting of Sexually Obcene material in electronic form",
+"Financial Fraud",
+"Hacking and Unauthorized Access",
+"Physical Assault and Violence",
+
+"Kidnapping and Missing Persons",
+"Domestic Violence",
+"Human Trafficking",
+  "Public Nuisance and Disorderly Conduct",
+"Drug Trafficking and Substance Abuse",
+ "Environmental Crimes",
+ "Workplace Harassment",
+"Discrimination and Hate Crimes",
+"Public Health Violations",
+"Animal Cruelty",
+"Public Corruption and Bribery",
+"Traffic Violations and Road Safety"
 ];
 
 function CreateBlog() {
@@ -83,14 +103,12 @@ function CreateBlog() {
     if (selectedCategory === "") {
       setErrorCategory(false);
     } else {
-      uploadImage();
-      navigate("/");
+      setErrorCategory(true);
     }
     if (!isChecked) {
       setError(true);
     } else {
-      uploadImage();
-      navigate("/");
+      setError(false);
     }
     if (!isDisclaimerChecked) {
       setIsDisclaimerError(true);
@@ -316,22 +334,25 @@ function CreateBlog() {
                 <select
                   className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                 "
-                  style={{
-                    background:
-                      mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
-                  }}
-                  onChange={handleCategoryChange}
-                  value={selectedCategory}
-                >
-                  {categories.map((category, index) => (
-                    <option key={index} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </select>
-                {errorCategory && (
-                  <p style={{ color: "red" }}>Please select a category.</p>
-                )}
+                style={{
+                  background:
+                    mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                }}
+                onChange={handleCategoryChange}
+                value={selectedCategory}
+              >
+                 
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              {errorCategory && (
+                <p style={{ color: "red" }}>Please select a category.</p>
+              )}
+            
+                  
               </div>
             </div>
           </div>
