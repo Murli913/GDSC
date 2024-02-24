@@ -4,6 +4,15 @@
   font-family: Arial;
 }
 
+.navbar a:active,
+.dropdown .dropbtn:active,
+.dropdown-content a:active,
+.navbar a.active-link,
+.dropdown .dropbtn.active-link,
+.dropdown-content a.active-link {
+  color: black !important;
+}
+
 /* Links inside the navbar */
 .navbar a {
   float: left;
@@ -23,7 +32,6 @@
 /* Dropdown button */
 .dropdown .dropbtn {
   float: left;
-  font-size: 16px;
   border: none;
   outline: none;
   color: black;

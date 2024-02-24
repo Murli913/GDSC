@@ -82,78 +82,113 @@ export default function Nav() {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "black" }}
-      >
-        <NavLink
-          exact
-          to={"/"} // Make sure this path matches the route for the home page
-          activeClassName="active-link"
-        >
-          Home
-        </NavLink>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "black" }}
-      >
-        <NavLink to={"/allblogs"} activeClassName="active-link">
-          All Complaints
-        </NavLink>
-      </Typography>
+  as="li"
+  variant="small"
+  color="black"
+  className={`p-1 font-normal transition-all ${
+    location.pathname === "/" ? "font-bold underline" : "hover:font-bold hover:underline"
+  }`}
+  style={{ color: "black" }}
+>
+  <NavLink
+    to={"/"}
+    activeClassName="active-link"
+    className="text-black hover:text-black focus:text-black focus:outline-none"
+    style={{ color: "black" }}
+  >
+    Home
+  </NavLink>
+</Typography>
+<Typography
+  as="li"
+  variant="small"
+  color="black"
+  className={`p-1 font-normal transition-all ${
+    location.pathname === "/allblogs" ? "font-bold underline" : "hover:font-bold hover:underline"
+  }`}
+  style={{ color: mode === "dark" ? "white" : "black" }}
+>
+  <NavLink
+    to={"/allblogs"}
+    activeClassName="active-link"
+    className="hover:text-black focus:text-black focus:outline-none"
+    style={{ color: mode === "dark" ? "white" : "black" }}
+  >
+    Complaints
+  </NavLink>
+</Typography>
       {/* dropdown */}
       {!isAuth ? (
         <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-          style={{ color: mode === "dark" ? "white" : "black" }}
-        >
-          <div>
-            <div class="dropdown">
-              <Link class="dropbtn">New Complaint</Link>
-              <FaChevronDown className="mt-5" />
-              <i class="fa fa-caret-down" aria-hidden="true"></i>
-              <div class="dropdown-content">
-                <a href="#" onClick={signwithoutuser}>
-                  Anonymously{" "}
-                </a>
-                <a href="#" onClick={signInWithGoogle}>
-                  Sign In user
-                </a>
-                <a href="#" onClick={signInWithpolice}>
-                  Sign In police
-                </a>
-              </div>
+        as="li"
+        variant="small"
+        color="black"
+        className="p-1 font-normal transition-all duration-100 hover:font-bold hover:underline"
+        style={{ color: "black" }}
+      >
+        <div>
+          <div class="dropdown">
+            <Link class="dropbtn" style={{ color: "black" }}>New Complaint</Link>
+            <FaChevronDown className="mt-5" />
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+            <div class="dropdown-content">
+              <a href="#" onClick={signwithoutuser} style={{ color: "black" }}>
+                Anonymously{" "}
+              </a>
+              <a href="#" onClick={signInWithGoogle} style={{ color: "black" }}>
+                Sign In user
+              </a>
+              <a href="#" onClick={signInWithpolice} style={{ color: "black" }}>
+                Sign In police
+              </a>
             </div>
           </div>
-        </Typography>
+        </div>
+      </Typography>            
       ) : (
         ""
       )}
 
       {isAuth ? (
         <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-          style={{ color: mode === "dark" ? "white" : "black" }}
+        as="li"
+        variant="small"
+        color="black"
+        className={`p-1 font-normal transition-all ${
+          location.pathname === "/createblog" ? "font-bold underline" : "hover:font-bold hover:underline"
+        }`}
+        style={{ color: "black" }}
+      >
+        <NavLink
+          to={"/createblog"}
+          activeClassName="active-link"
+          className="hover:text-black focus:text-black focus:outline-none"
+          style={{ color: "black" }}
         >
-          <NavLink to={"/createblog"} activeClassName="active-link">
-            Create Complaints
-          </NavLink>
-        </Typography>
+          Create Complaints
+        </NavLink>
+      </Typography>      
       ) : (
         ""
       )}
+      <Typography
+  as="li"
+  variant="small"
+  color="black"
+  className={`p-1 font-normal transition-all ${
+    location.pathname === "/sucessstory" ? "font-bold underline" : "hover:font-bold hover:underline"
+  }`}
+  style={{ color: "black" }}
+>
+  <NavLink
+    to={"/sucessstory"}
+    activeClassName="active-link"
+    className="hover:text-black focus:text-black focus:outline-none"
+    style={{ color: "black" }}
+  >
+    Success Stories
+  </NavLink>
+      </Typography>
       <Typography
         as="li"
         variant="small"
@@ -174,18 +209,6 @@ export default function Nav() {
             Logout
           </Link>
         )}
-      </Typography>
-
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "black" }}
-      >
-        <NavLink to={"/sucessstory"} activeClassName="active-link">
-          Success Stories
-        </NavLink>
       </Typography>
     </ul>
   );
