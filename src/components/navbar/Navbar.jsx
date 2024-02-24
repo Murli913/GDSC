@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { auth, fireDb, provider } from "../../firebase/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { SiGooglemaps } from "react-icons/si";
+import logo from "../../assets/globe.png"
 export default function Nav() {
   const [openNav, setOpenNav] = React.useState(false);
   const location = useLocation();
@@ -208,10 +209,10 @@ export default function Nav() {
               {/* Logo Image  */}
               <img
                 className=" w-10 h-10 "
-                src="https://scontent.fblr18-1.fna.fbcdn.net/v/t39.30808-6/428618422_122095216424226909_4659424453591039977_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=oijOVRXLttQAX9yj80G&_nc_ht=scontent.fblr18-1.fna&oh=00_AfCCMFvKwCaTE0poSj-VxgnBeUcS4YsDlFBRWNDkMuJjgg&oe=65DEAE9F"
+                src={logo}
               />
               {/* Logo Text  */}
-              <span>Peace Fuse</span>
+              <span>PeaceFuse</span>
             </Typography>
           </Link>
 
