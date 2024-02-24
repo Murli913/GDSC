@@ -64,7 +64,7 @@ function Comment({
                 setActiveComment({ id: comment.id, type: "replying" })
               }
             >
-              Relpy
+              Reply
             </div>
           )}
           {/* {canEdit && (

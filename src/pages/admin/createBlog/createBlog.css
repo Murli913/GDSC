@@ -1,179 +1,165 @@
+.cpContainer .inputGp {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
 
+.inputGp input,
+.inputGp textarea {
+  font-size: 18px;
+  border: none;
+  border-radius: 2px;
+  padding: 5px;
+}
 
+.inputGp input {
+  height: 40px;
+}
+.inputGp textarea {
+  height: 150px;
+}
 
-  .cpContainer .inputGp {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
+.cpContainer button {
+  margin-top: 20px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+input,
+textarea {
+  margin-top: 5px;
+}
+
+.homePage {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.homePage .post {
+  width: 600px;
+  height: auto;
+  max-height: 600px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.post .postHeader {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.postHeader .title {
+  flex: 50%;
+}
+.postHeader .deletePost {
+  flex: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.deletePost button {
+  border: none;
+
+  background: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.post .postTextContainer {
+  word-wrap: break-word;
+  height: auto;
+  max-height: 400px;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+/* input[type="checkbox"] {
+    outline: 3px solid black;
+  } */
+
+input:checked {
+  outline: 2px solid blue;
+}
+input.form-check-input {
+  width: 20px;
+  height: 20px;
+}
+
+.form-check {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* General styles for smaller screens */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 5px; /* Adjust the body padding for smaller screens */
   }
-  
+
+  .nav {
+    position: fixed;
+    top: var(--header-height);
+    left: -100%;
+    width: 70%; /* Change width to 100% for better visibility on small screens */
+    height: 100vh;
+    padding: 2rem;
+    background-color: var(--white-color);
+    transition: 0.5s;
+  }
+
+  .createPostPage {
+    height: auto;
+  }
+
+  .cpContainer {
+    width: 100%; /* Adjust width for better responsiveness */
+  }
+
+  .cpContainer h1 {
+    font-size: 24px; /* Adjust font size for better visibility on small screens */
+  }
+
   .inputGp input,
   .inputGp textarea {
-    font-size: 18px;
-    border: none;
-    border-radius: 2px;
-    padding: 5px;
-  }
-  
-  .inputGp input {
-    height: 40px;
-  }
-  .inputGp textarea {
-    height: 150px;
-  }
-  
-  .cpContainer button {
-    margin-top: 20px;
-    height: 40px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  input,
-  textarea {
-    margin-top: 5px;
-  }
-  
-  
-  
-  .homePage {
-    width: 100%;
-    min-height: calc(100vh - 80px);
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-  }
-  
-  .homePage .post {
-    width: 600px;
-    height: auto;
-    max-height: 600px;
-    background-color: rgb(250, 250, 250);
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-  }
-  
-  .post .postHeader {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .postHeader .title {
-    flex: 50%;
-  }
-  .postHeader .deletePost {
-    flex: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  
-  .deletePost button {
-    border: none;
-  
-    background: none;
-    font-size: 30px;
-    cursor: pointer;
-  }
-  
-  .post .postTextContainer {
-    word-wrap: break-word;
-    height: auto;
-    max-height: 400px;
-    width: 100%;
-    overflow: hidden;
-    overflow-y: auto;
-  }
-  input[type="checkbox"] {
-    outline: 3px solid black;
-  }
-          
-  input:checked {
-    outline: 2px solid blue;
-  }
-  input.form-check-input{
-    width: 20px;
-    height: 20px;
-  }
-  
-  .form-check {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 15px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  
+    font-size: 16px; /* Adjust font size for better visibility on small screens */
   }
 
-  
-  
-  /* General styles for smaller screens */
-  @media screen and (max-width: 768px) {
-    body {
-      padding: 5px; /* Adjust the body padding for smaller screens */
-    }
-  
-   
-  
-    .nav {
-      position: fixed;
-      top: var(--header-height);
-      left: -100%;
-      width: 70%; /* Change width to 100% for better visibility on small screens */
-      height: 100vh;
-      padding: 2rem;
-      background-color: var(--white-color);
-      transition: .5s;
-    }
-  
-    .createPostPage {
-      height: auto;
-    
-    }
-  
-    .cpContainer {
-      width: 100%; /* Adjust width for better responsiveness */
-      
-    }
-  
-    .cpContainer h1 {
-      font-size: 24px; /* Adjust font size for better visibility on small screens */
-    }
-  
-    .inputGp input,
-    .inputGp textarea {
-      font-size: 16px; /* Adjust font size for better visibility on small screens */
-     
-    }
-  
-    .loginPage {
-      height: auto;
-      padding: 20px;
-    }
-  
-    .loginPage p {
-      font-size: 24px; /* Adjust font size for better visibility on small screens */
-    }
-  
-    .login-with-google-btn {
-      font-size: 20px; /* Adjust font size for better visibility on small screens */
-      padding: 10px 16px 8px 42px;
-    }
-  
-    .homePage .post {
-      width: 100%; /* Adjust width for better responsiveness */
-      margin: 10px; /* Adjust margin for better spacing on small screens */
-    }
+  .loginPage {
+    height: auto;
+    padding: 20px;
   }
-  
+
+  .loginPage p {
+    font-size: 24px; /* Adjust font size for better visibility on small screens */
+  }
+
+  .login-with-google-btn {
+    font-size: 20px; /* Adjust font size for better visibility on small screens */
+    padding: 10px 16px 8px 42px;
+  }
+
+  .homePage .post {
+    width: 100%; /* Adjust width for better responsiveness */
+    margin: 10px; /* Adjust margin for better spacing on small screens */
+  }
+}

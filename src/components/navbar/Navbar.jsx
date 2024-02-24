@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 import { auth, fireDb, provider } from "../../firebase/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { SiGooglemaps } from "react-icons/si";
-import logo from "../../assets/globe.png"
+import logo from "../../assets/globe.png";
 export default function Nav() {
   const [openNav, setOpenNav] = React.useState(false);
   const location = useLocation();
@@ -230,10 +230,7 @@ export default function Nav() {
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
               {/* Logo Image  */}
-              <img
-                className=" w-10 h-10 "
-                src={logo}
-              />
+              <img className=" w-10 h-10 " src={logo} />
               {/* Logo Text  */}
               <span>PeaceFuse</span>
             </Typography>
@@ -255,7 +252,6 @@ export default function Nav() {
               {isAuth ? <ShareDialogBox /> : ""}
             </div>
             {/* map icon*/}
-           
 
             {/* Admin Profile Pic */}
             <div>
@@ -281,7 +277,6 @@ export default function Nav() {
                 ""
               )}
             </div>
-          
 
             {/* dark And Light Button */}
             <div>
@@ -392,7 +387,6 @@ export default function Nav() {
           {/* NavList  */}
           {navList}
         </Collapse>
-
       </Navbar>
     </>
   );

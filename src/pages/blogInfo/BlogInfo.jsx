@@ -87,8 +87,7 @@ function BlogInfo() {
         const likedByUserRef = doc(fireDb, "likes", `${params.id}_${userId}`);
         const likeDocSnap = await getDoc(likedByUserRef);
         if (likeDocSnap.exists()) {
-          console.log("User has already liked this post.");
-          toast.success("User has already liked this post.");
+          toast.error("You have already liked this post.");
           return;
         }
 
@@ -96,7 +95,7 @@ function BlogInfo() {
         await updateDoc(likesRef, { likesCount: updatedLikesCnt });
         setLikesCnt(updatedLikesCnt);
 
-        //await setDoc(likedByUserRef, { liked: true });
+        await setDoc(likedByUserRef, { liked: true });
         toast.success("Likes Updated Successfully");
       } else {
         await setDoc(likesRef, { likesCount: 1 });
@@ -160,8 +159,7 @@ function BlogInfo() {
         );
         const dislikeDocSnap = await getDoc(dislikedByUserRef);
         if (dislikeDocSnap.exists()) {
-          console.log("User has already disliked this post.");
-          toast.success("User has already disliked this post.");
+          toast.error("You have already disliked this post.");
           return;
         }
 
@@ -247,7 +245,9 @@ function BlogInfo() {
     try {
       await addDoc(commentRef, {
         body: text,
-        username: auth.currentUser?.displayName ? auth.currentUser?.displayName : "Anonymous",
+        username: auth.currentUser?.displayName
+          ? auth.currentUser?.displayName
+          : "Anonymous",
         photoURL: auth.currentUser?.photoURL ? auth.currentUser?.photoURL : "",
         userId: auth.currentUser?.uid,
         parentId: parentIding ? parentIding : null,
@@ -257,7 +257,7 @@ function BlogInfo() {
         setActiveComment(null);
         console.log("Let's see what it returns-->", comment);
       });
-      toast.success("Comment Add Successfully");
+      // toast.success("Comment Add Successfully");
       // setCommentText("");
     } catch (error) {
       console.log(error);
@@ -450,17 +450,11 @@ function BlogInfo() {
                 </p>
               </div>
               <div
-                className={`border-b mb-5 ${
+                className={` ${
                   mode === "dark" ? "border-gray-600" : "border-gray-400"
                 }`}
               />
 
-              {/* Thumbnail  */}
-              <img
-                alt="content"
-                className="mb-3 rounded-lg h-full w-full"
-                src={getBlogs?.thumbnail}
-              />
               {/* blog Content  */}
               <div className="content">
                 <div
@@ -541,6 +535,12 @@ function BlogInfo() {
                   )}
                 ></div>
               </div>
+              {/* Thumbnail  */}
+              <img
+                alt="content"
+                className="mb-3 rounded-lg mx-auto"
+                src={getBlogs?.thumbnail}
+              />
             </div>
           )}
         </div>
@@ -609,7 +609,9 @@ function BlogInfo() {
           )}
 
           <div className="status">
-            <h1>Status: {getBlogs?.status}</h1>
+            <h1>
+              Status: {getBlogs?.status ? getBlogs?.status : "Registered"}
+            </h1>
           </div>
         </div>
         {/* <Comment
@@ -624,9 +626,8 @@ function BlogInfo() {
         /> */}
         {/* <Comments currentUserId={currentUserId} allComment={allComment} /> */}
         <div className="comments">
-          <h3 className="comments-title">Comments</h3>
-          <div className="comment-form-title">Write comment</div>
-          <CommentForm submitLabel="Write" handleSubmit={addComment} />
+          {/* <div className="comment-form-title">Write comment</div> */}
+          <CommentForm submitLabel="Comment" handleSubmit={addComment} />
 
           <div className="comment-container">
             {rootComments.map((rootComment) => (

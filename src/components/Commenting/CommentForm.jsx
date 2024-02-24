@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Comment.css";
+import { auth } from "../../firebase/FirebaseConfig";
 
 function CommentForm({
   handleSubmit,
@@ -20,14 +21,20 @@ function CommentForm({
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <textarea
-          className="comment-form-textarea"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <button className="comment-form-button" disabled={isTextareaDisabled}>
-          {submitLabel}
-        </button>
+        <div className="comment-form">
+          <div className="comment-image-container-textarea">
+            <img src={auth.currentUser?.photoURL}></img>
+          </div>
+          <textarea
+            className="comment-form-textarea"
+            value={text}
+            placeholder="Add a comment..."
+            onChange={(e) => setText(e.target.value)}
+          />
+          <button className="comment-form-button" disabled={isTextareaDisabled}>
+            {submitLabel}
+          </button>
+        </div>
         {hasCancelButton && (
           <button
             type="button"

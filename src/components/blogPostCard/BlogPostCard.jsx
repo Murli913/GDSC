@@ -104,11 +104,14 @@ function BlogPostCard() {
                   blog_string_div.textContent ||
                   blog_string_div.innerText ||
                   "";
-                console.log("testing items", item);
+                // console.log("testing items", item);
                 return (
                   <div
                     className="p-8 sm:w-1/1 bg-white  rounded-md overflow-hidden"
                     key={index}
+                    onClick={() => {
+                      window.location.href = `/bloginfo/${id}`;
+                    }}
                   >
                     {modal && (
                       <div className="modal">
@@ -218,13 +221,13 @@ function BlogPostCard() {
                         }}
                       >
                         <div className="flex text-xl justify mb-2">
-                          Status : {status}
+                          Status : {status ? status : "Registered"}
                         </div>
                         <div className="flex text-xl justify">
                           <SlLike className="text-2xl mr-2 mb-2" />
-                          {likesCount}
+                          {likesCount > 0 ? likesCount : 0}
                           <SlDislike className="text-2xl ml-4 mr-2 mb-2" />
-                          {dislikesCount}
+                          {dislikesCount > 0 ? dislikesCount : 0}
                           <button
                             onClick={() => {
                               window.location.href = `/bloginfo/${id}`;
