@@ -25,6 +25,8 @@
 }
 .status {
   padding: 0px 15px;
+  font-size: large;
+  font-weight: bold;
 }
 
 .btn {

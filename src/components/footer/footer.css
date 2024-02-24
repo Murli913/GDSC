@@ -1,64 +1,64 @@
 .footer-slider .owl-carousel .owl-item a img {
-    width: auto;
+  width: auto;
 }
 
 img {
-    width: auto\9;
-    height: auto;
-    max-width: 100%;
-    vertical-align: middle;
-    border: 0;
-    -ms-interpolation-mode: bicubic;
-    background: none; /* Remove blue background */
+  width: auto\9;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  background: none; /* Remove blue background */
 }
 
 .footer-carousel.owl-carousel {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .footer-carousel.owl-carousel .ext-link {
-    flex: 0 0 auto;
-    margin-right: 10px; /* Add margin between items */
+  flex: 0 0 auto;
+  margin-right: 10px; /* Add margin between items */
 }
 
 .controls {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .prev-btn,
 .next-btn {
-    padding: 10px 20px;
-    margin-right: 10px;
-    cursor: pointer;
-    background-color: #ccc;
-    border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: #ccc;
+  border: none;
 }
 
 .prev-btn:hover,
 .next-btn:hover {
-    background-color: #aaa;
+  background-color: #aaa;
 }
 
 a {
-    color: #0d469f;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
-    text-decoration: none;
-    outline: none;
-    border: none;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    -moz-transition: all 0.2s ease-in-out;
-    -webkit-transition: all 0.2s ease-in-out;
+  color: #0d469f;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
 }
 
 a:-webkit-any-link {
-    color: -webkit-link;
-    cursor: pointer;
+  color: -webkit-link;
+  cursor: pointer;
 }
 
 selection {
-    background: rgba(0, 0, 0, .2);
+  background: rgba(0, 0, 0, 0.2);
 }
