@@ -2,7 +2,7 @@ import React from "react";
 import "./Comment.css";
 import Comment from "./Comment";
 import CommentForm from "./Comment";
-import { addComment } from "../../pages/blogInfo/BlogInfo";
+// import { addComment } from "../../pages/blogInfo/BlogInfo";
 
 function Comments({ currentUserId, allComment }) {
   const rootComments = allComment.filter(

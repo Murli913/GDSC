@@ -39,10 +39,12 @@
 .comment-form-button:disabled {
   opacity: 0.7;
   cursor: default;
+  background: rgb(37, 99, 235);
 }
 
-.comment-form-cancel-button {
+.comment-form-cancel-button:hover:enabled {
   margin-left: 10px;
+  background: rgb(37, 99, 235);
 }
 
 .comment {

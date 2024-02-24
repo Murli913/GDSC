@@ -17,7 +17,8 @@ import {
 import { fireDb } from "../../firebase/FirebaseConfig";
 import Loader from "../../components/loader/Loader";
 import Layout from "../../components/layout/Layout";
-import Comments from "../../components/Commenting/Comments";
+import Comment from "../../components/Commenting/Comment.jsx";
+import CommentForm from "../../components/Commenting/CommentForm.jsx";
 import toast from "react-hot-toast";
 import "./bloginfo.css";
 import { useNavigate } from "react-router-dom";
@@ -28,29 +29,31 @@ import { auth, provider } from "../../firebase/FirebaseConfig";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { SlLike, SlDislike } from "react-icons/sl";
 
-async function addComment() {
-  const commentRef = collection(
-    fireDb,
-    "blogPost/" + `${params.id}/` + "comment"
-  );
-  try {
-    await addDoc(commentRef, {
-      body,
-      username,
-      userId,
-      parentId,
-      justParentId,
-      createdAt: Timestamp.now(),
-    });
-    toast.success("Comment Add Successfully");
-    setCommentText("");
-  } catch (error) {
-    console.log(error);
-  }
-}
+import "../../components/Commenting/Comment.css";
 
 function BlogInfo() {
-  // console.log("Dekho uid--->" + auth.currentUser.displayName);
+  // ---------------------------Comments--------------------------------------------------
+
+  const [allComment, setAllComment] = useState([]);
+  const [activeComment, setActiveComment] = useState(null);
+
+  const rootComments = allComment.filter(
+    (allComment) => allComment.parentId === null
+  );
+
+  const getReplies = (commentId) =>
+    allComment
+      .filter((allComment) => allComment.parentId === commentId)
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+  allComment.map((item) => {
+    const { id, body, username, userId, parentId, justParentId, createdAt } =
+      item;
+    console.log(item.id);
+  });
+  // --------------------------------Comments--------------------------------------------------
   const context = useContext(myContext);
   const { mode, loading, setloading } = context;
   const isAuth = localStorage.getItem("isAuth");
@@ -82,7 +85,7 @@ function BlogInfo() {
       if (docSnap.exists()) {
         const blogPostData = docSnap.data();
         const likedByUserRef = doc(fireDb, "likes", `${params.id}_${userId}`);
-       const likeDocSnap = await getDoc(likedByUserRef);
+        const likeDocSnap = await getDoc(likedByUserRef);
         if (likeDocSnap.exists()) {
           console.log("User has already liked this post.");
           toast.success("User has already liked this post.");
@@ -109,6 +112,34 @@ function BlogInfo() {
     }
   };
 
+  const updateComment = async (text, commentId) => {
+    const commentRef = collection(
+      fireDb,
+      "blogPost/" + `${params.id}/` + "comment"
+    );
+    console.log("text: ", text);
+    
+    const updateAllComments = allComment.map((comment) => {
+      console.log("cheking---->>>>", comment);
+      if (comment.id === commentId) {
+        console.log("update this comment", comment);
+        try {
+          updateDoc(commentRef, {
+            body: text,
+          }).then((check) => {
+            console.log("Updated comment----------------> " + check);
+            setActiveComment(null);
+            setAllComment(updateAllComments);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        return allComment;
+      }
+    });
+  };
+
   const addDislikes = async () => {
     try {
       const currentUser = auth.currentUser;
@@ -127,7 +158,7 @@ function BlogInfo() {
           "dislikes",
           `${params.id}_${userId}`
         );
-       const dislikeDocSnap = await getDoc(dislikedByUserRef);
+        const dislikeDocSnap = await getDoc(dislikedByUserRef);
         if (dislikeDocSnap.exists()) {
           console.log("User has already disliked this post.");
           toast.success("User has already disliked this post.");
@@ -207,26 +238,35 @@ function BlogInfo() {
   const [currentUserId, setcurrentUserId] = useState("");
 
   // const addComment = async (body, username, userId, parentId, justParentId) ----test addComment() ----
-  // const addComment = async () => {
-  //   const commentRef = collection(
-  //     fireDb,
-  //     "blogPost/" + `${params.id}/` + "comment"
-  //   );
-  //   try {
-  //     await addDoc(commentRef, {
-  //       body,
-  //       username,
-  //       userId,
-  //       parentId,
-  //       justParentId,
-  //       createdAt: Timestamp.now(),
-  //     });
-  //     toast.success("Comment Add Successfully");
-  //     setCommentText("");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+
+  const addComment = async (text, parentIding) => {
+    const commentRef = collection(
+      fireDb,
+      "blogPost/" + `${params.id}/` + "comment"
+    );
+    try {
+      await addDoc(commentRef, {
+        body: text,
+        username: auth.currentUser?.displayName,
+        userId: auth.currentUser?.uid,
+        parentId: parentIding ? parentIding : null,
+        justParentId: null,
+        createdAt: new Date().toISOString(),
+      }).then((comment) => {
+        setActiveComment(null);
+        console.log("Let's see what it returns-->", comment);
+      });
+      toast.success("Comment Add Successfully");
+      // setCommentText("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const addComment = async (text, parentId) => {
+  //   console.log("addComment-----> ", text, parentId);
   // };
+
   // const addComment = async () => {
   //   const commentRef = collection(
   //     fireDb,
@@ -276,8 +316,6 @@ function BlogInfo() {
   //   }
   // };
 
-  const [allComment, setAllComment] = useState([]);
-
   const getcomment = async () => {
     try {
       const q = query(
@@ -287,7 +325,8 @@ function BlogInfo() {
       const data = onSnapshot(q, (QuerySnapshot) => {
         let productsArray = [];
         QuerySnapshot.forEach((doc) => {
-          productsArray.push({ ...doc.data(), id: doc.id });
+          productsArray.push({ id: doc.id, ...doc.data() });
+          console.log("Query snapshot", doc.data());
         });
         setAllComment(productsArray);
         console.log("Dekho allcomments" + productsArray);
@@ -328,19 +367,19 @@ function BlogInfo() {
         }),
         // Add any other user details you want to store
       };
-  
+
       // Save user details to Firestore under 'users' collection
       const userRef = doc(fireDb, "users", user.uid);
       setDoc(userRef, userDetails)
         .then(() => {
           localStorage.setItem("current user uid", user.uid);
           localStorage.setItem("isAuth", true);
-          toast.success('Login success');
+          toast.success("Login success");
           navigate("/");
         })
         .catch((error) => {
           console.error("Error adding document: ", error);
-          toast.error('Error occurred during login');
+          toast.error("Error occurred during login");
         });
     });
   };
@@ -368,11 +407,18 @@ function BlogInfo() {
       toast.error("Failed to add reply");
     }
   };
-  
-   // Fetch replies for a comment
-   const getRepliesForComment = async (commentId) => {
+
+  // Fetch replies for a comment
+  const getRepliesForComment = async (commentId) => {
     try {
-      const repliesRef = collection(fireDb, "blogPost", params.id, "comment", commentId, "replies");
+      const repliesRef = collection(
+        fireDb,
+        "blogPost",
+        params.id,
+        "comment",
+        commentId,
+        "replies"
+      );
       const repliesSnapshot = await getDocs(repliesRef);
       const repliesData = repliesSnapshot.docs.map((doc) => doc.data());
       return repliesData;
@@ -381,7 +427,6 @@ function BlogInfo() {
       return [];
     }
   };
-
 
   return (
     <Layout>
@@ -576,12 +621,30 @@ function BlogInfo() {
           replies={replies}
           setReplies={setReplies}
         /> */}
+        {/* <Comments currentUserId={currentUserId} allComment={allComment} /> */}
+        <div className="comments">
+          <h3 className="comments-title">Comments</h3>
+          <div className="comment-form-title">Write comment</div>
+          <CommentForm submitLabel="Write" handleSubmit={addComment} />
 
-        <Comments currentUserId={currentUserId} allComment={allComment} />
+          <div className="comment-container">
+            {rootComments.map((rootComment) => (
+              <Comment
+                key={rootComment.id}
+                comment={rootComment}
+                replies={getReplies(rootComment.id)}
+                currentUserId={currentUserId}
+                activeComment={activeComment}
+                setActiveComment={setActiveComment}
+                addComment={addComment}
+                updateComment={updateComment}
+              />
+            ))}
+          </div>
+        </div>
       </section>
     </Layout>
   );
 }
 
 export default BlogInfo;
-export { addComment };
