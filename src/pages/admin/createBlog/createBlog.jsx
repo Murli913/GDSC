@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect,useRef } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import myContext from "../../../context/data/myContext";
@@ -16,7 +16,7 @@ import Nav from "../../../components/navbar/Navbar";
 import Footer from "../../../components/footer/Footer";
 import Layout from "../../../components/layout/Layout";
 
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 const categories = [
   "Child abuse",
@@ -29,29 +29,38 @@ const categories = [
 function CreateBlog() {
   const context = useContext(myContext);
   const { mode } = context;
- 
+
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState({
     title: "",
-    
+
     content: "",
     time: Timestamp.now(),
   });
 
+  const [isChecked, setIsChecked] = useState(false);
+  const [isDisclaimerChecked, setIsDisclaimerChecked] = useState(false);
+  const [disclaimerError, setIsDisclaimerError] = useState(false);
   const [error, setError] = useState(false);
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
   const [errorCategory, setErrorCategory] = useState(false);
 
- 
+  const handleTermsAndCondCheckbox = () => {
+    setIsChecked(!isChecked);
+    setError(false); // Reset error message when user interacts with checkbox
+  };
+  const handleDisclaimerCheckbox = () => {
+    setIsDisclaimerChecked(!isDisclaimerChecked);
+    setIsDisclaimerError(false); // Reset error message when user interacts with checkbox
+  };
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
 
   const addPost = async () => {
-   
     if (blogs.content === "") {
       setErrorContent(true);
     } else {
@@ -68,6 +77,18 @@ function CreateBlog() {
       uploadImage();
       navigate("/");
     }
+    if (!isChecked) {
+      setError(true);
+    } else {
+      uploadImage();
+      navigate("/");
+    }
+    if (!isDisclaimerChecked) {
+      setIsDisclaimerError(true);
+    } else {
+      uploadImage();
+      navigate("/");
+    }
   };
   const uploadImage = () => {
     if (!thumbnail) return;
@@ -79,7 +100,7 @@ function CreateBlog() {
           addDoc(productRef, {
             blogs,
             location,
-           
+
             author: {
               name: auth.currentUser.displayName,
               id: auth.currentUser.uid,
@@ -103,7 +124,6 @@ function CreateBlog() {
     });
   };
 
- 
   const [thumbnail, setthumbnail] = useState();
 
   const [text, settext] = useState("");
@@ -165,14 +185,24 @@ function CreateBlog() {
   function sendEmail(e) {
     e.preventDefault();
 
-emailjs.sendForm('service_v1gm6rs', 'template_viu5l96', e.target, 'uYtd_6Wk0tLOhJPR8')
-    .then((result) => {
-        console.log(result.text);
-    }, (error) => {
-        console.log(error.text);
-    });
-    e.target.reset()
-}
+    emailjs
+      .sendForm(
+        "service_v1gm6rs",
+        "template_viu5l96",
+        e.target,
+        "uYtd_6Wk0tLOhJPR8"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    toast.success("Complaint sent successfully");
+    e.target.reset();
+  }
 
   return (
     <Layout>
@@ -271,30 +301,30 @@ emailjs.sendForm('service_v1gm6rs', 'template_viu5l96', e.target, 'uYtd_6Wk0tLOh
                 {" "}
                 <b>Complaint Type</b>
               </label>
-              
+
               {/* Category Dropdown */}
-            <div className="mb-3">
-              <select
-                className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
+              <div className="mb-3">
+                <select
+                  className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                 "
-                style={{
-                  background:
-                    mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
-                }}
-                onChange={handleCategoryChange}
-                value={selectedCategory}
-              >
-                <option value="">Select Category</option>
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-              {errorCategory && (
-                <p style={{ color: "red" }}>Please select a category.</p>
-              )}
-            </div>
+                  style={{
+                    background:
+                      mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                  }}
+                  onChange={handleCategoryChange}
+                  value={selectedCategory}
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((category, index) => (
+                    <option key={index} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+                {errorCategory && (
+                  <p style={{ color: "red" }}>Please select a category.</p>
+                )}
+              </div>
             </div>
           </div>
           {/* Third Title Input */}
@@ -360,27 +390,54 @@ emailjs.sendForm('service_v1gm6rs', 'template_viu5l96', e.target, 'uYtd_6Wk0tLOh
           />
           {errorContent && <p style={{ color: "red" }}>mandatory field.</p>}
           {/* Five Terms and Conditions */}
-          <div className="mt-5 flex justify-left">
-            <p>Hello world</p>
-          </div>
+          <div className="mt-5 flex justify-left"></div>
           <div className="flex justify-left items-center">
             <input
               type="checkbox"
               id="acceptCheckbox"
               className="form-check-input"
-              // checked={isChecked}
-              // onChange={handleCheckboxChange}
+              checked={isChecked}
+              onChange={handleTermsAndCondCheckbox}
             />
-            <label htmlFor="acceptCheckbox" className="ml-2">
-              I Accept
+            <label htmlFor="acceptCheckbox" className="ml-2 mt-3">
+              <b>Terms and Conditions:</b> Information must be true, accurate,
+              and complete. Providing false details may lead to legal action.
             </label>
           </div>
-          {error && <p style={{ color: "red" }}>Please accept the terms.</p>}
+          {error && (
+            <p style={{ color: "red" }}>
+              Please accept the Terms and Conditions.
+            </p>
+          )}
+          <div className="mt-5 flex justify-left"></div>
+          <div className="flex justify-left items-center">
+            <input
+              type="checkbox"
+              id="acceptCheckbox"
+              className="form-check-input"
+              checked={isDisclaimerChecked}
+              onChange={handleDisclaimerCheckbox}
+            />
+            <label htmlFor="acceptCheckbox" className="ml-2 mb-1">
+              <b>Disclaimer:</b> Once submitted, the information provided cannot
+              be edited. Please review your submission carefully.
+            </label>
+          </div>
+          {disclaimerError && (
+            <p style={{ color: "red" }}>Please accept the Disclaimer.</p>
+          )}
 
           {/* Six Submit Button  */}
           <div className="flex justify-center items-center mt-5">
+            <form onSubmit={sendEmail}>
+              <input
+                type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                value="Send Notification to Police"
+              />
+            </form>
             <Button
-              className="mt-5 mx-auto"
+              className="mt-5 ml-auto"
               onClick={addPost}
               style={{
                 background:
@@ -391,12 +448,6 @@ emailjs.sendForm('service_v1gm6rs', 'template_viu5l96', e.target, 'uYtd_6Wk0tLOh
             >
               Submit
             </Button>
-            <form onSubmit={sendEmail}>
-                   
-            <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" value="Send Notification to Police"/>
-
-                      
-                </form>
           </div>
         </div>
       </div>

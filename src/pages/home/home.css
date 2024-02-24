@@ -1,18 +1,17 @@
 .container {
-    display: flex;
-    width: 100%; /* Adjust as needed */
-  }
-  
-  .major-part {
-    flex: 2; /* Adjust as needed */
-    width: 66.66%; /* Adjust as needed */
-  }
-  
-  .minor-part {
-    flex: 1; /* Adjust as needed */
-    width: 33.33%; /* Adjust as needed */
-  }
-  .carousel {
-    display: flex;
-    transition: transform 0.5s ease; /* Smooth transition between slides */
-  }
+  display: flex;
+  /* width: 100%;  */
+}
+
+.major-part {
+  flex: 4; /* Adjust as needed */
+  width: 90%; /* Adjust as needed */
+}
+
+.minor-part {
+  flex: 1;
+}
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease; /* Smooth transition between slides */
+}

@@ -12,7 +12,7 @@ import myContext from "../../context/data/myContext";
 import SearchDialog from "../searchDialog/SearchDialog";
 import ShareDialogBox from "../shareDialogBox/ShareDialog";
 import "./Navbar.css";
-
+import { FaChevronDown } from "react-icons/fa";
 import { signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
 import { auth, fireDb, provider } from "../../firebase/FirebaseConfig";
@@ -32,7 +32,7 @@ export default function Nav() {
     navigate("/");
   };
   const signwithoutuser = () => {
-    navigate("/terms");
+    navigate("/createblog");
   };
   const signInWithpolice = () => {
     navigate("/policelogin");
@@ -110,12 +110,11 @@ export default function Nav() {
           className="p-1 font-normal"
           style={{ color: mode === "dark" ? "white" : "black" }}
         >
-          <div class="navbar">
+          <div>
             <div class="dropdown">
-              <Link class="dropbtn">
-                New Complaint
-                <i class="fa fa-caret-down"></i>
-              </Link>
+              <Link class="dropbtn">New Complaint</Link>
+              <FaChevronDown className="mt-5" />
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
               <div class="dropdown-content">
                 <a href="#" onClick={signwithoutuser}>
                   Anonymously{" "}
@@ -162,11 +161,9 @@ export default function Nav() {
           <Link
             onClick={logout}
             style={{
-              background:
-                mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-              color: mode === "dark" ? "black" : "white",
+              color: mode === "dark" ? "black" : "black",
             }}
-            className="px-8 py-2"
+            className="px-1 py-2"
           >
             Logout
           </Link>
