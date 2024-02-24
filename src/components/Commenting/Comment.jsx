@@ -37,7 +37,7 @@ function Comment({
   return (
     <div key={comment.id} className="comment">
       <div className="comment-image-container">
-        <img src={auth.currentUser?.photoURL} />
+        <img src={comment.photoURL} />
       </div>
       <div className="comment-right-part">
         <div className="comment-content">

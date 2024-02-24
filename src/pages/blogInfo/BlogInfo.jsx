@@ -118,7 +118,7 @@ function BlogInfo() {
       "blogPost/" + `${params.id}/` + "comment"
     );
     console.log("text: ", text);
-    
+
     const updateAllComments = allComment.map((comment) => {
       console.log("cheking---->>>>", comment);
       if (comment.id === commentId) {
@@ -247,7 +247,8 @@ function BlogInfo() {
     try {
       await addDoc(commentRef, {
         body: text,
-        username: auth.currentUser?.displayName,
+        username: auth.currentUser?.displayName ? auth.currentUser?.displayName : "Anonymous",
+        photoURL: auth.currentUser?.photoURL ? auth.currentUser?.photoURL : "",
         userId: auth.currentUser?.uid,
         parentId: parentIding ? parentIding : null,
         justParentId: null,
