@@ -57,7 +57,7 @@ const PoliceComment = ({ addComment, commentText, setcommentText, allComment, fu
         {/* Button  */}
         <div className="">
           <Button
-            onClick={addComment}
+            onClick={()=>addComment(commentText,null)}
             style={{
               background: mode === 'dark'
                 ? 'rgb(226, 232, 240)'

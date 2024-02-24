@@ -76,26 +76,51 @@ const Policebloginfo = () => {
   const [fullName, setFullName] = useState("");
   const [commentText, setCommentText] = useState("");
 
-  const addComment = async () => {
-    const commentReff = collection(
+  // const addComment = async () => {
+  //   const commentReff = collection(
+  //     fireDb,
+  //     "blogPost/" + `${params.id}/` + "comment"
+  //   );
+  //   try {
+  //     await addDoc(commentReff, {
+  //       fullName,
+  //       commentText,
+
+  //       time: Timestamp.now(),
+  //       date: new Date().toLocaleString("en-US", {
+  //         month: "short",
+  //         day: "2-digit",
+  //         year: "numeric",
+  //       }),
+  //     });
+  //     toast.success("Comment Add Successfully");
+  //     setFullName("");
+  //     setCommentText("");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  const addComment =   (text, parentIding) => {
+    console.log("-------------------------------?"+text);
+    const commentRef = collection(
       fireDb,
       "blogPost/" + `${params.id}/` + "comment"
     );
     try {
-      await addDoc(commentReff, {
-        fullName,
-        commentText,
-
-        time: Timestamp.now(),
-        date: new Date().toLocaleString("en-US", {
-          month: "short",
-          day: "2-digit",
-          year: "numeric",
-        }),
+       addDoc(commentRef, {
+        body: text,
+        username: "Police",
+        photoURL:  "",
+        userId: "100",
+        parentId: parentIding ? parentIding : null,
+        justParentId: null,
+        createdAt: new Date().toISOString(),
+      }).then((comment) => {
+        setActiveComment(null);
+        console.log("Let's see what it returns-->", comment);
       });
-      toast.success("Comment Add Successfully");
-      setFullName("");
-      setCommentText("");
+      // toast.success("Comment Add Successfully");
+      // setCommentText("");
     } catch (error) {
       console.log(error);
     }
@@ -103,19 +128,39 @@ const Policebloginfo = () => {
 
   const [allComment, setAllComment] = useState([]);
 
+  // const getcomment = async () => {
+  //   try {
+  //     const qq = query(
+  //       collection(fireDb, "blogPost/" + `${params.id}/` + "comment/"),
+  //       orderBy("time")
+  //     );
+  //     const data = onSnapshot(qq, (QuerySnapshot) => {
+  //       let productsArray = [];
+  //       QuerySnapshot.forEach((doc) => {
+  //         productsArray.push({ ...doc.data(), id: doc.id });
+  //       });
+  //       setAllComment(productsArray);
+  //       console.log(productsArray);
+  //     });
+  //     return () => data;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const getcomment = async () => {
     try {
-      const qq = query(
+      const q = query(
         collection(fireDb, "blogPost/" + `${params.id}/` + "comment/"),
-        orderBy("time")
+        orderBy("createdAt")
       );
-      const data = onSnapshot(qq, (QuerySnapshot) => {
+      const data = onSnapshot(q, (QuerySnapshot) => {
         let productsArray = [];
         QuerySnapshot.forEach((doc) => {
-          productsArray.push({ ...doc.data(), id: doc.id });
+          productsArray.push({ id: doc.id, ...doc.data() });
+          console.log("Query snapshot", doc.data());
         });
         setAllComment(productsArray);
-        console.log(productsArray);
+        console.log("Dekho allcomments" + productsArray);
       });
       return () => data;
     } catch (error) {
