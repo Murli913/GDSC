@@ -9,7 +9,7 @@ import bannerfourteen from "../../assets/banner-14.png"
 import bannerfifteen from "../../assets/banner-15.png"
 import bannersixteen from "../../assets/banner-16.png"
 import bannerseventeen from "../../assets/banner-17.png"
-
+import "./HeroSection.css"
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

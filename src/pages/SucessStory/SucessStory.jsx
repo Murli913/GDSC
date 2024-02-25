@@ -42,7 +42,8 @@ const SucessStory = () => {
     <div className="sticky top-12 z-50">
       <div className="py-10 mx-auto max-w-7xl">
         <div className="mb-4 flex justify-center">
-          <h1 className="text-3xl font-bold mb-4">Success Stories</h1>
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Success Stories</h1>
+
         </div>
         <div className="carousel-container" style={{ height: "30vh" }}>
           <Slider {...settings}>

@@ -62,3 +62,6 @@ a:-webkit-any-link {
 selection {
   background: rgba(0, 0, 0, 0.2);
 }
+.body-font {
+  overflow-x: hidden; /* Add this line to hide horizontal overflow */
+}

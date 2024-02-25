@@ -48,3 +48,34 @@ body.active-modal {
   right: 10px;
   padding: 5px 7px;
 }
+/* BlogPostCard.css */
+
+/* Base styles */
+
+/* Define common styles for both mobile and desktop */
+
+/* Styles for desktop devices */
+@media (min-width: 768px) {
+  .container {
+    /* Adjust container styles for desktop */
+    max-width: 768px; /* You can adjust the max-width as needed */
+    margin: 0 auto; /* Center align the container */
+  }
+
+  .p-8 {
+    /* Adjust padding for desktop */
+    padding: 2rem;
+  }
+
+  /* Add more desktop-specific styles as needed */
+}
+
+/* Styles for mobile devices */
+@media (max-width: 767px) {
+  .p-8 {
+    /* Adjust padding for mobile */
+    padding: 1rem;
+  }
+
+  /* Add more mobile-specific styles as needed */
+}

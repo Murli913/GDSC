@@ -110,7 +110,7 @@ const Policebloginfo = () => {
        addDoc(commentRef, {
         body: text,
         username: "Police",
-        photoURL:  "",
+        photoURL:  "https://img.freepik.com/free-vector/police-badge-isolated_1284-42802.jpg",
         userId: "100",
         parentId: parentIding ? parentIding : null,
         justParentId: null,

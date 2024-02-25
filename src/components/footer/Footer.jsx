@@ -11,7 +11,7 @@ import link6 from "../../assets/links/link6.png";
 function Footer() {
   return (
     <footer
-      className="body-font overflow-x-hidden"
+      className="body-font overflow-x-hidden " 
       style={{ background: "none" }}
     >
       <section className="footer-slider">
