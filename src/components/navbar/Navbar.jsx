@@ -196,10 +196,8 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "black" }}
       >
-        {!isAuth ? (
-          <Link to={"/adminlogin"} className="flex items-center"></Link>
-        ) : (
-          <Link
+        {isAuth ? (
+            <Link
             onClick={logout}
             style={{
               color: mode === "dark" ? "black" : "black",
@@ -207,6 +205,16 @@ export default function Nav() {
             className="px-1 py-2"
           >
             Logout
+          </Link>
+        ) : (
+          <Link
+            onClick={signInWithGoogle}
+            style={{
+              color: mode === "dark" ? "black" : "black",
+            }}
+            className="px-1 py-2"
+          >
+            Login
           </Link>
         )}
       </Typography>
