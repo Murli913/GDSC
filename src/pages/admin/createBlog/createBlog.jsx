@@ -55,7 +55,6 @@ function CreateBlog() {
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState({
     title: "",
-
     content: "",
     time: Timestamp.now(),
   });
@@ -305,6 +304,14 @@ function CreateBlog() {
 
           {/* Second Title Input */}
           <div className="mb-3">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="mb-2 font-semibold"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              Enter Title
+            </Typography>
             <input
               label="Enter your Title"
               className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
@@ -330,10 +337,14 @@ function CreateBlog() {
           {/* Third Category Input  */}
           <div className="mb-3">
             <div className="inputGp">
-              <label>
-                {" "}
-                <b>Complaint Type</b>
-              </label>
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="mb-2 font-semibold"
+                style={{ color: mode === "dark" ? "white" : "black" }}
+              >
+                Complaint Type
+              </Typography>
 
               {/* Category Dropdown */}
               <div className="mb-3">
@@ -410,7 +421,49 @@ function CreateBlog() {
           </div>
 
           {/* Four Editor  */}
-          <Editor
+          {/* <textarea
+            className="comment-form-textarea"
+            value={text}
+            placeholder="Add a comment..."
+            onChange={(e) => setText(e.target.value)}
+          />
+          <textarea
+
+            onChange={(e) => settext(e.target.value)}
+          /> */}
+          <div className="mb-3">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="mb-2 font-semibold"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              Enter Description
+            </Typography>
+            <textarea
+              label="Enter Description "
+              className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
+               outline-none ${
+                 mode === "dark" ? "placeholder-black" : "placeholder-black"
+               }`}
+              placeholder="Enter Description"
+              style={{
+                background: mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+                height: "150px", // Adjust the height as needed
+              }}
+              name="description"
+              onChange={(e) =>
+                setBlogs({
+                  ...blogs,
+                  content: e.target.value,
+                })
+              }
+              value={blogs.content}
+            />
+            {errorContent && <p style={{ color: "red" }}>*required.</p>}
+          </div>
+
+          {/* <Editor
             apiKey="vyg44vlnhit4cui1seeytfin0u2lth6kw9j452lw0os9ljm3"
             onEditorChange={(newValue, editor) => {
               setBlogs({ ...blogs, content: newValue });
@@ -423,8 +476,8 @@ function CreateBlog() {
               plugins:
                 "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template  tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
             }}
-          />
-          {errorContent && <p style={{ color: "red" }}>*required.</p>}
+          /> */}
+          {/* {errorContent && <p style={{ color: "red" }}>*required.</p>} */}
           {/* Five Terms and Conditions */}
           <div className="mt-5 flex justify-left"></div>
           <div className="flex justify-left items-center">
