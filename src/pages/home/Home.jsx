@@ -10,20 +10,22 @@ import GoMap from "../GoMap/GoMap";
 
 const Home = () => {
   return (
-    <Layout>
-      <HeroSection />
-      <div className="flex">
-        <div className="w-1/12"></div>
-        <div className="w-7/12">
-          <BlogPostCard />
+    <div className="overflow-x-hidden">
+      <Layout>
+        <HeroSection />
+        <div className="flex">
+          <div className="w-1/12"></div>
+          <div className="w-7/12">
+            <BlogPostCard />
+          </div>
+          <div className="w-1/12"></div>
+          <div className="w-3/12">
+            <SucessStory />
+          </div>
         </div>
-        <div className="w-1/12"></div>
-        <div className="w-3/12">
-          <SucessStory />
-        </div>
-      </div>
-      <GoMap />
-    </Layout>
+        <GoMap />
+      </Layout>
+    </div>
   );
 };
 

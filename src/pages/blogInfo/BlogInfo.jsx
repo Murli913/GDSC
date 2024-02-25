@@ -628,10 +628,11 @@ function BlogInfo() {
         <div className="comments">
           <h3 className="comments-title">Comments</h3>
           <div className="comment-form-title">Write comment</div>
-          { isAuth ? 
-          <CommentForm submitLabel="Write" handleSubmit={addComment} />
-             : <CommentForm submitLabel="Write" handleSubmit={signInWithGoogle} />
-          }
+          {isAuth ? (
+            <CommentForm submitLabel="Write" handleSubmit={addComment} />
+          ) : (
+            <CommentForm submitLabel="Write" handleSubmit={signInWithGoogle} />
+          )}
 
           <div className="comment-container">
             {rootComments.map((rootComment) => (

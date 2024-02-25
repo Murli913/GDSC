@@ -82,112 +82,134 @@ export default function Nav() {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography
-  as="li"
-  variant="small"
-  color="black"
-  className={`p-1 font-normal transition-all ${
-    location.pathname === "/" ? "font-bold underline" : "hover:font-bold hover:underline"
-  }`}
-  style={{ color: "black" }}
->
-  <NavLink
-    to={"/"}
-    activeClassName="active-link"
-    className="text-black hover:text-black focus:text-black focus:outline-none"
-    style={{ color: "black" }}
-  >
-    Home
-  </NavLink>
-</Typography>
-<Typography
-  as="li"
-  variant="small"
-  color="black"
-  className={`p-1 font-normal transition-all ${
-    location.pathname === "/allblogs" ? "font-bold underline" : "hover:font-bold hover:underline"
-  }`}
-  style={{ color: mode === "dark" ? "white" : "black" }}
->
-  <NavLink
-    to={"/allblogs"}
-    activeClassName="active-link"
-    className="hover:text-black focus:text-black focus:outline-none"
-    style={{ color: mode === "dark" ? "white" : "black" }}
-  >
-    Complaints
-  </NavLink>
-</Typography>
-      {/* dropdown */}
-      {!isAuth ? (
-        <Typography
         as="li"
         variant="small"
         color="black"
-        className="p-1 font-normal transition-all duration-100 hover:font-bold hover:underline"
+        className={`p-1 font-normal transition-all ${
+          location.pathname === "/"
+            ? "font-bold underline"
+            : "hover:font-bold hover:underline"
+        }`}
         style={{ color: "black" }}
       >
-        <div>
-          <div class="dropdown">
-            <Link class="dropbtn" style={{ color: "black" }}>New Complaint</Link>
-            <FaChevronDown className="mt-5" />
-            <i class="fa fa-caret-down" aria-hidden="true"></i>
-            <div class="dropdown-content">
-              <a href="#" onClick={signwithoutuser} style={{ color: "black" }}>
-                Anonymously{" "}
-              </a>
-              <a href="#" onClick={signInWithGoogle} style={{ color: "black" }}>
-                Sign In user
-              </a>
-              <a href="#" onClick={signInWithpolice} style={{ color: "black" }}>
-                Sign In police
-              </a>
+        <NavLink
+          to={"/"}
+          activeClassName="active-link"
+          className="text-black hover:text-black focus:text-black focus:outline-none"
+          style={{ color: "black" }}
+        >
+          Home
+        </NavLink>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="black"
+        className={`p-1 font-normal transition-all ${
+          location.pathname === "/allblogs"
+            ? "font-bold underline"
+            : "hover:font-bold hover:underline"
+        }`}
+        style={{ color: mode === "dark" ? "white" : "black" }}
+      >
+        <NavLink
+          to={"/allblogs"}
+          activeClassName="active-link"
+          className="hover:text-black focus:text-black focus:outline-none"
+          style={{ color: mode === "dark" ? "white" : "black" }}
+        >
+          Complaints
+        </NavLink>
+      </Typography>
+      {/* dropdown */}
+      {!isAuth ? (
+        <Typography
+          as="li"
+          variant="small"
+          color="black"
+          className="p-1 font-normal transition-all duration-100 hover:font-bold hover:underline"
+          style={{ color: "black" }}
+        >
+          <div>
+            <div class="dropdown">
+              <Link class="dropbtn" style={{ color: "black" }}>
+                New Complaint/Login
+              </Link>
+              <FaChevronDown className="mt-5" />
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
+              <div class="dropdown-content">
+                <a
+                  href="#"
+                  onClick={signwithoutuser}
+                  style={{ color: "black" }}
+                >
+                  Anonymously{" "}
+                </a>
+                <a
+                  href="#"
+                  onClick={signInWithGoogle}
+                  style={{ color: "black" }}
+                >
+                  Sign In user
+                </a>
+                <a
+                  href="#"
+                  onClick={signInWithpolice}
+                  style={{ color: "black" }}
+                >
+                  Sign In police
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </Typography>            
+        </Typography>
       ) : (
         ""
       )}
 
       {isAuth ? (
         <Typography
-        as="li"
-        variant="small"
-        color="black"
-        className={`p-1 font-normal transition-all ${
-          location.pathname === "/createblog" ? "font-bold underline" : "hover:font-bold hover:underline"
-        }`}
-        style={{ color: "black" }}
-      >
-        <NavLink
-          to={"/createblog"}
-          activeClassName="active-link"
-          className="hover:text-black focus:text-black focus:outline-none"
+          as="li"
+          variant="small"
+          color="black"
+          className={`p-1 font-normal transition-all ${
+            location.pathname === "/createblog"
+              ? "font-bold underline"
+              : "hover:font-bold hover:underline"
+          }`}
           style={{ color: "black" }}
         >
-          Create Complaints
-        </NavLink>
-      </Typography>      
+          <NavLink
+            to={"/createblog"}
+            activeClassName="active-link"
+            className="hover:text-black focus:text-black focus:outline-none"
+            style={{ color: "black" }}
+          >
+            Create Complaints
+          </NavLink>
+        </Typography>
       ) : (
         ""
       )}
       <Typography
-  as="li"
-  variant="small"
-  color="black"
-  className={`p-1 font-normal transition-all ${
-    location.pathname === "/sucessstory" ? "font-bold underline" : "hover:font-bold hover:underline"
-  }`}
-  style={{ color: "black" }}
->
-  <NavLink
-    to={"/sucessstory"}
-    activeClassName="active-link"
-    className="hover:text-black focus:text-black focus:outline-none"
-    style={{ color: "black" }}
-  >
-    Success Stories
-  </NavLink>
+        as="li"
+        variant="small"
+        color="black"
+        className={`p-1 font-normal transition-all ${
+          location.pathname === "/sucessstory"
+            ? "font-bold underline"
+            : "hover:font-bold hover:underline"
+        }`}
+        style={{ color: "black" }}
+      >
+        <NavLink
+          to={"/sucessstory"}
+          activeClassName="active-link"
+          className="hover:text-black focus:text-black focus:outline-none"
+          style={{ color: "black" }}
+        >
+          Success Stories
+        </NavLink>
       </Typography>
       <Typography
         as="li"
@@ -196,27 +218,28 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "black" }}
       >
-        {isAuth ? (
+        {
+          isAuth ? (
             <Link
-            onClick={logout}
-            style={{
-              color: mode === "dark" ? "black" : "black",
-            }}
-            className="px-1 py-2"
-          >
-            Logout
-          </Link>
-        ) : (
-          <Link
-            onClick={signInWithGoogle}
-            style={{
-              color: mode === "dark" ? "black" : "black",
-            }}
-            className="px-1 py-2"
-          >
-            Login
-          </Link>
-        )}
+              onClick={logout}
+              style={{
+                color: mode === "dark" ? "black" : "black",
+              }}
+              className="px-1 py-2"
+            >
+              Logout
+            </Link>
+          ) : (
+            ""
+          )
+          // <Link
+          //   onClick={signInWithGoogle}
+          //   style={{
+          //     color: mode === "dark" ? "black" : "black",
+          //   }}
+          //   className="px-1 py-2"
+          // ></Link>
+        }
       </Typography>
     </ul>
   );
