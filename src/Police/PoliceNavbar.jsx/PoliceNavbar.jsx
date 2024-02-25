@@ -1,22 +1,17 @@
 import React from "react";
 import {
-    Navbar,
-    Typography,
-    IconButton,
-    Avatar,
-    Collapse,
-    Button,
+  Navbar,
+  Typography,
+  IconButton,
+  Avatar,
+  Collapse,
+  Button,
 } from "@material-tailwind/react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineShareAlt, AiOutlineSearch } from 'react-icons/ai'
+import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
 import myContext from "../../context/data/myContext";
 import { signOut } from "firebase/auth";
-
-
-
-
-
 
 import { signInWithPopup } from "firebase/auth";
 //import { auth, provider } from "../../../firebase/FirebaseConfig";
@@ -26,223 +21,241 @@ import SearchDialog from "../../components/searchDialog/SearchDialog";
 import ShareDialogBox from "../../components/shareDialogBox/ShareDialog";
 
 const PoliceNavbar = () => {
-    const [openNav, setOpenNav] = React.useState(false);
+  const [openNav, setOpenNav] = React.useState(false);
+  const isAuth = localStorage.getItem("isAuth");
+  const context = useContext(myContext);
+  const { mode, toggleMode } = context;
 
-    const context = useContext(myContext);
-    const { mode, toggleMode } = context;
-    const isAuth = localStorage.getItem('isAuth');
-    const history = useNavigate()
- 
-    const handleClick = () =>{
-        signOut(auth).then(val=>{
-            console.log(val,"val")
-            history('/')
-        })
-    }
-    
-    
+  const history = useNavigate();
 
- 
+  const handleClick = () => {
+    signOut(auth).then((val) => {
+      localStorage.clear();
+      localStorage.setItem("isAuth", false);
+      console.log(val, "val");
+      history("/policelogin");
+    });
+  };
 
+  // All NavList
+  const navList = (
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+        style={{ color: mode === "dark" ? "white" : "black" }}
+      >
+        <Link to={"/policehome"} className="flex items-center">
+          Home
+        </Link>
+      </Typography>
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+        style={{ color: mode === "dark" ? "white" : "black" }}
+      >
+        <Link to={"/policeallblogs"} className="flex items-center">
+          Complaints
+        </Link>
+      </Typography>
+      {/* dropdown */}
 
-    // All NavList 
-    const navList = (
-        <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-            <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'black' }}
-            >
-                <Link to={'/policehome'} className="flex items-center">
-                    Home
-                </Link>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'black' }}
-            >
-                <Link to={'/policeallblogs'} className="flex items-center">
-                    Complaints
-                </Link>
-            </Typography>
-            {/* dropdown */}
-           
-
-
-
-
-
-
-
-
-          
-            <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-                style={{ color: mode === 'dark' ? 'white' : 'black' }}
-            >
-                   <Button onClick={handleClick}>SignOut</Button>
-            </Typography>
-        </ul>
-    );
+      <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+        style={{ color: mode === "dark" ? "white" : "black" }}
+      >
+        <Button onClick={handleClick}>SignOut</Button>
+      </Typography>
+    </ul>
+  );
   return (
-   <>
-    {/* Navbar  */}
-    <Navbar
-                className="sticky inset-0 z-20 h-max max-w-full border-none rounded-none py-2 px-4 lg:px-8 lg:py-2"
-                style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#f2f9fd' }}>
+    <>
+      {/* Navbar  */}
+      <Navbar
+        className="sticky inset-0 z-20 h-max max-w-full border-none rounded-none py-2 px-4 lg:px-8 lg:py-2"
+        style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#f2f9fd" }}
+      >
+        {/* Desktop View  */}
+        <div className="flex items-center justify-between text-blue-gray-900">
+          {/* Home Page Link  */}
+          <Link to={"/policehome"}>
+            <Typography
+              as="a"
+              className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              {/* Logo Image  */}
+              <img
+                className=" w-10 h-10 "
+                src="https://cybercrime.gov.in/assets/images/emblem-dark.png"
+              />
+              {/* Logo Text  */}
+              <span>Police Portal</span>
+            </Typography>
+          </Link>
 
-                {/* Desktop View  */}
-                <div className="flex items-center justify-between text-blue-gray-900">
+          {/* All Items  */}
+          <div className="flex items-center gap-4">
+            {/* Navlist  */}
+            <div className="hidden lg:block">{navList}</div>
 
-                    {/* Home Page Link  */}
-                    <Link to={'/policehome'}>
-                        <Typography
-                            as="a"
-                            className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }}
-                        >
-                            {/* Logo Image  */}
-                            <img
-                                className=' w-10 h-10 '
-                                src='https://cybercrime.gov.in/assets/images/emblem-dark.png'
-                            />
-                            {/* Logo Text  */}
-                            <span>
-                           Police Portal
-                            </span>
-                        </Typography>
-                    </Link>
+            {/* Search Icon */}
+            <div>
+              {/*<AiOutlineSearch size={20} color="white" />*/}
+              <SearchDialog />
+            </div>
 
-                    {/* All Items  */}
-                    <div className="flex items-center gap-4">
+            {/* Share Icon */}
+            <div className="hidden lg:block">
+              <ShareDialogBox />
+            </div>
 
-                        {/* Navlist  */}
-                        <div className="hidden lg:block">
-                            {navList}
-                        </div>
+            {/* Admin Profile Pic */}
+            <div>
+              {isAuth ? (
+                <Link to={"/policedashboard"}>
+                  <div className="">
+                    <Avatar
+                      key={1}
+                      src={
+                        "https://img.freepik.com/free-vector/police-badge-isolated_1284-42802.jpg"
+                      }
+                      alt="avatar"
+                      withBorder={true}
+                      className="p-0.5 text-red-500 w-10 h-10"
+                      style={{
+                        border:
+                          mode === "dark"
+                            ? "2px solid rgb(226, 232, 240)"
+                            : "2px solid rgb(30, 41, 59)",
+                      }}
+                    />
+                  </div>
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
 
-                        {/* Search Icon */}
-                        <div>
-                           {/*<AiOutlineSearch size={20} color="white" />*/}
-                           <SearchDialog/>
-                        </div>
+            {/* dark And Light Button */}
+            <div>
+              {mode === "light" ? (
+                <>
+                  {/* Light Button  */}
+                  <IconButton
+                    onClick={toggleMode}
+                    className=" lg:inline-block rounded-full"
+                    style={{
+                      background: mode === "light" ? "#ced6e0" : "#57606f",
+                      color: mode === "dark" ? "white" : "black",
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6 text-black"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                      />
+                    </svg>
+                  </IconButton>
+                </>
+              ) : (
+                <>
+                  {/* Dark Button  */}
+                  <IconButton
+                    onClick={toggleMode}
+                    className=" lg:inline-block rounded-full"
+                    style={{
+                      background: mode === "light" ? "#ced6e0" : "#57606f",
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+                      />
+                    </svg>
+                  </IconButton>
+                </>
+              )}
+            </div>
 
-                        {/* Share Icon */}
-                        <div className="hidden lg:block">
-                          
-                         
-                            <ShareDialogBox/> 
-                        </div>
+            {/* Mobile Toggle  */}
+            <div>
+              <IconButton
+                className="ml-auto h-10 w-10 text-inherit rounded-lg lg:hidden"
+                ripple={false}
+                onClick={() => setOpenNav(!openNav)}
+                style={{
+                  background: mode === "light" ? "#ced6e0" : "#57606f",
+                  color: mode === "dark" ? "white" : "black",
+                }}
+              >
+                {openNav ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    className="h-6 w-6"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                )}
+              </IconButton>
+            </div>
+          </div>
+        </div>
 
-                        {/* Admin Profile Pic */}
-                        <div>
-                          {isAuth ?   <Link to={'/dashboard'}>
-                                <div className="">
-                                    <Avatar
-                                        key={1}
-                                        src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
-                                        alt="avatar"
-                                        withBorder={true}
-                                        className="p-0.5 text-red-500 w-10 h-10"
-                                        style={{
-                                            border:
-                                                mode === 'dark'
-                                                    ?
-                                                    '2px solid rgb(226, 232, 240)'
-                                                    :
-                                                    '2px solid rgb(30, 41, 59)'
-                                        }}
-                                    />
-                                </div>
-                            </Link> : ""}
-                        </div>
+        {/* Mobile View */}
+        <Collapse open={openNav}>
+          {/* NavList  */}
+          {navList}
+        </Collapse>
+      </Navbar>
+    </>
+  );
+};
 
-                        {/* dark And Light Button */}
-                        <div>
-                            {mode === 'light'
-                                ?
-                                <>
-                                    {/* Light Button  */}
-                                    <IconButton onClick={toggleMode} className=" lg:inline-block rounded-full" style={{ background: mode === 'light' ? '#ced6e0' : '#57606f', color: mode === 'dark' ? 'white' : 'black' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-black">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-                                        </svg>
-                                    </IconButton>
-                                </>
-                                :
-                                <>
-                                    {/* Dark Button  */}
-                                    <IconButton onClick={toggleMode} className=" lg:inline-block rounded-full" style={{ background: mode === 'light' ? '#ced6e0' : '#57606f' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-                                        </svg>
-                                    </IconButton>
-                                </>}
-                        </div>
-
-                        {/* Mobile Toggle  */}
-                        <div>
-                            <IconButton
-                                className="ml-auto h-10 w-10 text-inherit rounded-lg lg:hidden"
-                                ripple={false}
-                                onClick={() => setOpenNav(!openNav)}
-                                style={{ background: mode === 'light' ? '#ced6e0' : '#57606f', color: mode === 'dark' ? 'white' : 'black' }}
-                            >
-                                {openNav ?
-                                    (
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            className="h-6 w-6"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                            strokeWidth={2}
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
-                                    )
-                                    :
-                                    (
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth={2}
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                d="M4 6h16M4 12h16M4 18h16"
-                                            />
-                                        </svg>
-                                    )}
-                            </IconButton>
-                        </div>
-
-                    </div>
-                </div>
-
-                {/* Mobile View */}
-                <Collapse open={openNav}>
-                    {/* NavList  */}
-                    {navList}
-                </Collapse>
-            </Navbar>
-        </>
-  )
-}
-
-export default PoliceNavbar
+export default PoliceNavbar;

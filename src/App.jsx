@@ -28,10 +28,7 @@ import Policebloginfo from "./Police/Policebloginfo/Policebloginfo";
 import SucessStory from "./pages/SucessStory/SucessStory";
 import SucessInfo from "./pages/SucessInfo/SucessInfo";
 import GoMap from "./pages/GoMap/GoMap";
-
-
-
-
+import PoliceDashboard from "./Police/PoliceDashboard/PoliceDashboard";
 
 function App() {
   return (
@@ -51,16 +48,7 @@ function App() {
           <Route path="/policebloginfo/:id" element={<Policebloginfo />} />
           <Route path="/sucessstory" element={<SucessStory />} />
           <Route path="/sucessinfo/:id" element={<SucessInfo />} />
-          <Route path="/dashboard" element={
-            <ProtectedRouteForAdmin>
-              <Dashboard />
-            </ProtectedRouteForAdmin>
-          } />
-                 <Route path="/createblog" element={
-          
-              <CreateBlog />
-           
-          } />
+          <Route path="/policedashboard" element={<PoliceDashboard />} />
           <Route
             path="/dashboard"
             element={
@@ -70,7 +58,16 @@ function App() {
             }
           />
           <Route path="/createblog" element={<CreateBlog />} />
-          <Route path="/map" element={<GoMap/>} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRouteForAdmin>
+                <Dashboard />
+              </ProtectedRouteForAdmin>
+            }
+          />
+          <Route path="/createblog" element={<CreateBlog />} />
+          <Route path="/map" element={<GoMap />} />
           <Route path="/*" element={<NoPage />} />
         </Routes>
         <Toaster />

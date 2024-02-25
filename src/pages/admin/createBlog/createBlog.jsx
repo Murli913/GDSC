@@ -66,7 +66,7 @@ function CreateBlog() {
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorContent, setErrorContent] = useState(false);
   const [errorCategory, setErrorCategory] = useState(false);
-  const [addPostSuccess, setAddPostSuccess] = useState(false);
+  const [addPostSuccess, setAddPostSuccess] = useState(true);
 
   const handleTermsAndCondCheckbox = () => {
     setIsChecked(!isChecked);
@@ -438,7 +438,25 @@ function CreateBlog() {
               className="mb-2 font-semibold"
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              Enter Description
+              Private Details
+            </Typography>
+            <input
+              label="Enter Description"
+              className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] placeholder-black w-full rounded-md p-1"
+              style={{
+                background: mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
+              }}
+              placeholder="Enter Description"
+            />
+          </div>
+          <div className="mb-3">
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="mb-2 font-semibold"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              Public Details
             </Typography>
             <textarea
               label="Enter Description "

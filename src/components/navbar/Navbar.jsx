@@ -133,7 +133,7 @@ export default function Nav() {
           <div>
             <div class="dropdown">
               <Link class="dropbtn" style={{ color: "black" }}>
-                New Complaint
+                New Complaint/Login
               </Link>
               <FaChevronDown className="mt-5" />
               <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -218,27 +218,28 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "black" }}
       >
-        {isAuth ? (
-          <Link
-            onClick={logout}
-            style={{
-              color: mode === "dark" ? "black" : "black",
-            }}
-            className="px-1 py-2"
-          >
-            Logout
-          </Link>
-        ) : (
-          <Link
-            onClick={signInWithGoogle}
-            style={{
-              color: mode === "dark" ? "black" : "black",
-            }}
-            className="px-1 py-2"
-          >
-            Login
-          </Link>
-        )}
+        {
+          isAuth ? (
+            <Link
+              onClick={logout}
+              style={{
+                color: mode === "dark" ? "black" : "black",
+              }}
+              className="px-1 py-2"
+            >
+              Logout
+            </Link>
+          ) : (
+            ""
+          )
+          // <Link
+          //   onClick={signInWithGoogle}
+          //   style={{
+          //     color: mode === "dark" ? "black" : "black",
+          //   }}
+          //   className="px-1 py-2"
+          // ></Link>
+        }
       </Typography>
     </ul>
   );
